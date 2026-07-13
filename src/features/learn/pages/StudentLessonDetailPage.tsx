@@ -16,6 +16,7 @@ import { Badge } from '@/components/ui/Badge';
 import { LoadingState } from '@/components/ui/Spinner';
 import { ErrorState } from '@/components/feedback/ErrorState';
 import { useMyLessonDetail } from '@/features/learn/hooks/useLearn';
+import { HomeworkSubmission } from '@/features/learn/components/HomeworkSubmission';
 import { learnApi } from '@/features/learn/api/learnApi';
 import { downloadFile } from '@/lib/download';
 import { formatDate, formatDateTime, formatFileSize } from '@/lib/format';
@@ -148,13 +149,7 @@ export default function StudentLessonDetailPage() {
                 {lesson.homeworkInstructions && (
                   <p className="whitespace-pre-line text-sm text-slate-700">{lesson.homeworkInstructions}</p>
                 )}
-                {lesson.homeworkSubmitted ? (
-                  <Badge tone="success"><CheckCircle2 className="mr-1 h-3 w-3" /> Submitted</Badge>
-                ) : (
-                  <p className="rounded-lg bg-secondary px-3 py-2 text-xs text-slate-500">
-                    Submission opens with the homework tool in the next update.
-                  </p>
-                )}
+                <HomeworkSubmission lesson={lesson} isStudent={isStudent} />
               </>
             )}
           </CardBody>

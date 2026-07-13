@@ -6,6 +6,7 @@ export const paths = {
   // Authenticated
   dashboard: '/dashboard',
   profile: '/profile',
+  notifications: '/notifications',
 
   // Student / parent learning
   myLessons: '/lessons',

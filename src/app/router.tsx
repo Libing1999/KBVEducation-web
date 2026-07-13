@@ -18,6 +18,7 @@ import LessonDetailsPage from '@/features/lessons/pages/LessonDetailsPage';
 import MyLessonsPage from '@/features/learn/pages/MyLessonsPage';
 import StudentLessonDetailPage from '@/features/learn/pages/StudentLessonDetailPage';
 import TakeQuizPage from '@/features/learn/pages/TakeQuizPage';
+import NotificationsPage from '@/features/notifications/pages/NotificationsPage';
 import NotFoundPage from '@/features/misc/pages/NotFoundPage';
 
 export const router = createBrowserRouter([
@@ -39,6 +40,7 @@ export const router = createBrowserRouter([
           { index: true, element: <Navigate to={paths.dashboard} replace /> },
           { path: paths.dashboard, element: <DashboardPage /> },
           { path: paths.profile, element: <ProfilePage /> },
+          { path: paths.notifications, element: <NotificationsPage /> },
           {
             // Student & parent learning
             element: <RoleGuard allow={['STUDENT', 'PARENT']} />,

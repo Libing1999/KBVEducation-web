@@ -85,3 +85,15 @@ export interface QuizSubmissionResult {
   answered: number;
   message: string;
 }
+
+export interface HomeworkSubmissionResponse {
+  id: string;
+  homeworkId: string;
+  lessonId: string;
+  lessonTitle: string;
+  studentId: string;
+  studentName: string;
+  note?: string | null;
+  submittedAt: string;
+  files: StudentFile[];
+}

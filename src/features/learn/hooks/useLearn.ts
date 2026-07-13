@@ -39,3 +39,26 @@ export function useSubmitQuiz(quizId: string) {
     onError: (e: unknown) => toast.error(getErrorMessage(e)),
   });
 }
+
+export function useMyHomeworkSubmission(lessonId: string, enabled: boolean) {
+  return useQuery({
+    queryKey: [...QUERY_KEYS.myLessons, 'homework', lessonId],
+    queryFn: () => learnApi.mySubmission(lessonId),
+    enabled: enabled && !!lessonId,
+  });
+}
+
+export function useSubmitHomework(lessonId: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ files, note }: { files: File[]; note?: string }) =>
+      learnApi.submitHomework(lessonId, files, note),
+    onSuccess: () => {
+      toast.success('Homework submitted');
+      qc.invalidateQueries({ queryKey: [...QUERY_KEYS.myLessons, 'homework', lessonId] });
+      qc.invalidateQueries({ queryKey: [...QUERY_KEYS.myLessons, 'detail', lessonId] });
+      qc.invalidateQueries({ queryKey: QUERY_KEYS.myLessons });
+    },
+    onError: (e: unknown) => toast.error(getErrorMessage(e)),
+  });
+}
