@@ -3,7 +3,6 @@ import { Flame, BookOpenCheck, ClipboardList, FileQuestion, PenLine, ArrowRight,
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
-import { LoadingState } from '@/components/ui/Spinner';
 import { StatCard } from '@/features/dashboard/components/StatCard';
 import { ActivityList } from '@/features/progress/components/ActivityList';
 import { useProgress, useActivity } from '@/features/progress/hooks/useProgress';
@@ -19,27 +18,26 @@ function todayIso() {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
 
-export function StudentDashboard() {
+/**
+ * Streaks, today's quick actions, upcoming lesson, and recent activity.
+ * STUDENT-only: every hook here hits a student-scoped backend endpoint, so
+ * this must never be rendered for a parent (see ScoreDashboard's isParentView gate).
+ */
+export function TodayAndActivitySection() {
   const { data: progress, isLoading } = useProgress();
   const { data: today } = useTodayReflection();
   const { data: practice } = usePracticeList();
   const { data: activity } = useActivity(0, 6);
   const { data: lessons } = useMyLessons();
 
-  if (isLoading || !progress) return <LoadingState label="Loading your dashboard…" />;
+  if (isLoading || !progress) return null;
 
   const reflectedToday = !!today?.reflection;
   const practisedToday = (practice ?? []).some((p) => p.studyDate === todayIso());
   const upcoming = lessons?.content?.[0];
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-xl font-bold text-slate-800">Welcome back, {progress.studentName.split(' ')[0]}</h1>
-        <p className="text-sm text-slate-500">Here’s your activity at a glance.</p>
-      </div>
-
-      {/* Streaks + totals */}
+    <>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard label="Reflection streak" value={`${progress.reflectionStreak} ${progress.reflectionStreak === 1 ? 'day' : 'days'}`} icon={Flame} tone="accent" />
         <StatCard label="Practice streak" value={`${progress.practiceStreak} ${progress.practiceStreak === 1 ? 'day' : 'days'}`} icon={Flame} tone="accent" />
@@ -47,7 +45,6 @@ export function StudentDashboard() {
         <StatCard label="Quizzes completed" value={progress.courseTotal.quizzesCompleted} icon={FileQuestion} />
       </div>
 
-      {/* Today's tasks + upcoming lesson */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader title="Today" subtitle={formatDate(todayIso())} />
@@ -109,7 +106,6 @@ export function StudentDashboard() {
         </Card>
       </div>
 
-      {/* Recent activity */}
       <Card>
         <CardHeader
           title="Recent activity"
@@ -119,6 +115,6 @@ export function StudentDashboard() {
           <ActivityList items={activity?.content ?? []} empty="Your recent activity will show up here." />
         </CardBody>
       </Card>
-    </div>
+    </>
   );
 }

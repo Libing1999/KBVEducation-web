@@ -4,13 +4,19 @@ import { Badge } from '@/components/ui/Badge';
 import { LoadingState } from '@/components/ui/Spinner';
 import { ErrorState } from '@/components/feedback/ErrorState';
 import { ScoreMeter } from '@/features/dashboard/components/ScoreMeter';
+import { TierProgressCard } from '@/features/dashboard/components/TierProgressCard';
+import { LeaderboardPositionCard } from '@/features/dashboard/components/LeaderboardPositionCard';
+import { TodayAndActivitySection } from '@/features/dashboard/components/TodayAndActivitySection';
 import { useMyDashboard } from '@/features/dashboard/hooks/useDashboard';
 import { formatDateTime, roleLabel } from '@/lib/format';
 
-const tierTone: Record<string, 'accent' | 'neutral'> = {
-  Gold: 'accent',
-  Silver: 'neutral',
-  Bronze: 'neutral',
+// Keyed on the spec's default tier names. An admin who renames a tier (Step 7's Tier
+// Rules editor allows it) just gets the neutral fallback instead of a wrong color.
+const tierTone: Record<string, 'accent' | 'info' | 'neutral' | 'danger'> = {
+  'Tier 1': 'accent',
+  'Tier 2': 'info',
+  'Tier 3': 'neutral',
+  'Not Passing': 'danger',
 };
 
 export function ScoreDashboard({ isParentView = false }: { isParentView?: boolean }) {
@@ -89,6 +95,14 @@ export function ScoreDashboard({ isParentView = false }: { isParentView?: boolea
         </CardBody>
       </Card>
 
+      {/* Tier progress + leaderboard position - student-only, backend endpoints are STUDENT-role-guarded */}
+      {!isParentView && (
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <TierProgressCard />
+          <LeaderboardPositionCard />
+        </div>
+      )}
+
       {/* Placeholders */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card>
@@ -130,6 +144,8 @@ export function ScoreDashboard({ isParentView = false }: { isParentView?: boolea
           </CardBody>
         </Card>
       </div>
+
+      {!isParentView && <TodayAndActivitySection />}
     </div>
   );
 }

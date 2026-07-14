@@ -15,3 +15,10 @@ export function useMyDashboard() {
     queryFn: dashboardApi.me,
   });
 }
+
+export function useMyTier() {
+  return useQuery({
+    queryKey: [...QUERY_KEYS.studentDashboard, 'tier'],
+    queryFn: dashboardApi.myTier,
+  });
+}

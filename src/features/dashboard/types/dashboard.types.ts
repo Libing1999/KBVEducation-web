@@ -37,3 +37,17 @@ export interface ScoreDashboard {
   upcomingLessons: LessonPlaceholder[];
   recentNotifications: NotificationPlaceholder[];
 }
+
+export interface RemainingRequirement {
+  metric: string;
+  current: number;
+  required: number;
+}
+
+export interface TierDetail {
+  calculatedTier: string;
+  confirmedTier: string | null;
+  isOverride: boolean;
+  nextPossibleTier: string | null;
+  remainingRequirements: RemainingRequirement[];
+}
