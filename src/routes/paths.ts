@@ -20,6 +20,9 @@ export const paths = {
   activity: '/activity',
   calendar: '/calendar',
 
+  // Phase 4 scoring
+  leaderboard: '/leaderboard',
+
   // Admin
   admin: {
     users: '/admin/users',
@@ -42,6 +45,7 @@ export const paths = {
     scoreConfig: '/admin/score-config',
     tierRules: '/admin/tier-rules',
     auditLog: '/admin/audit-log',
+    leaderboard: '/admin/leaderboard',
   },
 
   notFound: '*',

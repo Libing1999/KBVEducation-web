@@ -16,6 +16,7 @@ interface DataTableProps<T> {
   rowKey: (row: T) => string;
   isLoading?: boolean;
   emptyMessage?: string;
+  rowClassName?: (row: T) => string | undefined;
 }
 
 const alignClass = { left: 'text-left', right: 'text-right', center: 'text-center' } as const;
@@ -27,6 +28,7 @@ export function DataTable<T>({
   rowKey,
   isLoading,
   emptyMessage = 'No records found.',
+  rowClassName,
 }: DataTableProps<T>) {
   return (
     <div className="overflow-x-auto">
@@ -64,7 +66,7 @@ export function DataTable<T>({
             </tr>
           ) : (
             data.map((row) => (
-              <tr key={rowKey(row)} className="hover:bg-secondary/60">
+              <tr key={rowKey(row)} className={cn('hover:bg-secondary/60', rowClassName?.(row))}>
                 {columns.map((col) => (
                   <td
                     key={col.key}

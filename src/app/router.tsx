@@ -35,6 +35,8 @@ import NotFoundPage from '@/features/misc/pages/NotFoundPage';
 import ScoreConfigPage from '@/features/scoring/pages/ScoreConfigPage';
 import TierRulesPage from '@/features/scoring/pages/TierRulesPage';
 import AuditLogPage from '@/features/scoring/pages/AuditLogPage';
+import LeaderboardPage from '@/features/leaderboard/pages/LeaderboardPage';
+import AdminLeaderboardPage from '@/features/leaderboard/pages/AdminLeaderboardPage';
 
 export const router = createBrowserRouter([
   {
@@ -74,6 +76,7 @@ export const router = createBrowserRouter([
               { path: paths.reflections, element: <ReflectionsPage /> },
               { path: paths.practice, element: <PracticePage /> },
               { path: '/practice/:id', element: <PracticeDetailPage /> },
+              { path: paths.leaderboard, element: <LeaderboardPage /> },
             ],
           },
           {
@@ -96,6 +99,7 @@ export const router = createBrowserRouter([
               { path: paths.admin.scoreConfig, element: <ScoreConfigPage /> },
               { path: paths.admin.tierRules, element: <TierRulesPage /> },
               { path: paths.admin.auditLog, element: <AuditLogPage /> },
+              { path: paths.admin.leaderboard, element: <AdminLeaderboardPage /> },
             ],
           },
         ],

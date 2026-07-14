@@ -14,6 +14,7 @@ import {
   SlidersHorizontal,
   Award,
   History,
+  Trophy,
   type LucideIcon,
 } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store/authStore';
@@ -40,9 +41,11 @@ const navItems: NavItem[] = [
   { label: 'Score Config', to: paths.admin.scoreConfig, icon: SlidersHorizontal, roles: ['SUPER_ADMIN'] },
   { label: 'Tier Rules', to: paths.admin.tierRules, icon: Award, roles: ['SUPER_ADMIN'] },
   { label: 'Audit Log', to: paths.admin.auditLog, icon: History, roles: ['SUPER_ADMIN'] },
+  { label: 'Leaderboard', to: paths.admin.leaderboard, icon: Trophy, roles: ['SUPER_ADMIN'] },
   { label: 'My Lessons', to: paths.myLessons, icon: BookOpen, roles: ['STUDENT', 'PARENT'] },
   { label: 'Reflections', to: paths.reflections, icon: PenLine, roles: ['STUDENT'] },
   { label: 'Practice', to: paths.practice, icon: BookOpenCheck, roles: ['STUDENT'] },
+  { label: 'Leaderboard', to: paths.leaderboard, icon: Trophy, roles: ['STUDENT'] },
   { label: 'Activity', to: paths.activity, icon: Activity, roles: ['STUDENT', 'PARENT'] },
   { label: 'Calendar', to: paths.calendar, icon: CalendarDays, roles: ['STUDENT', 'PARENT'] },
   { label: 'Profile', to: paths.profile, icon: UserCircle, roles: ['SUPER_ADMIN', 'STUDENT', 'PARENT'] },
