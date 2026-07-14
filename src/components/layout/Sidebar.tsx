@@ -7,6 +7,10 @@ import {
   Layers,
   BookOpen,
   UserCircle,
+  PenLine,
+  BookOpenCheck,
+  Activity,
+  CalendarDays,
   type LucideIcon,
 } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store/authStore';
@@ -28,7 +32,13 @@ const navItems: NavItem[] = [
   { label: 'Parents', to: paths.admin.parents, icon: UserRound, roles: ['SUPER_ADMIN'] },
   { label: 'Cohorts', to: paths.admin.cohorts, icon: Layers, roles: ['SUPER_ADMIN'] },
   { label: 'Lessons', to: paths.admin.lessons, icon: BookOpen, roles: ['SUPER_ADMIN'] },
+  { label: 'Reflections', to: paths.admin.reflections, icon: PenLine, roles: ['SUPER_ADMIN'] },
+  { label: 'Practice Review', to: paths.admin.practice, icon: BookOpenCheck, roles: ['SUPER_ADMIN'] },
   { label: 'My Lessons', to: paths.myLessons, icon: BookOpen, roles: ['STUDENT', 'PARENT'] },
+  { label: 'Reflections', to: paths.reflections, icon: PenLine, roles: ['STUDENT'] },
+  { label: 'Practice', to: paths.practice, icon: BookOpenCheck, roles: ['STUDENT'] },
+  { label: 'Activity', to: paths.activity, icon: Activity, roles: ['STUDENT', 'PARENT'] },
+  { label: 'Calendar', to: paths.calendar, icon: CalendarDays, roles: ['STUDENT', 'PARENT'] },
   { label: 'Profile', to: paths.profile, icon: UserCircle, roles: ['SUPER_ADMIN', 'STUDENT', 'PARENT'] },
 ];
 

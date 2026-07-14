@@ -7,6 +7,7 @@ import {
   LogIn,
 } from 'lucide-react';
 import { StatCard } from '@/features/dashboard/components/StatCard';
+import { AdminStatsCards } from '@/features/dashboard/components/AdminStatsCards';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { LoadingState } from '@/components/ui/Spinner';
@@ -43,6 +44,8 @@ export function AdminDashboard() {
         <StatCard label="Inactive Cohorts" value={data.inactiveCohorts} icon={PauseCircle} tone="neutral" />
         <StatCard label="Today's Logins" value={data.todaysLogins} icon={LogIn} tone="accent" />
       </div>
+
+      <AdminStatsCards />
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card>

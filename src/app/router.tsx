@@ -18,6 +18,18 @@ import LessonDetailsPage from '@/features/lessons/pages/LessonDetailsPage';
 import MyLessonsPage from '@/features/learn/pages/MyLessonsPage';
 import StudentLessonDetailPage from '@/features/learn/pages/StudentLessonDetailPage';
 import TakeQuizPage from '@/features/learn/pages/TakeQuizPage';
+import ReflectionsPage from '@/features/reflections/pages/ReflectionsPage';
+import PracticePage from '@/features/practice/pages/PracticePage';
+import PracticeDetailPage from '@/features/practice/pages/PracticeDetailPage';
+import TimelinePage from '@/features/progress/pages/TimelinePage';
+import CalendarPage from '@/features/progress/pages/CalendarPage';
+import AdminReflectionsPage from '@/features/reflections/pages/AdminReflectionsPage';
+import AdminReflectionDetailPage from '@/features/reflections/pages/AdminReflectionDetailPage';
+import ReflectionQuestionsPage from '@/features/reflections/pages/ReflectionQuestionsPage';
+import AdminPracticePage from '@/features/practice/pages/AdminPracticePage';
+import AdminPracticeDetailPage from '@/features/practice/pages/AdminPracticeDetailPage';
+import ReviewRequestsPage from '@/features/practice/pages/ReviewRequestsPage';
+import AdminStudentActivityPage from '@/features/progress/pages/AdminStudentActivityPage';
 import NotificationsPage from '@/features/notifications/pages/NotificationsPage';
 import NotFoundPage from '@/features/misc/pages/NotFoundPage';
 
@@ -42,17 +54,24 @@ export const router = createBrowserRouter([
           { path: paths.profile, element: <ProfilePage /> },
           { path: paths.notifications, element: <NotificationsPage /> },
           {
-            // Student & parent learning
+            // Student & parent: learning + read-only activity views (Phase 3)
             element: <RoleGuard allow={['STUDENT', 'PARENT']} />,
             children: [
               { path: paths.myLessons, element: <MyLessonsPage /> },
               { path: '/lessons/:id', element: <StudentLessonDetailPage /> },
+              { path: paths.activity, element: <TimelinePage /> },
+              { path: paths.calendar, element: <CalendarPage /> },
             ],
           },
           {
-            // Student-only quiz taking
+            // Student-only: quiz taking + logging reflections/practice
             element: <RoleGuard allow={['STUDENT']} />,
-            children: [{ path: '/quizzes/:quizId', element: <TakeQuizPage /> }],
+            children: [
+              { path: '/quizzes/:quizId', element: <TakeQuizPage /> },
+              { path: paths.reflections, element: <ReflectionsPage /> },
+              { path: paths.practice, element: <PracticePage /> },
+              { path: '/practice/:id', element: <PracticeDetailPage /> },
+            ],
           },
           {
             // Admin-only subtree
@@ -64,6 +83,13 @@ export const router = createBrowserRouter([
               { path: paths.admin.cohorts, element: <CohortsPage /> },
               { path: paths.admin.lessons, element: <LessonsPage /> },
               { path: '/admin/lessons/:id', element: <LessonDetailsPage /> },
+              { path: paths.admin.reflections, element: <AdminReflectionsPage /> },
+              { path: '/admin/reflections/:id', element: <AdminReflectionDetailPage /> },
+              { path: paths.admin.reflectionQuestions, element: <ReflectionQuestionsPage /> },
+              { path: paths.admin.practice, element: <AdminPracticePage /> },
+              { path: '/admin/practice/:id', element: <AdminPracticeDetailPage /> },
+              { path: paths.admin.reviewRequests, element: <ReviewRequestsPage /> },
+              { path: '/admin/students/:id/activity', element: <AdminStudentActivityPage /> },
             ],
           },
         ],
