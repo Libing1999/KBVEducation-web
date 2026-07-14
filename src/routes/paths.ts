@@ -37,6 +37,11 @@ export const paths = {
     practiceDetail: (id: string) => `/admin/practice/${id}`,
     reviewRequests: '/admin/review-requests',
     studentActivity: (id: string) => `/admin/students/${id}/activity`,
+
+    // Phase 4 admin panels
+    scoreConfig: '/admin/score-config',
+    tierRules: '/admin/tier-rules',
+    auditLog: '/admin/audit-log',
   },
 
   notFound: '*',

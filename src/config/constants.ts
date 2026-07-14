@@ -31,4 +31,9 @@ export const QUERY_KEYS = {
   notifications: ['notifications'] as const,
   adminDashboard: ['dashboard', 'admin'] as const,
   studentDashboard: ['dashboard', 'student'] as const,
+  scoreConfig: ['score-config'] as const,
+  tierRules: ['tier-rules'] as const,
+  scoreAuditLog: ['score-audit-log'] as const,
+  leaderboard: ['leaderboard'] as const,
+  analytics: ['analytics'] as const,
 } as const;

@@ -11,6 +11,9 @@ import {
   BookOpenCheck,
   Activity,
   CalendarDays,
+  SlidersHorizontal,
+  Award,
+  History,
   type LucideIcon,
 } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store/authStore';
@@ -34,6 +37,9 @@ const navItems: NavItem[] = [
   { label: 'Lessons', to: paths.admin.lessons, icon: BookOpen, roles: ['SUPER_ADMIN'] },
   { label: 'Reflections', to: paths.admin.reflections, icon: PenLine, roles: ['SUPER_ADMIN'] },
   { label: 'Practice Review', to: paths.admin.practice, icon: BookOpenCheck, roles: ['SUPER_ADMIN'] },
+  { label: 'Score Config', to: paths.admin.scoreConfig, icon: SlidersHorizontal, roles: ['SUPER_ADMIN'] },
+  { label: 'Tier Rules', to: paths.admin.tierRules, icon: Award, roles: ['SUPER_ADMIN'] },
+  { label: 'Audit Log', to: paths.admin.auditLog, icon: History, roles: ['SUPER_ADMIN'] },
   { label: 'My Lessons', to: paths.myLessons, icon: BookOpen, roles: ['STUDENT', 'PARENT'] },
   { label: 'Reflections', to: paths.reflections, icon: PenLine, roles: ['STUDENT'] },
   { label: 'Practice', to: paths.practice, icon: BookOpenCheck, roles: ['STUDENT'] },
