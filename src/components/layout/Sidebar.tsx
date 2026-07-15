@@ -15,6 +15,7 @@ import {
   Award,
   History,
   Trophy,
+  BarChart3,
   type LucideIcon,
 } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store/authStore';
@@ -42,6 +43,7 @@ const navItems: NavItem[] = [
   { label: 'Tier Rules', to: paths.admin.tierRules, icon: Award, roles: ['SUPER_ADMIN'] },
   { label: 'Audit Log', to: paths.admin.auditLog, icon: History, roles: ['SUPER_ADMIN'] },
   { label: 'Leaderboard', to: paths.admin.leaderboard, icon: Trophy, roles: ['SUPER_ADMIN'] },
+  { label: 'Analytics', to: paths.admin.analytics, icon: BarChart3, roles: ['SUPER_ADMIN'] },
   { label: 'My Lessons', to: paths.myLessons, icon: BookOpen, roles: ['STUDENT', 'PARENT'] },
   { label: 'Reflections', to: paths.reflections, icon: PenLine, roles: ['STUDENT'] },
   { label: 'Practice', to: paths.practice, icon: BookOpenCheck, roles: ['STUDENT'] },

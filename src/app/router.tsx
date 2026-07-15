@@ -37,6 +37,7 @@ import TierRulesPage from '@/features/scoring/pages/TierRulesPage';
 import AuditLogPage from '@/features/scoring/pages/AuditLogPage';
 import LeaderboardPage from '@/features/leaderboard/pages/LeaderboardPage';
 import AdminLeaderboardPage from '@/features/leaderboard/pages/AdminLeaderboardPage';
+import AdminAnalyticsPage from '@/features/analytics/pages/AdminAnalyticsPage';
 
 export const router = createBrowserRouter([
   {
@@ -100,6 +101,7 @@ export const router = createBrowserRouter([
               { path: paths.admin.tierRules, element: <TierRulesPage /> },
               { path: paths.admin.auditLog, element: <AuditLogPage /> },
               { path: paths.admin.leaderboard, element: <AdminLeaderboardPage /> },
+              { path: paths.admin.analytics, element: <AdminAnalyticsPage /> },
             ],
           },
         ],

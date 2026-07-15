@@ -46,6 +46,7 @@ export const paths = {
     tierRules: '/admin/tier-rules',
     auditLog: '/admin/audit-log',
     leaderboard: '/admin/leaderboard',
+    analytics: '/admin/analytics',
   },
 
   notFound: '*',
