@@ -10,6 +10,8 @@ import { Pagination } from '@/components/ui/Pagination';
 import { useCohorts } from '@/features/cohorts/hooks/useCohorts';
 import { useAdminLeaderboard, useRegenerateLeaderboard } from '@/features/leaderboard/hooks/useLeaderboard';
 import type { LeaderboardEntry, LeaderboardSortField } from '@/features/leaderboard/types/leaderboard.types';
+import { ExportButtons } from '@/features/export/components/ExportButtons';
+import { exportApi } from '@/features/export/api/exportApi';
 
 const PAGE_SIZE = 20;
 
@@ -56,14 +58,22 @@ export default function AdminLeaderboardPage() {
         title="Leaderboard"
         subtitle="Per-cohort student rankings."
         action={
-          <Button
-            variant="outline"
-            isLoading={regenerate.isPending}
-            disabled={!effectiveCohortId}
-            onClick={() => effectiveCohortId && regenerate.mutate(effectiveCohortId)}
-          >
-            <RefreshCw className="h-4 w-4" /> Regenerate
-          </Button>
+          <div className="flex flex-wrap items-center gap-3">
+            <ExportButtons
+              csvUrl={exportApi.leaderboardUrl(effectiveCohortId, sortBy, 'CSV')}
+              xlsxUrl={exportApi.leaderboardUrl(effectiveCohortId, sortBy, 'XLSX')}
+              fileBaseName="leaderboard"
+              disabled={!effectiveCohortId}
+            />
+            <Button
+              variant="outline"
+              isLoading={regenerate.isPending}
+              disabled={!effectiveCohortId}
+              onClick={() => effectiveCohortId && regenerate.mutate(effectiveCohortId)}
+            >
+              <RefreshCw className="h-4 w-4" /> Regenerate
+            </Button>
+          </div>
         }
       />
 

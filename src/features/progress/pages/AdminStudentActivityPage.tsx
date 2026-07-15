@@ -11,6 +11,8 @@ import { ActivityList } from '@/features/progress/components/ActivityList';
 import { ActivityCalendar } from '@/features/progress/components/ActivityCalendar';
 import { useStudentProgress, useStudentActivity, useStudentCalendar } from '@/features/progress/hooks/useAdminStats';
 import { paths } from '@/routes/paths';
+import { ExportButtons } from '@/features/export/components/ExportButtons';
+import { exportApi } from '@/features/export/api/exportApi';
 
 function iso(d: Date) {
   const pad = (n: number) => String(n).padStart(2, '0');
@@ -37,9 +39,16 @@ export default function AdminStudentActivityPage() {
         <ArrowLeft className="h-4 w-4" /> Back
       </Link>
 
-      <div>
-        <h1 className="text-xl font-bold text-slate-800">{progress.studentName}</h1>
-        <p className="text-sm text-slate-500">Activity &amp; progress</p>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="text-xl font-bold text-slate-800">{progress.studentName}</h1>
+          <p className="text-sm text-slate-500">Activity &amp; progress</p>
+        </div>
+        <ExportButtons
+          csvUrl={exportApi.progressUrl(id!, 'CSV')}
+          xlsxUrl={exportApi.progressUrl(id!, 'XLSX')}
+          fileBaseName="progress"
+        />
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">

@@ -14,6 +14,8 @@ import { CompositeDistributionChart } from '@/features/analytics/components/Comp
 import { TrendChart } from '@/features/analytics/components/TrendChart';
 import { TierDistributionChart } from '@/features/analytics/components/TierDistributionChart';
 import { LeaderboardTrendChart } from '@/features/analytics/components/LeaderboardTrendChart';
+import { ExportButtons } from '@/features/export/components/ExportButtons';
+import { exportApi } from '@/features/export/api/exportApi';
 
 const TOP_N = 5;
 
@@ -40,7 +42,28 @@ export default function AdminAnalyticsPage() {
 
   return (
     <div className="space-y-5">
-      <PageHeader title="Analytics" subtitle="Cohort-wide score and engagement trends." />
+      <PageHeader
+        title="Analytics"
+        subtitle="Cohort-wide score and engagement trends."
+        action={
+          <div className="flex flex-wrap items-center gap-4">
+            <ExportButtons
+              label="Scores"
+              csvUrl={exportApi.scoresUrl(effectiveCohortId, 'CSV')}
+              xlsxUrl={exportApi.scoresUrl(effectiveCohortId, 'XLSX')}
+              fileBaseName="scores"
+              disabled={!effectiveCohortId}
+            />
+            <ExportButtons
+              label="Tiers"
+              csvUrl={exportApi.tiersUrl(effectiveCohortId, 'CSV')}
+              xlsxUrl={exportApi.tiersUrl(effectiveCohortId, 'XLSX')}
+              fileBaseName="tiers"
+              disabled={!effectiveCohortId}
+            />
+          </div>
+        }
+      />
 
       <div className="flex flex-wrap items-center gap-3">
         <Select className="w-auto" value={effectiveCohortId} onChange={(e) => setCohortId(e.target.value)}>
