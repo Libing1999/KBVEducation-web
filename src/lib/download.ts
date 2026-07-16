@@ -25,3 +25,13 @@ export async function downloadFile(url: string, fallbackName = 'download'): Prom
   link.remove();
   URL.revokeObjectURL(blobUrl);
 }
+
+/**
+ * Fetch a protected file as an in-memory blob URL for inline display (e.g. an
+ * <iframe> preview) instead of triggering a save. Caller must revoke the
+ * returned URL (URL.revokeObjectURL) once it's no longer displayed.
+ */
+export async function fetchBlobUrl(url: string): Promise<string> {
+  const response = await apiClient.get(url, { responseType: 'blob' });
+  return URL.createObjectURL(response.data as Blob);
+}

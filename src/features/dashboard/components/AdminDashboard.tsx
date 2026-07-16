@@ -5,6 +5,7 @@ import {
   CheckCircle2,
   PauseCircle,
   LogIn,
+  Award,
 } from 'lucide-react';
 import { StatCard } from '@/features/dashboard/components/StatCard';
 import { AdminStatsCards } from '@/features/dashboard/components/AdminStatsCards';
@@ -13,6 +14,7 @@ import { Badge } from '@/components/ui/Badge';
 import { LoadingState } from '@/components/ui/Spinner';
 import { ErrorState } from '@/components/feedback/ErrorState';
 import { useAdminDashboard } from '@/features/dashboard/hooks/useDashboard';
+import { useAdminCertificates } from '@/features/certificates/hooks/useCertificates';
 import { formatDate, initials, roleLabel } from '@/lib/format';
 import type { CohortStatus } from '@/features/cohorts/types/cohort.types';
 
@@ -25,6 +27,7 @@ const statusTone: Record<CohortStatus, 'success' | 'info' | 'neutral' | 'warning
 
 export function AdminDashboard() {
   const { data, isLoading, isError, refetch } = useAdminDashboard();
+  const { data: certificates } = useAdminCertificates();
 
   if (isLoading) return <LoadingState label="Loading dashboard…" />;
   if (isError || !data) return <ErrorState onRetry={() => refetch()} />;
@@ -43,6 +46,7 @@ export function AdminDashboard() {
         <StatCard label="Active Cohorts" value={data.activeCohorts} icon={CheckCircle2} tone="accent" />
         <StatCard label="Inactive Cohorts" value={data.inactiveCohorts} icon={PauseCircle} tone="neutral" />
         <StatCard label="Today's Logins" value={data.todaysLogins} icon={LogIn} tone="accent" />
+        <StatCard label="Total Certificates" value={certificates?.length ?? 0} icon={Award} tone="accent" />
       </div>
 
       <AdminStatsCards />

@@ -36,4 +36,6 @@ export const QUERY_KEYS = {
   scoreAuditLog: ['score-audit-log'] as const,
   leaderboard: ['leaderboard'] as const,
   analytics: ['analytics'] as const,
+  certificateTemplates: ['certificate-templates'] as const,
+  certificates: ['certificates'] as const,
 } as const;

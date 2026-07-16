@@ -23,6 +23,9 @@ export const paths = {
   // Phase 4 scoring
   leaderboard: '/leaderboard',
 
+  // Phase 5 certificates (shared student/parent route; content switches by role)
+  certificates: '/certificates',
+
   // Admin
   admin: {
     users: '/admin/users',
@@ -47,6 +50,10 @@ export const paths = {
     auditLog: '/admin/audit-log',
     leaderboard: '/admin/leaderboard',
     analytics: '/admin/analytics',
+
+    // Phase 5
+    certificateTemplates: '/admin/certificate-templates',
+    certificates: '/admin/certificates',
   },
 
   notFound: '*',

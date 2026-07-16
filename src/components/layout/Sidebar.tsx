@@ -16,6 +16,8 @@ import {
   History,
   Trophy,
   BarChart3,
+  FileBadge,
+  ScrollText,
   type LucideIcon,
 } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store/authStore';
@@ -44,12 +46,15 @@ const navItems: NavItem[] = [
   { label: 'Audit Log', to: paths.admin.auditLog, icon: History, roles: ['SUPER_ADMIN'] },
   { label: 'Leaderboard', to: paths.admin.leaderboard, icon: Trophy, roles: ['SUPER_ADMIN'] },
   { label: 'Analytics', to: paths.admin.analytics, icon: BarChart3, roles: ['SUPER_ADMIN'] },
+  { label: 'Certificate Templates', to: paths.admin.certificateTemplates, icon: FileBadge, roles: ['SUPER_ADMIN'] },
+  { label: 'Certificates', to: paths.admin.certificates, icon: ScrollText, roles: ['SUPER_ADMIN'] },
   { label: 'My Lessons', to: paths.myLessons, icon: BookOpen, roles: ['STUDENT', 'PARENT'] },
   { label: 'Reflections', to: paths.reflections, icon: PenLine, roles: ['STUDENT'] },
   { label: 'Practice', to: paths.practice, icon: BookOpenCheck, roles: ['STUDENT'] },
   { label: 'Leaderboard', to: paths.leaderboard, icon: Trophy, roles: ['STUDENT'] },
   { label: 'Activity', to: paths.activity, icon: Activity, roles: ['STUDENT', 'PARENT'] },
   { label: 'Calendar', to: paths.calendar, icon: CalendarDays, roles: ['STUDENT', 'PARENT'] },
+  { label: 'Certificates', to: paths.certificates, icon: ScrollText, roles: ['STUDENT', 'PARENT'] },
   { label: 'Profile', to: paths.profile, icon: UserCircle, roles: ['SUPER_ADMIN', 'STUDENT', 'PARENT'] },
 ];
 

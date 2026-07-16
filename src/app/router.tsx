@@ -38,6 +38,9 @@ import AuditLogPage from '@/features/scoring/pages/AuditLogPage';
 import LeaderboardPage from '@/features/leaderboard/pages/LeaderboardPage';
 import AdminLeaderboardPage from '@/features/leaderboard/pages/AdminLeaderboardPage';
 import AdminAnalyticsPage from '@/features/analytics/pages/AdminAnalyticsPage';
+import CertificateTemplatesPage from '@/features/certificates/pages/CertificateTemplatesPage';
+import AdminCertificatesPage from '@/features/certificates/pages/AdminCertificatesPage';
+import MyCertificatesPage from '@/features/certificates/pages/MyCertificatesPage';
 
 export const router = createBrowserRouter([
   {
@@ -67,6 +70,7 @@ export const router = createBrowserRouter([
               { path: '/lessons/:id', element: <StudentLessonDetailPage /> },
               { path: paths.activity, element: <TimelinePage /> },
               { path: paths.calendar, element: <CalendarPage /> },
+              { path: paths.certificates, element: <MyCertificatesPage /> },
             ],
           },
           {
@@ -102,6 +106,8 @@ export const router = createBrowserRouter([
               { path: paths.admin.auditLog, element: <AuditLogPage /> },
               { path: paths.admin.leaderboard, element: <AdminLeaderboardPage /> },
               { path: paths.admin.analytics, element: <AdminAnalyticsPage /> },
+              { path: paths.admin.certificateTemplates, element: <CertificateTemplatesPage /> },
+              { path: paths.admin.certificates, element: <AdminCertificatesPage /> },
             ],
           },
         ],

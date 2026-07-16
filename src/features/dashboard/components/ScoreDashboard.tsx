@@ -6,6 +6,7 @@ import { ErrorState } from '@/components/feedback/ErrorState';
 import { ScoreMeter } from '@/features/dashboard/components/ScoreMeter';
 import { TierProgressCard } from '@/features/dashboard/components/TierProgressCard';
 import { LeaderboardPositionCard } from '@/features/dashboard/components/LeaderboardPositionCard';
+import { CertificateStatusCard } from '@/features/certificates/components/CertificateStatusCard';
 import { TodayAndActivitySection } from '@/features/dashboard/components/TodayAndActivitySection';
 import { useMyDashboard } from '@/features/dashboard/hooks/useDashboard';
 import { formatDateTime, roleLabel } from '@/lib/format';
@@ -97,9 +98,10 @@ export function ScoreDashboard({ isParentView = false }: { isParentView?: boolea
 
       {/* Tier progress + leaderboard position - student-only, backend endpoints are STUDENT-role-guarded */}
       {!isParentView && (
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           <TierProgressCard />
           <LeaderboardPositionCard />
+          <CertificateStatusCard variant="student" />
         </div>
       )}
 

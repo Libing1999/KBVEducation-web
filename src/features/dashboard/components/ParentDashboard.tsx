@@ -5,6 +5,7 @@ import { LoadingState } from '@/components/ui/Spinner';
 import { ErrorState } from '@/components/feedback/ErrorState';
 import { StatCard } from '@/features/dashboard/components/StatCard';
 import { ScoreDashboard } from '@/features/dashboard/components/ScoreDashboard';
+import { CertificateStatusCard } from '@/features/certificates/components/CertificateStatusCard';
 import { ActivityList } from '@/features/progress/components/ActivityList';
 import { useProgress, useActivity } from '@/features/progress/hooks/useProgress';
 import { paths } from '@/routes/paths';
@@ -44,6 +45,8 @@ export function ParentDashboard() {
             <MetricsCard title="This month" metrics={progress.currentMonth} />
             <MetricsCard title="Course total" metrics={progress.courseTotal} />
           </div>
+
+          <CertificateStatusCard variant="parent" />
 
           <Card>
             <CardHeader
