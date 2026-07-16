@@ -24,6 +24,15 @@ export function notificationIcon(type: NotificationType): LucideIcon {
   return ICONS[type] ?? Bell;
 }
 
+/** Human-readable category label for grouping (Phase 5 Step 4), e.g. "New Lesson Published". */
+export function notificationTypeLabel(type: NotificationType): string {
+  return type
+    .toLowerCase()
+    .split('_')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
 /**
  * Where clicking a notification should take the user, or null when there is no
  * dedicated screen for it (in that case the click just marks it read).

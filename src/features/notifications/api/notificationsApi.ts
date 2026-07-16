@@ -30,4 +30,8 @@ export const notificationsApi = {
   markAllRead: async (): Promise<void> => {
     await apiClient.patch<ApiResponse<void>>('/notifications/read-all');
   },
+
+  delete: async (id: string): Promise<void> => {
+    await apiClient.delete<ApiResponse<void>>(`/notifications/${id}`);
+  },
 };

@@ -19,6 +19,7 @@ import {
   FileBadge,
   ScrollText,
   FileDown,
+  ShieldCheck,
   type LucideIcon,
 } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store/authStore';
@@ -50,6 +51,7 @@ const navItems: NavItem[] = [
   { label: 'Certificate Templates', to: paths.admin.certificateTemplates, icon: FileBadge, roles: ['SUPER_ADMIN'] },
   { label: 'Certificates', to: paths.admin.certificates, icon: ScrollText, roles: ['SUPER_ADMIN'] },
   { label: 'Data Export', to: paths.admin.dataExport, icon: FileDown, roles: ['SUPER_ADMIN'] },
+  { label: 'Audit Trail', to: paths.admin.auditTrail, icon: ShieldCheck, roles: ['SUPER_ADMIN'] },
   { label: 'My Lessons', to: paths.myLessons, icon: BookOpen, roles: ['STUDENT', 'PARENT'] },
   { label: 'Reflections', to: paths.reflections, icon: PenLine, roles: ['STUDENT'] },
   { label: 'Practice', to: paths.practice, icon: BookOpenCheck, roles: ['STUDENT'] },

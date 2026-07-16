@@ -38,5 +38,11 @@ export function useNotificationMutations() {
     onError,
   });
 
-  return { markRead, markAllRead };
+  const deleteNotification = useMutation({
+    mutationFn: (id: string) => notificationsApi.delete(id),
+    onSuccess: () => { invalidate(); toast.success('Notification deleted'); },
+    onError,
+  });
+
+  return { markRead, markAllRead, deleteNotification };
 }
