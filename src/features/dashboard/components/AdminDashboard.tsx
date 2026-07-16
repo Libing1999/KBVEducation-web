@@ -6,6 +6,7 @@ import {
   PauseCircle,
   LogIn,
   Award,
+  FileDown,
 } from 'lucide-react';
 import { StatCard } from '@/features/dashboard/components/StatCard';
 import { AdminStatsCards } from '@/features/dashboard/components/AdminStatsCards';
@@ -15,6 +16,7 @@ import { LoadingState } from '@/components/ui/Spinner';
 import { ErrorState } from '@/components/feedback/ErrorState';
 import { useAdminDashboard } from '@/features/dashboard/hooks/useDashboard';
 import { useAdminCertificates } from '@/features/certificates/hooks/useCertificates';
+import { useExportHistory } from '@/features/export/hooks/useExport';
 import { formatDate, initials, roleLabel } from '@/lib/format';
 import type { CohortStatus } from '@/features/cohorts/types/cohort.types';
 
@@ -28,6 +30,10 @@ const statusTone: Record<CohortStatus, 'success' | 'info' | 'neutral' | 'warning
 export function AdminDashboard() {
   const { data, isLoading, isError, refetch } = useAdminDashboard();
   const { data: certificates } = useAdminCertificates();
+  const { data: exportHistory } = useExportHistory();
+  const todaysExports = exportHistory?.filter(
+    (h) => new Date(h.createdAt).toDateString() === new Date().toDateString(),
+  ).length ?? 0;
 
   if (isLoading) return <LoadingState label="Loading dashboard…" />;
   if (isError || !data) return <ErrorState onRetry={() => refetch()} />;
@@ -47,6 +53,7 @@ export function AdminDashboard() {
         <StatCard label="Inactive Cohorts" value={data.inactiveCohorts} icon={PauseCircle} tone="neutral" />
         <StatCard label="Today's Logins" value={data.todaysLogins} icon={LogIn} tone="accent" />
         <StatCard label="Total Certificates" value={certificates?.length ?? 0} icon={Award} tone="accent" />
+        <StatCard label="Today's Exports" value={todaysExports} icon={FileDown} tone="neutral" />
       </div>
 
       <AdminStatsCards />

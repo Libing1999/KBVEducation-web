@@ -54,6 +54,7 @@ export const paths = {
     // Phase 5
     certificateTemplates: '/admin/certificate-templates',
     certificates: '/admin/certificates',
+    dataExport: '/admin/data-export',
   },
 
   notFound: '*',

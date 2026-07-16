@@ -41,6 +41,7 @@ import AdminAnalyticsPage from '@/features/analytics/pages/AdminAnalyticsPage';
 import CertificateTemplatesPage from '@/features/certificates/pages/CertificateTemplatesPage';
 import AdminCertificatesPage from '@/features/certificates/pages/AdminCertificatesPage';
 import MyCertificatesPage from '@/features/certificates/pages/MyCertificatesPage';
+import DataExportPage from '@/features/export/pages/DataExportPage';
 
 export const router = createBrowserRouter([
   {
@@ -108,6 +109,7 @@ export const router = createBrowserRouter([
               { path: paths.admin.analytics, element: <AdminAnalyticsPage /> },
               { path: paths.admin.certificateTemplates, element: <CertificateTemplatesPage /> },
               { path: paths.admin.certificates, element: <AdminCertificatesPage /> },
+              { path: paths.admin.dataExport, element: <DataExportPage /> },
             ],
           },
         ],
