@@ -1,10 +1,22 @@
 import { apiClient } from '@/lib/apiClient';
 import type { ApiResponse } from '@/types/api';
-import type { AdminDashboard, ScoreDashboard, TierDetail } from '@/features/dashboard/types/dashboard.types';
+import type {
+  AdminDashboard,
+  AdminDashboardTrends,
+  ScoreDashboard,
+  TierDetail,
+} from '@/features/dashboard/types/dashboard.types';
 
 export const dashboardApi = {
   admin: async (): Promise<AdminDashboard> => {
     const { data } = await apiClient.get<ApiResponse<AdminDashboard>>('/admin/dashboard');
+    return data.data;
+  },
+
+  adminTrends: async (days: number): Promise<AdminDashboardTrends> => {
+    const { data } = await apiClient.get<ApiResponse<AdminDashboardTrends>>('/admin/dashboard/trends', {
+      params: { days },
+    });
     return data.data;
   },
 

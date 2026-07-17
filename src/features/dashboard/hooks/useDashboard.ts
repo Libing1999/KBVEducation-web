@@ -9,6 +9,13 @@ export function useAdminDashboard() {
   });
 }
 
+export function useAdminDashboardTrends(days: number) {
+  return useQuery({
+    queryKey: [...QUERY_KEYS.adminDashboardTrends, days],
+    queryFn: () => dashboardApi.adminTrends(days),
+  });
+}
+
 export function useMyDashboard() {
   return useQuery({
     queryKey: QUERY_KEYS.studentDashboard,

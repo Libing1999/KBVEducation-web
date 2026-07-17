@@ -30,6 +30,7 @@ export const QUERY_KEYS = {
   adminStats: ['admin-stats'] as const,
   notifications: ['notifications'] as const,
   adminDashboard: ['dashboard', 'admin'] as const,
+  adminDashboardTrends: ['dashboard', 'admin', 'trends'] as const,
   studentDashboard: ['dashboard', 'student'] as const,
   scoreConfig: ['score-config'] as const,
   tierRules: ['tier-rules'] as const,

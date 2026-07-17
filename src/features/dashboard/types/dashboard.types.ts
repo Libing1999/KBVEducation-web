@@ -16,6 +16,47 @@ export interface AdminDashboard {
   recentCohorts: CohortResponse[];
 }
 
+export interface DailyValue {
+  date: string;
+  value: number;
+}
+
+export interface ActivityDay {
+  date: string;
+  reflections: number;
+  practiceLogs: number;
+  homeworkSubmissions: number;
+  quizAttempts: number;
+}
+
+export interface CohortStatusBreakdown {
+  active: number;
+  inactive: number;
+  upcoming: number;
+}
+
+export interface TopStudent {
+  studentName: string;
+  cohortName: string | null;
+  compositeScore: number;
+}
+
+export interface AdminDashboardTrends {
+  studentsGrowth: DailyValue[];
+  parentsGrowth: DailyValue[];
+  cohortsGrowth: DailyValue[];
+  activeCohortsGrowth: DailyValue[];
+  loginsPerDay: DailyValue[];
+  studentsChangePct: number | null;
+  parentsChangePct: number | null;
+  cohortsChangePct: number | null;
+  activeCohortsChangePct: number | null;
+  loginsChangePct: number | null;
+  activityTrend: ActivityDay[];
+  cohortStatus: CohortStatusBreakdown;
+  topStudents: TopStudent[];
+}
+
 export interface LessonPlaceholder {
   title: string;
   scheduledFor: string;
