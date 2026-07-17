@@ -1,4 +1,5 @@
-import { NavLink } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
   Users,
@@ -23,6 +24,11 @@ import {
   Settings,
   DatabaseBackup,
   AlertTriangle,
+  Library,
+  ClipboardList,
+  BadgeCheck,
+  Wrench,
+  ChevronDown,
   type LucideIcon,
 } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store/authStore';
@@ -38,27 +44,23 @@ interface NavItem {
   roles: Role[];
 }
 
+interface NavLeaf {
+  label: string;
+  to: string;
+  icon: LucideIcon;
+}
+
+interface NavGroup {
+  id: string;
+  label: string;
+  icon: LucideIcon;
+  items: NavLeaf[];
+}
+
+/** Non-admin flat nav (unchanged from the original list) — Dashboard/Profile
+ * are rendered separately for SUPER_ADMIN, so their roles here exclude it. */
 const navItems: NavItem[] = [
-  { label: 'Dashboard', to: paths.dashboard, icon: LayoutDashboard, roles: ['SUPER_ADMIN', 'STUDENT', 'PARENT'] },
-  { label: 'Users', to: paths.admin.users, icon: Users, roles: ['SUPER_ADMIN'] },
-  { label: 'Students', to: paths.admin.students, icon: GraduationCap, roles: ['SUPER_ADMIN'] },
-  { label: 'Parents', to: paths.admin.parents, icon: UserRound, roles: ['SUPER_ADMIN'] },
-  { label: 'Cohorts', to: paths.admin.cohorts, icon: Layers, roles: ['SUPER_ADMIN'] },
-  { label: 'Lessons', to: paths.admin.lessons, icon: BookOpen, roles: ['SUPER_ADMIN'] },
-  { label: 'Reflections', to: paths.admin.reflections, icon: PenLine, roles: ['SUPER_ADMIN'] },
-  { label: 'Practice Review', to: paths.admin.practice, icon: BookOpenCheck, roles: ['SUPER_ADMIN'] },
-  { label: 'Score Config', to: paths.admin.scoreConfig, icon: SlidersHorizontal, roles: ['SUPER_ADMIN'] },
-  { label: 'Tier Rules', to: paths.admin.tierRules, icon: Award, roles: ['SUPER_ADMIN'] },
-  { label: 'Audit Log', to: paths.admin.auditLog, icon: History, roles: ['SUPER_ADMIN'] },
-  { label: 'Leaderboard', to: paths.admin.leaderboard, icon: Trophy, roles: ['SUPER_ADMIN'] },
-  { label: 'Analytics', to: paths.admin.analytics, icon: BarChart3, roles: ['SUPER_ADMIN'] },
-  { label: 'Certificate Templates', to: paths.admin.certificateTemplates, icon: FileBadge, roles: ['SUPER_ADMIN'] },
-  { label: 'Certificates', to: paths.admin.certificates, icon: ScrollText, roles: ['SUPER_ADMIN'] },
-  { label: 'Data Export', to: paths.admin.dataExport, icon: FileDown, roles: ['SUPER_ADMIN'] },
-  { label: 'Audit Trail', to: paths.admin.auditTrail, icon: ShieldCheck, roles: ['SUPER_ADMIN'] },
-  { label: 'Settings', to: paths.admin.settings, icon: Settings, roles: ['SUPER_ADMIN'] },
-  { label: 'Backups', to: paths.admin.backups, icon: DatabaseBackup, roles: ['SUPER_ADMIN'] },
-  { label: 'Application Logs', to: paths.admin.applicationLogs, icon: AlertTriangle, roles: ['SUPER_ADMIN'] },
+  { label: 'Dashboard', to: paths.dashboard, icon: LayoutDashboard, roles: ['STUDENT', 'PARENT'] },
   { label: 'My Lessons', to: paths.myLessons, icon: BookOpen, roles: ['STUDENT', 'PARENT'] },
   { label: 'Reflections', to: paths.reflections, icon: PenLine, roles: ['STUDENT'] },
   { label: 'Practice', to: paths.practice, icon: BookOpenCheck, roles: ['STUDENT'] },
@@ -66,16 +68,200 @@ const navItems: NavItem[] = [
   { label: 'Activity', to: paths.activity, icon: Activity, roles: ['STUDENT', 'PARENT'] },
   { label: 'Calendar', to: paths.calendar, icon: CalendarDays, roles: ['STUDENT', 'PARENT'] },
   { label: 'Certificates', to: paths.certificates, icon: ScrollText, roles: ['STUDENT', 'PARENT'] },
-  { label: 'Profile', to: paths.profile, icon: UserCircle, roles: ['SUPER_ADMIN', 'STUDENT', 'PARENT'] },
+  { label: 'Profile', to: paths.profile, icon: UserCircle, roles: ['STUDENT', 'PARENT'] },
 ];
+
+/** Grouped, collapsible admin navigation. Same routes/permissions as before —
+ * only the structure changed (flat list -> accordion groups). */
+const adminGroups: NavGroup[] = [
+  {
+    id: 'user-management',
+    label: 'User Management',
+    icon: Users,
+    items: [
+      { label: 'Users', to: paths.admin.users, icon: Users },
+      { label: 'Students', to: paths.admin.students, icon: GraduationCap },
+      { label: 'Parents', to: paths.admin.parents, icon: UserRound },
+    ],
+  },
+  {
+    id: 'academic-management',
+    label: 'Academic Management',
+    icon: Library,
+    items: [
+      { label: 'Cohorts', to: paths.admin.cohorts, icon: Layers },
+      { label: 'Lessons', to: paths.admin.lessons, icon: BookOpen },
+      { label: 'Reflections', to: paths.admin.reflections, icon: PenLine },
+      { label: 'Practice Review', to: paths.admin.practice, icon: BookOpenCheck },
+    ],
+  },
+  {
+    id: 'assessment',
+    label: 'Assessment',
+    icon: ClipboardList,
+    items: [
+      { label: 'Score Config', to: paths.admin.scoreConfig, icon: SlidersHorizontal },
+      { label: 'Tier Rules', to: paths.admin.tierRules, icon: Award },
+      { label: 'Leaderboard', to: paths.admin.leaderboard, icon: Trophy },
+      { label: 'Analytics', to: paths.admin.analytics, icon: BarChart3 },
+    ],
+  },
+  {
+    id: 'certificates',
+    label: 'Certificates',
+    icon: BadgeCheck,
+    items: [
+      { label: 'Certificate Templates', to: paths.admin.certificateTemplates, icon: FileBadge },
+      { label: 'Certificates', to: paths.admin.certificates, icon: ScrollText },
+    ],
+  },
+  {
+    id: 'system-management',
+    label: 'System Management',
+    icon: Wrench,
+    items: [
+      { label: 'Settings', to: paths.admin.settings, icon: Settings },
+      { label: 'Data Export', to: paths.admin.dataExport, icon: FileDown },
+      { label: 'Audit Log', to: paths.admin.auditLog, icon: History },
+      { label: 'Audit Trail', to: paths.admin.auditTrail, icon: ShieldCheck },
+      { label: 'Application Logs', to: paths.admin.applicationLogs, icon: AlertTriangle },
+      { label: 'Backups', to: paths.admin.backups, icon: DatabaseBackup },
+    ],
+  },
+  {
+    id: 'my-account',
+    label: 'My Account',
+    icon: UserCircle,
+    items: [{ label: 'Profile', to: paths.profile, icon: UserCircle }],
+  },
+];
+
+const EXPANDED_GROUP_STORAGE_KEY = 'kbv.admin-sidebar.expanded-group';
+
+/** Mirrors react-router NavLink's default (non-`end`) active-match rule. */
+function isPathActive(pathname: string, to: string): boolean {
+  return pathname === to || pathname.startsWith(`${to}/`);
+}
+
+function findGroupForPath(pathname: string): string | null {
+  const group = adminGroups.find((g) => g.items.some((item) => isPathActive(pathname, item.to)));
+  return group?.id ?? null;
+}
+
+function NavLeafLink({ item, indent, onNavigate }: { item: NavLeaf; indent?: boolean; onNavigate?: () => void }) {
+  return (
+    <NavLink
+      to={item.to}
+      end={item.to === paths.dashboard}
+      onClick={onNavigate}
+      className={({ isActive }) =>
+        cn(
+          'group relative flex items-center gap-3 rounded-lg px-3 text-sm font-medium transition-colors',
+          indent ? 'py-2' : 'py-2.5',
+          isActive ? 'bg-white/10 text-white' : 'text-primary-100 hover:bg-white/10 hover:text-white',
+        )
+      }
+    >
+      {({ isActive }) => (
+        <>
+          {isActive && <span className="absolute inset-y-1 left-0 w-1 rounded-full bg-accent" aria-hidden />}
+          <item.icon className={cn('h-5 w-5 shrink-0', isActive ? 'text-accent-300' : 'text-primary-200')} />
+          <span className="truncate">{item.label}</span>
+        </>
+      )}
+    </NavLink>
+  );
+}
+
+function NavGroupSection({
+  group,
+  isExpanded,
+  isActive,
+  onToggle,
+  onNavigate,
+}: {
+  group: NavGroup;
+  isExpanded: boolean;
+  isActive: boolean;
+  onToggle: () => void;
+  onNavigate?: () => void;
+}) {
+  const GroupIcon = group.icon;
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={isExpanded}
+        className={cn(
+          'group relative flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition-colors',
+          isActive ? 'bg-white/10 text-white' : 'text-primary-100 hover:bg-white/10 hover:text-white',
+        )}
+      >
+        {isActive && <span className="absolute inset-y-1.5 left-0 w-1 rounded-full bg-accent" aria-hidden />}
+        <GroupIcon className={cn('h-5 w-5 shrink-0', isActive ? 'text-accent-300' : 'text-primary-200')} />
+        <span className="flex-1 truncate text-left">{group.label}</span>
+        <ChevronDown
+          className={cn(
+            'h-4 w-4 shrink-0 transition-transform duration-200',
+            isExpanded ? 'rotate-180' : 'rotate-0',
+          )}
+          aria-hidden
+        />
+      </button>
+
+      <div
+        className="grid transition-[grid-template-rows] duration-[250ms] ease-in-out"
+        style={{ gridTemplateRows: isExpanded ? '1fr' : '0fr' }}
+      >
+        <div className="overflow-hidden">
+          <div className="ml-4 mt-1 space-y-1 border-l border-white/10 py-1 pl-3">
+            {group.items.map((item) => (
+              <NavLeafLink key={item.to} item={item} indent onNavigate={onNavigate} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 /** Brand header + nav; shared by the desktop sidebar and the mobile drawer. */
 export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const role = useAuthStore((s) => s.user?.role);
-  const items = navItems.filter((item) => role && item.roles.includes(role));
+  const location = useLocation();
   const { data: publicSettings } = usePublicSettings();
   const appName = publicSettings?.applicationName ?? 'KBV Education';
   const logoUrl = publicSettings?.logoPath?.startsWith('http') ? publicSettings.logoPath : null;
+
+  const routeGroupId = useMemo(() => findGroupForPath(location.pathname), [location.pathname]);
+
+  const [expandedGroupId, setExpandedGroupId] = useState<string | null>(() => {
+    if (typeof window === 'undefined') return null;
+    return window.localStorage.getItem(EXPANDED_GROUP_STORAGE_KEY);
+  });
+
+  // Auto-expand (and switch to) the group matching the current route.
+  useEffect(() => {
+    if (routeGroupId) {
+      setExpandedGroupId(routeGroupId);
+    }
+  }, [routeGroupId]);
+
+  // Persist across refreshes.
+  useEffect(() => {
+    if (expandedGroupId) {
+      window.localStorage.setItem(EXPANDED_GROUP_STORAGE_KEY, expandedGroupId);
+    } else {
+      window.localStorage.removeItem(EXPANDED_GROUP_STORAGE_KEY);
+    }
+  }, [expandedGroupId]);
+
+  const toggleGroup = (id: string) => {
+    setExpandedGroupId((prev) => (prev === id ? null : id));
+  };
+
+  const items = navItems.filter((item) => role && item.roles.includes(role));
 
   return (
     <div className="flex h-full w-full flex-col bg-[var(--color-primary)] text-primary-100">
@@ -90,31 +276,27 @@ export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         <span className="truncate text-base font-bold text-white">{appName}</span>
       </div>
 
-      <nav className="flex-1 space-y-1 p-3">
-        {items.map(({ label, to, icon: Icon }) => (
-          <NavLink
-            key={to}
-            to={to}
-            end={to === paths.dashboard}
-            onClick={onNavigate}
-            className={({ isActive }) =>
-              cn(
-                'group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
-                isActive ? 'bg-white/10 text-white' : 'text-primary-100 hover:bg-white/10 hover:text-white',
-              )
-            }
-          >
-            {({ isActive }) => (
-              <>
-                {isActive && (
-                  <span className="absolute inset-y-1.5 left-0 w-1 rounded-full bg-accent" aria-hidden />
-                )}
-                <Icon className={cn('h-5 w-5', isActive ? 'text-accent-300' : 'text-primary-200')} />
-                {label}
-              </>
-            )}
-          </NavLink>
-        ))}
+      <nav className="flex-1 space-y-1 overflow-y-auto p-3">
+        {role === 'SUPER_ADMIN' ? (
+          <>
+            <NavLeafLink
+              item={{ label: 'Dashboard', to: paths.dashboard, icon: LayoutDashboard }}
+              onNavigate={onNavigate}
+            />
+            {adminGroups.map((group) => (
+              <NavGroupSection
+                key={group.id}
+                group={group}
+                isExpanded={expandedGroupId === group.id}
+                isActive={group.items.some((item) => isPathActive(location.pathname, item.to))}
+                onToggle={() => toggleGroup(group.id)}
+                onNavigate={onNavigate}
+              />
+            ))}
+          </>
+        ) : (
+          items.map((item) => <NavLeafLink key={item.to} item={item} onNavigate={onNavigate} />)
+        )}
       </nav>
 
       <div className="border-t border-white/10 p-4 text-xs text-primary-200">KBV Education · Phase 1</div>
