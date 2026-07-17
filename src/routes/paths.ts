@@ -57,6 +57,7 @@ export const paths = {
     dataExport: '/admin/data-export',
     auditTrail: '/admin/audit-trail',
     settings: '/admin/settings',
+    backups: '/admin/backups',
   },
 
   notFound: '*',

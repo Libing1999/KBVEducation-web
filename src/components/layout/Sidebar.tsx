@@ -21,6 +21,7 @@ import {
   FileDown,
   ShieldCheck,
   Settings,
+  DatabaseBackup,
   type LucideIcon,
 } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store/authStore';
@@ -55,6 +56,7 @@ const navItems: NavItem[] = [
   { label: 'Data Export', to: paths.admin.dataExport, icon: FileDown, roles: ['SUPER_ADMIN'] },
   { label: 'Audit Trail', to: paths.admin.auditTrail, icon: ShieldCheck, roles: ['SUPER_ADMIN'] },
   { label: 'Settings', to: paths.admin.settings, icon: Settings, roles: ['SUPER_ADMIN'] },
+  { label: 'Backups', to: paths.admin.backups, icon: DatabaseBackup, roles: ['SUPER_ADMIN'] },
   { label: 'My Lessons', to: paths.myLessons, icon: BookOpen, roles: ['STUDENT', 'PARENT'] },
   { label: 'Reflections', to: paths.reflections, icon: PenLine, roles: ['STUDENT'] },
   { label: 'Practice', to: paths.practice, icon: BookOpenCheck, roles: ['STUDENT'] },

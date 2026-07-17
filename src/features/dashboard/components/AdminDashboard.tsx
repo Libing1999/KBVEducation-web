@@ -8,6 +8,8 @@ import {
   Award,
   FileDown,
   ShieldCheck,
+  HardDrive,
+  DatabaseBackup,
 } from 'lucide-react';
 import { StatCard } from '@/features/dashboard/components/StatCard';
 import { AdminStatsCards } from '@/features/dashboard/components/AdminStatsCards';
@@ -19,7 +21,8 @@ import { useAdminDashboard } from '@/features/dashboard/hooks/useDashboard';
 import { useAdminCertificates } from '@/features/certificates/hooks/useCertificates';
 import { useExportHistory } from '@/features/export/hooks/useExport';
 import { useAuditTrailTodayCount } from '@/features/auditTrail/hooks/useAuditTrail';
-import { formatDate, initials, roleLabel } from '@/lib/format';
+import { useBackups } from '@/features/backup/hooks/useBackups';
+import { formatDate, formatFileSize, initials, roleLabel } from '@/lib/format';
 import type { CohortStatus } from '@/features/cohorts/types/cohort.types';
 
 const statusTone: Record<CohortStatus, 'success' | 'info' | 'neutral' | 'warning'> = {
@@ -37,6 +40,11 @@ export function AdminDashboard() {
     (h) => new Date(h.createdAt).toDateString() === new Date().toDateString(),
   ).length ?? 0;
   const { data: auditEventsToday } = useAuditTrailTodayCount();
+  const { data: backups } = useBackups();
+  const storageUsageBytes = backups
+    ?.filter((b) => b.status === 'COMPLETED')
+    .reduce((sum, b) => sum + (b.fileSizeBytes ?? 0), 0) ?? 0;
+  const recentBackupsCount = backups?.length ?? 0;
 
   if (isLoading) return <LoadingState label="Loading dashboard…" />;
   if (isError || !data) return <ErrorState onRetry={() => refetch()} />;
@@ -58,6 +66,8 @@ export function AdminDashboard() {
         <StatCard label="Total Certificates" value={certificates?.length ?? 0} icon={Award} tone="accent" />
         <StatCard label="Today's Exports" value={todaysExports} icon={FileDown} tone="neutral" />
         <StatCard label="Audit Events Today" value={auditEventsToday ?? 0} icon={ShieldCheck} tone="neutral" />
+        <StatCard label="Storage Usage" value={formatFileSize(storageUsageBytes)} icon={HardDrive} tone="neutral" />
+        <StatCard label="Recent Backups" value={recentBackupsCount} icon={DatabaseBackup} tone="primary" />
       </div>
 
       <AdminStatsCards />
