@@ -61,6 +61,18 @@ The dev server proxies `/api` to the Spring Boot backend at
 | `yarn lint` | ESLint |
 | `yarn typecheck` | `tsc --noEmit` |
 | `yarn format` | Prettier |
+| `yarn test` | Vitest (jsdom + Testing Library), single run |
+| `yarn test:watch` | Vitest in watch mode |
+| `yarn test:coverage` | Vitest with a v8 coverage report |
+
+## Testing
+
+Vitest + `@testing-library/react` + jsdom (introduced in Phase 5 Step 10 —
+no test tooling existed before). Coverage is intentionally not comprehensive
+yet: a handful of components (`Button`, `Modal`'s focus-trap/return-focus
+behavior from decision #12, `ExportButtons`) plus one page test
+(`ApplicationLogsPage`) with a mocked API. `npm test` runs in CI on every
+push (see `.github/workflows/ci.yml`).
 
 ## Docker
 
