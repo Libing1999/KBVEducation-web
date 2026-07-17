@@ -22,6 +22,7 @@ import {
   ShieldCheck,
   Settings,
   DatabaseBackup,
+  AlertTriangle,
   type LucideIcon,
 } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store/authStore';
@@ -57,6 +58,7 @@ const navItems: NavItem[] = [
   { label: 'Audit Trail', to: paths.admin.auditTrail, icon: ShieldCheck, roles: ['SUPER_ADMIN'] },
   { label: 'Settings', to: paths.admin.settings, icon: Settings, roles: ['SUPER_ADMIN'] },
   { label: 'Backups', to: paths.admin.backups, icon: DatabaseBackup, roles: ['SUPER_ADMIN'] },
+  { label: 'Application Logs', to: paths.admin.applicationLogs, icon: AlertTriangle, roles: ['SUPER_ADMIN'] },
   { label: 'My Lessons', to: paths.myLessons, icon: BookOpen, roles: ['STUDENT', 'PARENT'] },
   { label: 'Reflections', to: paths.reflections, icon: PenLine, roles: ['STUDENT'] },
   { label: 'Practice', to: paths.practice, icon: BookOpenCheck, roles: ['STUDENT'] },

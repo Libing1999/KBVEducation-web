@@ -9,6 +9,9 @@ export interface AdminDashboard {
   activeCohorts: number;
   inactiveCohorts: number;
   todaysLogins: number;
+  lockedAccounts: number;
+  systemHealthy: boolean;
+  freeDiskSpaceMb: number;
   recentUsers: UserResponse[];
   recentCohorts: CohortResponse[];
 }

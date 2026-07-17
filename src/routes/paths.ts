@@ -26,6 +26,9 @@ export const paths = {
   // Phase 5 certificates (shared student/parent route; content switches by role)
   certificates: '/certificates',
 
+  // Phase 5 Step 7 global search (admin only)
+  search: '/search',
+
   // Admin
   admin: {
     users: '/admin/users',
@@ -58,6 +61,7 @@ export const paths = {
     auditTrail: '/admin/audit-trail',
     settings: '/admin/settings',
     backups: '/admin/backups',
+    applicationLogs: '/admin/application-logs',
   },
 
   notFound: '*',

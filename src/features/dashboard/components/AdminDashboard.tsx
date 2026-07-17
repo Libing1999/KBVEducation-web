@@ -10,6 +10,8 @@ import {
   ShieldCheck,
   HardDrive,
   DatabaseBackup,
+  Lock,
+  HeartPulse,
 } from 'lucide-react';
 import { StatCard } from '@/features/dashboard/components/StatCard';
 import { AdminStatsCards } from '@/features/dashboard/components/AdminStatsCards';
@@ -68,6 +70,18 @@ export function AdminDashboard() {
         <StatCard label="Audit Events Today" value={auditEventsToday ?? 0} icon={ShieldCheck} tone="neutral" />
         <StatCard label="Storage Usage" value={formatFileSize(storageUsageBytes)} icon={HardDrive} tone="neutral" />
         <StatCard label="Recent Backups" value={recentBackupsCount} icon={DatabaseBackup} tone="primary" />
+        <StatCard
+          label="Failed Login Attempts"
+          value={data.lockedAccounts}
+          icon={Lock}
+          tone={data.lockedAccounts > 0 ? 'accent' : 'neutral'}
+        />
+        <StatCard
+          label="System Health"
+          value={data.systemHealthy ? 'Healthy' : 'Low Disk Space'}
+          icon={HeartPulse}
+          tone={data.systemHealthy ? 'primary' : 'accent'}
+        />
       </div>
 
       <AdminStatsCards />

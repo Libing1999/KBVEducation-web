@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Plus, Pencil, KeyRound, Power, Trash2, Search } from 'lucide-react';
+import { Plus, Pencil, KeyRound, Power, Trash2, Search, LockKeyholeOpen } from 'lucide-react';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Select } from '@/components/ui/Select';
+import { Badge } from '@/components/ui/Badge';
 import { DataTable, type Column } from '@/components/ui/Table';
 import { Pagination } from '@/components/ui/Pagination';
 import { UserStatusBadge } from '@/components/ui/StatusBadge';
@@ -38,7 +39,7 @@ export default function UsersPage() {
     size: PAGE_SIZE,
   };
   const { data, isLoading } = useUsers(query);
-  const { updateStatus, remove } = useUserMutations();
+  const { updateStatus, remove, unlock } = useUserMutations();
 
   const openCreate = () => { setEditing(null); setFormOpen(true); };
   const openEdit = (u: UserResponse) => { setEditing(u); setFormOpen(true); };
@@ -55,7 +56,16 @@ export default function UsersPage() {
       ),
     },
     { key: 'role', header: 'Role', render: (u) => roleLabel(u.role) },
-    { key: 'status', header: 'Status', render: (u) => <UserStatusBadge status={u.status} /> },
+    {
+      key: 'status',
+      header: 'Status',
+      render: (u) => (
+        <div className="flex items-center gap-1.5">
+          <UserStatusBadge status={u.status} />
+          {u.locked && <Badge tone="danger">Locked</Badge>}
+        </div>
+      ),
+    },
     { key: 'lastLoginAt', header: 'Last login', render: (u) => formatDate(u.lastLoginAt) },
     {
       key: 'actions',
@@ -63,6 +73,16 @@ export default function UsersPage() {
       align: 'right',
       render: (u) => (
         <div className="flex justify-end gap-1">
+          {u.locked && (
+            <Button
+              variant="ghost"
+              size="sm"
+              title="Unlock account"
+              onClick={() => unlock.mutate(u.id)}
+            >
+              <LockKeyholeOpen className="h-4 w-4 text-amber-600" />
+            </Button>
+          )}
           <Button variant="ghost" size="sm" title="Edit" onClick={() => openEdit(u)}>
             <Pencil className="h-4 w-4" />
           </Button>

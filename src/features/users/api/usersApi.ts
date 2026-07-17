@@ -42,4 +42,9 @@ export const usersApi = {
   remove: async (id: string): Promise<void> => {
     await apiClient.delete<ApiResponse<void>>(`/admin/users/${id}`);
   },
+
+  unlock: async (id: string): Promise<UserResponse> => {
+    const { data } = await apiClient.put<ApiResponse<UserResponse>>(`/admin/users/${id}/unlock`);
+    return data.data;
+  },
 };

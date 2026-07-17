@@ -12,6 +12,8 @@ export interface UserResponse {
   status: UserStatus;
   lastLoginAt?: string | null;
   createdAt: string;
+  locked: boolean;
+  failedLoginAttempts: number;
 }
 
 export interface CreateUserRequest {

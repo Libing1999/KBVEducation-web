@@ -71,5 +71,14 @@ export function useUserMutations() {
     onError,
   });
 
-  return { create, update, updateStatus, resetPassword, remove };
+  const unlock = useMutation({
+    mutationFn: (id: string) => usersApi.unlock(id),
+    onSuccess: () => {
+      invalidate();
+      toast.success('Account unlocked');
+    },
+    onError,
+  });
+
+  return { create, update, updateStatus, resetPassword, remove, unlock };
 }

@@ -2,6 +2,7 @@ import { LogOut, Menu } from 'lucide-react';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import { NotificationBell } from '@/features/notifications/components/NotificationBell';
+import { GlobalSearchBar } from '@/features/search/components/GlobalSearchBar';
 
 const roleLabels: Record<string, string> = {
   SUPER_ADMIN: 'Administrator',
@@ -26,6 +27,11 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
         </button>
         <span className="font-bold text-primary">KBV Education</span>
       </div>
+      {user?.role === 'SUPER_ADMIN' && (
+        <div className="hidden flex-1 justify-center md:flex">
+          <GlobalSearchBar />
+        </div>
+      )}
       <div className="ml-auto flex items-center gap-4">
         <NotificationBell />
         <div className="flex items-center gap-3">
