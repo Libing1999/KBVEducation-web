@@ -62,6 +62,19 @@ The dev server proxies `/api` to the Spring Boot backend at
 | `yarn typecheck` | `tsc --noEmit` |
 | `yarn format` | Prettier |
 
+## Docker
+
+```bash
+docker build -t kbv-education-web --build-arg VITE_API_BASE_URL=/api .
+```
+
+Multi-stage build: `npm run build` in a Node image, then the static `dist/`
+is served by nginx (`nginx.conf`), which reverse-proxies `/api/*` to the
+backend container so the browser only ever talks to one origin. For the full
+stack (Postgres + backend + frontend), see `DEPLOYMENT.md` and
+`docker-compose.yml` in the sibling `kbv-education` repo — the compose file
+expects both repos checked out side by side.
+
 ## Build plan
 - [x] **Step 1** — Backend structure
 - [x] **Step 2** — Frontend structure & foundations
