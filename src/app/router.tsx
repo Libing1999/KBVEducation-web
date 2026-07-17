@@ -43,6 +43,7 @@ import AdminCertificatesPage from '@/features/certificates/pages/AdminCertificat
 import MyCertificatesPage from '@/features/certificates/pages/MyCertificatesPage';
 import DataExportPage from '@/features/export/pages/DataExportPage';
 import AuditTrailPage from '@/features/auditTrail/pages/AuditTrailPage';
+import SettingsPage from '@/features/settings/pages/SettingsPage';
 
 export const router = createBrowserRouter([
   {
@@ -112,6 +113,7 @@ export const router = createBrowserRouter([
               { path: paths.admin.certificates, element: <AdminCertificatesPage /> },
               { path: paths.admin.dataExport, element: <DataExportPage /> },
               { path: paths.admin.auditTrail, element: <AuditTrailPage /> },
+              { path: paths.admin.settings, element: <SettingsPage /> },
             ],
           },
         ],

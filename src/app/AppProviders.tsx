@@ -4,14 +4,15 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
 import { queryClient } from '@/lib/queryClient';
 import { ErrorBoundary } from '@/components/feedback/ErrorBoundary';
+import { ThemeProvider } from '@/features/settings/components/ThemeProvider';
 import { env } from '@/config/env';
 
-/** Wires global providers: error boundary, React Query, toast notifications. */
+/** Wires global providers: error boundary, React Query, theming, toast notifications. */
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
-        {children}
+        <ThemeProvider>{children}</ThemeProvider>
         <Toaster
           position="top-right"
           toastOptions={{

@@ -7,6 +7,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Phase 5: admin-configurable branding (ThemeProvider). Defaults match
+   tailwind.config.js's static primary/secondary/accent so there's no
+   flash-of-wrong-color before the first /settings/public fetch resolves. */
+:root {
+  --color-primary: #1B3A6B;
+  --color-secondary: #F2F6FA;
+  --color-accent: #C4972A;
+}
+
 @layer base {
   html,
   body,

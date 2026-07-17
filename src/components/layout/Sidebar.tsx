@@ -20,9 +20,11 @@ import {
   ScrollText,
   FileDown,
   ShieldCheck,
+  Settings,
   type LucideIcon,
 } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store/authStore';
+import { usePublicSettings } from '@/features/settings/hooks/useSettings';
 import type { Role } from '@/features/auth/types/auth.types';
 import { paths } from '@/routes/paths';
 import { cn } from '@/lib/utils';
@@ -52,6 +54,7 @@ const navItems: NavItem[] = [
   { label: 'Certificates', to: paths.admin.certificates, icon: ScrollText, roles: ['SUPER_ADMIN'] },
   { label: 'Data Export', to: paths.admin.dataExport, icon: FileDown, roles: ['SUPER_ADMIN'] },
   { label: 'Audit Trail', to: paths.admin.auditTrail, icon: ShieldCheck, roles: ['SUPER_ADMIN'] },
+  { label: 'Settings', to: paths.admin.settings, icon: Settings, roles: ['SUPER_ADMIN'] },
   { label: 'My Lessons', to: paths.myLessons, icon: BookOpen, roles: ['STUDENT', 'PARENT'] },
   { label: 'Reflections', to: paths.reflections, icon: PenLine, roles: ['STUDENT'] },
   { label: 'Practice', to: paths.practice, icon: BookOpenCheck, roles: ['STUDENT'] },
@@ -66,14 +69,21 @@ const navItems: NavItem[] = [
 export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const role = useAuthStore((s) => s.user?.role);
   const items = navItems.filter((item) => role && item.roles.includes(role));
+  const { data: publicSettings } = usePublicSettings();
+  const appName = publicSettings?.applicationName ?? 'KBV Education';
+  const logoUrl = publicSettings?.logoPath?.startsWith('http') ? publicSettings.logoPath : null;
 
   return (
-    <div className="flex h-full w-full flex-col bg-primary text-primary-100">
+    <div className="flex h-full w-full flex-col bg-[var(--color-primary)] text-primary-100">
       <div className="flex h-16 items-center gap-3 border-b border-white/10 px-6">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-white">
-          <GraduationCap className="h-5 w-5" />
-        </div>
-        <span className="text-base font-bold text-white">KBV Education</span>
+        {logoUrl ? (
+          <img src={logoUrl} alt={appName} className="h-9 w-9 rounded-lg object-contain" />
+        ) : (
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-white">
+            <GraduationCap className="h-5 w-5" />
+          </div>
+        )}
+        <span className="truncate text-base font-bold text-white">{appName}</span>
       </div>
 
       <nav className="flex-1 space-y-1 p-3">

@@ -56,6 +56,7 @@ export const paths = {
     certificates: '/admin/certificates',
     dataExport: '/admin/data-export',
     auditTrail: '/admin/audit-trail',
+    settings: '/admin/settings',
   },
 
   notFound: '*',
