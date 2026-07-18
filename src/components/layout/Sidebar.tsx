@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -32,6 +32,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { useAuthStore } from '@/features/auth/store/authStore';
+import { SidebarUserProfile } from '@/components/layout/SidebarUserProfile';
 import { usePublicSettings } from '@/features/settings/hooks/useSettings';
 import type { Role } from '@/features/auth/types/auth.types';
 import { paths } from '@/routes/paths';
@@ -299,22 +300,35 @@ export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         )}
       </nav>
 
-      <div className="border-t border-white/10 p-4 text-xs text-primary-200">KBV Education · Phase 1</div>
+      <SidebarUserProfile onNavigate={onNavigate} />
     </div>
   );
 }
 
-/** Persistent sidebar for md+ screens. */
+/** Persistent sidebar for md+ screens. The layout root is viewport-locked
+ * (DashboardLayout), so h-full pins this to the full viewport height; the
+ * nav inside scrolls independently and the bottom user card never moves. */
 export function Sidebar() {
   return (
-    <aside className="hidden w-64 shrink-0 md:flex">
+    <aside className="hidden h-full w-64 shrink-0 md:flex">
       <SidebarContent />
     </aside>
   );
 }
 
-/** Slide-over drawer variant for small screens. */
+/** Slide-over drawer variant for small screens. On close, focus returns to
+ * whatever opened it (the topbar menu button), same pattern as Modal. */
 export function MobileSidebar({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const previouslyFocused = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    previouslyFocused.current = document.activeElement as HTMLElement | null;
+    return () => {
+      previouslyFocused.current?.focus();
+    };
+  }, [open]);
+
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 md:hidden" role="dialog" aria-modal="true">

@@ -1,21 +1,15 @@
-import { LogOut, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { useAuth } from '@/features/auth/hooks/useAuth';
-import { Button } from '@/components/ui/Button';
 import { NotificationBell } from '@/features/notifications/components/NotificationBell';
 import { GlobalSearchBar } from '@/features/search/components/GlobalSearchBar';
 
-const roleLabels: Record<string, string> = {
-  SUPER_ADMIN: 'Administrator',
-  STUDENT: 'Student',
-  PARENT: 'Parent',
-};
-
+/** Slim top header: mobile menu + brand, global search (admin), notifications.
+ * The user profile/logout lives in the sidebar's pinned bottom card. */
 export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
-  const { user, logout } = useAuth();
-  const initials = user ? `${user.firstName[0] ?? ''}${user.lastName[0] ?? ''}`.toUpperCase() : '';
+  const { user } = useAuth();
 
   return (
-    <header className="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-4 md:px-6">
+    <header className="flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 md:px-6">
       <div className="flex items-center gap-2 md:hidden">
         <button
           type="button"
@@ -34,21 +28,6 @@ export function Topbar({ onMenuClick }: { onMenuClick?: () => void }) {
       )}
       <div className="ml-auto flex items-center gap-4">
         <NotificationBell />
-        <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-50 text-sm font-semibold text-primary">
-            {initials}
-          </div>
-          <div className="hidden text-right sm:block">
-            <p className="text-sm font-medium text-slate-800">
-              {user?.firstName} {user?.lastName}
-            </p>
-            <p className="text-xs text-slate-500">{user ? roleLabels[user.role] : ''}</p>
-          </div>
-        </div>
-        <Button variant="ghost" size="sm" onClick={logout} aria-label="Log out">
-          <LogOut className="h-4 w-4" />
-          <span className="hidden sm:inline">Logout</span>
-        </Button>
       </div>
     </header>
   );
