@@ -28,6 +28,7 @@ import {
   ClipboardList,
   BadgeCheck,
   Wrench,
+  Mail,
   ChevronDown,
   type LucideIcon,
 } from 'lucide-react';
@@ -122,6 +123,7 @@ const adminGroups: NavGroup[] = [
     icon: Wrench,
     items: [
       { label: 'Settings', to: paths.admin.settings, icon: Settings },
+      { label: 'Email Settings', to: paths.admin.emailSettings, icon: Mail },
       { label: 'Data Export', to: paths.admin.dataExport, icon: FileDown },
       { label: 'Audit Log', to: paths.admin.auditLog, icon: History },
       { label: 'Audit Trail', to: paths.admin.auditTrail, icon: ShieldCheck },

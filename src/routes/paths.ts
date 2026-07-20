@@ -60,6 +60,7 @@ export const paths = {
     dataExport: '/admin/data-export',
     auditTrail: '/admin/audit-trail',
     settings: '/admin/settings',
+    emailSettings: '/admin/email-settings',
     backups: '/admin/backups',
     applicationLogs: '/admin/application-logs',
   },

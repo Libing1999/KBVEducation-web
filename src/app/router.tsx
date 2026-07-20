@@ -44,6 +44,7 @@ import MyCertificatesPage from '@/features/certificates/pages/MyCertificatesPage
 import DataExportPage from '@/features/export/pages/DataExportPage';
 import AuditTrailPage from '@/features/auditTrail/pages/AuditTrailPage';
 import SettingsPage from '@/features/settings/pages/SettingsPage';
+import EmailSettingsPage from '@/features/settings/pages/EmailSettingsPage';
 import BackupPage from '@/features/backup/pages/BackupPage';
 import ApplicationLogsPage from '@/features/applicationLogs/pages/ApplicationLogsPage';
 import SearchResultsPage from '@/features/search/pages/SearchResultsPage';
@@ -117,6 +118,7 @@ export const router = createBrowserRouter([
               { path: paths.admin.dataExport, element: <DataExportPage /> },
               { path: paths.admin.auditTrail, element: <AuditTrailPage /> },
               { path: paths.admin.settings, element: <SettingsPage /> },
+              { path: paths.admin.emailSettings, element: <EmailSettingsPage /> },
               { path: paths.admin.backups, element: <BackupPage /> },
               { path: paths.admin.applicationLogs, element: <ApplicationLogsPage /> },
               { path: paths.search, element: <SearchResultsPage /> },
