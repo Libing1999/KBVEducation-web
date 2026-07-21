@@ -267,7 +267,7 @@ export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const items = navItems.filter((item) => role && item.roles.includes(role));
 
   return (
-    <div className="flex h-full w-full flex-col bg-[var(--color-primary)] text-primary-100">
+    <div className="flex h-full w-full flex-col bg-primary text-primary-100">
       <div className="flex h-16 items-center gap-3 border-b border-white/10 px-6">
         {logoUrl ? (
           <img src={logoUrl} alt={appName} className="h-9 w-9 rounded-lg object-contain" />

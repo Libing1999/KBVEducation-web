@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -44,11 +45,39 @@ export default function SettingsPage() {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     values: settings ? { ...settings, logoPath: settings.logoPath ?? '' } : undefined,
   });
+
+  // Colors: the native color picker and the HEX text box are both controlled by
+  // the same RHF field via setValue (two-way sync). `<input type="color">` only
+  // accepts a valid #rrggbb value, so while a HEX box holds a partial/invalid
+  // string we feed the picker (and the preview) the last valid color instead of
+  // overwriting it or falling back to a hardcoded default.
+  const COLOR_FIELDS = ['primaryColorHex', 'secondaryColorHex', 'accentColorHex'] as const;
+  const isHex = (v: string) => /^#[0-9A-Fa-f]{6}$/.test(v);
+  const lastValidColor = useRef<Record<(typeof COLOR_FIELDS)[number], string>>({
+    primaryColorHex: '#1B3A6B',
+    secondaryColorHex: '#F2F6FA',
+    accentColorHex: '#C4972A',
+  });
+  const effectiveColor = (field: (typeof COLOR_FIELDS)[number]): string => {
+    const raw = watch(field) ?? '';
+    if (isHex(raw)) lastValidColor.current[field] = raw;
+    return lastValidColor.current[field];
+  };
+  const setColor = (field: (typeof COLOR_FIELDS)[number], value: string) =>
+    setValue(field, value, { shouldDirty: true, shouldTouch: true, shouldValidate: true });
+
+  // Live preview of the currently-typed colors (before saving); keeps the last
+  // valid color rather than flashing to a default on an invalid keystroke.
+  const previewPrimary = effectiveColor('primaryColorHex');
+  const previewSecondary = effectiveColor('secondaryColorHex');
+  const previewAccent = effectiveColor('accentColorHex');
 
   const submit = handleSubmit((v) => {
     mutation.mutate({ ...v, logoPath: v.logoPath || undefined });
@@ -80,22 +109,81 @@ export default function SettingsPage() {
         </Card>
 
         <Card>
-          <CardHeader title="Colors" subtitle="Applied to the sidebar, primary buttons, and branding immediately." />
-          <CardBody className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            {(['primaryColorHex', 'secondaryColorHex', 'accentColorHex'] as const).map((field) => (
-              <FormField
-                key={field}
-                label={field === 'primaryColorHex' ? 'Primary' : field === 'secondaryColorHex' ? 'Secondary' : 'Accent'}
-                htmlFor={`st-${field}`}
-                error={errors[field]?.message}
-                required
-              >
-                <div className="flex items-center gap-2">
-                  <input type="color" className="h-10 w-10 shrink-0 cursor-pointer rounded-lg border border-slate-300" {...register(field)} />
-                  <Input id={`st-${field}`} aria-invalid={!!errors[field]} {...register(field)} />
-                </div>
-              </FormField>
-            ))}
+          <CardHeader title="Colors" subtitle="Applied across the whole app immediately after saving. Preview updates as you type." />
+          <CardBody className="space-y-5">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              {COLOR_FIELDS.map((field) => {
+                const label =
+                  field === 'primaryColorHex' ? 'Primary' : field === 'secondaryColorHex' ? 'Secondary' : 'Accent';
+                return (
+                  <FormField
+                    key={field}
+                    label={label}
+                    htmlFor={`st-${field}`}
+                    error={errors[field]?.message}
+                    required
+                  >
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="color"
+                        aria-label={`${label} color picker`}
+                        className="h-10 w-10 shrink-0 cursor-pointer rounded-lg border border-slate-300"
+                        value={effectiveColor(field)}
+                        onChange={(e) => setColor(field, e.target.value)}
+                        onInput={(e) => setColor(field, (e.target as HTMLInputElement).value)}
+                      />
+                      <Input
+                        id={`st-${field}`}
+                        aria-invalid={!!errors[field]}
+                        value={watch(field) ?? ''}
+                        onChange={(e) => setColor(field, e.target.value)}
+                      />
+                    </div>
+                  </FormField>
+                );
+              })}
+            </div>
+
+            {/* Live preview — reflects the currently-typed values, not the saved theme. */}
+            <div
+              className="rounded-xl border border-slate-200 p-4"
+              style={{ backgroundColor: previewSecondary }}
+            >
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-slate-500">Live Preview</p>
+              <div className="flex flex-wrap items-center gap-3">
+                <span
+                  className="inline-flex h-9 items-center rounded-lg px-4 text-sm font-medium text-white"
+                  style={{ backgroundColor: previewPrimary }}
+                >
+                  Primary Button
+                </span>
+                <span
+                  className="inline-flex h-9 items-center rounded-lg px-4 text-sm font-medium text-white"
+                  style={{ backgroundColor: previewAccent }}
+                >
+                  Accent Button
+                </span>
+                <span
+                  className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
+                  style={{ backgroundColor: previewAccent, color: '#ffffff' }}
+                >
+                  Badge
+                </span>
+                <span className="text-sm font-semibold" style={{ color: previewPrimary }}>
+                  Heading text
+                </span>
+                <span className="flex items-center gap-1.5">
+                  {[previewPrimary, previewSecondary, previewAccent].map((c, i) => (
+                    <span
+                      key={i}
+                      className="h-6 w-6 rounded-md border border-slate-300"
+                      style={{ backgroundColor: c }}
+                      aria-hidden
+                    />
+                  ))}
+                </span>
+              </div>
+            </div>
           </CardBody>
         </Card>
 

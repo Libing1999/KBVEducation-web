@@ -7,13 +7,40 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Phase 5: admin-configurable branding (ThemeProvider). Defaults match
-   tailwind.config.js's static primary/secondary/accent so there's no
-   flash-of-wrong-color before the first /settings/public fetch resolves. */
+/* Admin-configurable branding. Every brand Tailwind token resolves to one of
+   these CSS vars (RGB-channel form, so `/opacity` modifiers work). ThemeProvider
+   re-stamps them from /settings/public after load and after each save; these
+   defaults are the exact original brand ramp, so there's no flash-of-wrong-color
+   before the first fetch and an unchanged theme is pixel-identical to before. */
 :root {
-  --color-primary: #1B3A6B;
-  --color-secondary: #F2F6FA;
-  --color-accent: #C4972A;
+  --color-primary: 27 58 107;
+  --color-primary-50: 234 240 248;
+  --color-primary-100: 208 222 239;
+  --color-primary-200: 163 190 222;
+  --color-primary-300: 110 151 199;
+  --color-primary-400: 63 111 168;
+  --color-primary-500: 27 58 107;
+  --color-primary-600: 23 50 87;
+  --color-primary-700: 18 40 69;
+  --color-primary-800: 13 30 52;
+  --color-primary-900: 8 19 34;
+
+  --color-accent: 196 151 42;
+  --color-accent-50: 251 245 231;
+  --color-accent-100: 245 231 194;
+  --color-accent-200: 235 208 136;
+  --color-accent-300: 221 180 79;
+  --color-accent-400: 196 151 42;
+  --color-accent-500: 168 127 31;
+  --color-accent-600: 135 102 26;
+  --color-accent-700: 101 76 19;
+  --color-accent-800: 67 51 13;
+  --color-accent-900: 34 25 6;
+
+  --color-secondary: 242 246 250;
+  --color-secondary-50: 248 250 252;
+  --color-secondary-100: 242 246 250;
+  --color-secondary-200: 228 236 244;
 }
 
 @layer base {

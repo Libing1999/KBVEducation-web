@@ -1,25 +1,30 @@
 import { useEffect, type ReactNode } from 'react';
 import { usePublicSettings } from '@/features/settings/hooks/useSettings';
+import { applyTheme } from '@/features/settings/lib/theme';
 
 /**
- * Applies admin-configured branding as CSS custom properties on the document
- * root. Scope is deliberately bounded (decision #7 in the implementation
- * plan): only Sidebar/Topbar/the primary Button variant consume these
- * variables — the other ~95% of the app keeps its static Tailwind
- * `bg-primary`/`text-accent` tokens untouched, which is why the seeded
- * settings defaults match tailwind.config.js's static values exactly (no
- * flash-of-wrong-color before the first fetch resolves). Logo + app name
- * apply immediately wherever they're already shown.
+ * Applies admin-configured branding to the whole app at runtime. The brand
+ * Tailwind tokens (primary/secondary/accent, full ramp) resolve to CSS custom
+ * properties, so stamping the vars here re-themes every component that uses a
+ * brand utility class — sidebar, header, cards, buttons, forms, tables, badges,
+ * progress bars, hover/active/focus states, login, all dashboards — with no
+ * per-component code and no page reload (the browser repaints on var change).
+ *
+ * `/settings/public` is fetched on load and re-fetched (invalidated) after each
+ * settings save, so a color change applies immediately and also persists across
+ * refresh, login/logout, and server restart (it's read back from the DB).
+ * Charts keep their CVD-validated data-viz palettes by design.
  */
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const { data } = usePublicSettings();
 
   useEffect(() => {
     if (!data) return;
-    const root = document.documentElement;
-    root.style.setProperty('--color-primary', data.primaryColorHex);
-    root.style.setProperty('--color-secondary', data.secondaryColorHex);
-    root.style.setProperty('--color-accent', data.accentColorHex);
+    applyTheme({
+      primary: data.primaryColorHex,
+      secondary: data.secondaryColorHex,
+      accent: data.accentColorHex,
+    });
   }, [data]);
 
   return <>{children}</>;

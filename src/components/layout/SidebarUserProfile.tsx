@@ -28,7 +28,7 @@ export function SidebarUserProfile({ onNavigate }: { onNavigate?: () => void }) 
               {initials(user.firstName, user.lastName)}
             </div>
             <span
-              className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[var(--color-primary)] bg-green-400"
+              className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-primary bg-green-400"
               aria-hidden
             />
           </div>
