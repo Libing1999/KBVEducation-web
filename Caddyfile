@@ -1,0 +1,28 @@
+# KBV Education — Caddy reverse-proxy + SPA config
+#
+# Serves the React/Vite static build and proxies /api/* to the backend
+# container, mirroring the /api proxy vite.config.ts uses in local dev.
+#
+# To enable automatic HTTPS, replace ":80" with your domain name
+# (e.g. "education.kbv.com") — Caddy provisions Let's Encrypt certs
+# automatically with zero extra config.
+
+:80 {
+	# Reverse-proxy /api/* to the Spring Boot backend over the
+	# internal container network (same role as the old nginx proxy_pass).
+	handle /api/* {
+		reverse_proxy backend:8080
+	}
+
+	# Serve the React SPA — unknown paths fall back to index.html
+	# so client-side routing (React Router) handles them.
+	handle {
+		root * /srv
+		try_files {path} /index.html
+		file_server
+	}
+
+	# Cache static assets (JS, CSS, fonts, images) for 30 days.
+	@static path *.css *.js *.svg *.woff2 *.woff *.ttf *.eot *.ico *.png *.jpg *.jpeg *.gif
+	header @static Cache-Control "public, max-age=2592000, immutable"
+}
