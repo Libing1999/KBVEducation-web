@@ -32,6 +32,11 @@ export function Modal({ open, onClose, title, children, footer, size = 'md' }: M
   const dialogRef = useRef<HTMLDivElement>(null);
   const previouslyFocused = useRef<HTMLElement | null>(null);
 
+  const onCloseRef = useRef(onClose);
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  });
+
   useEffect(() => {
     if (!open) return;
 
@@ -42,7 +47,7 @@ export function Modal({ open, onClose, title, children, footer, size = 'md' }: M
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onClose();
+        onCloseRef.current();
         return;
       }
       if (e.key !== 'Tab' || !dialog) return;
@@ -65,7 +70,7 @@ export function Modal({ open, onClose, title, children, footer, size = 'md' }: M
       document.body.style.overflow = '';
       previouslyFocused.current?.focus();
     };
-  }, [open, onClose]);
+  }, [open]);
 
   if (!open) return null;
 
