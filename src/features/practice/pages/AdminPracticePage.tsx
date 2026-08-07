@@ -104,9 +104,14 @@ export default function AdminPracticePage() {
           </Select>
           <Select className="w-auto" value={studyType} onChange={(e) => { setStudyType(e.target.value as StudyType | ''); setPage(0); }}>
             <option value="">All types</option>
-            <option value="PAST_PAPER">Past Paper</option>
-            <option value="WEAKNESS_PRACTICE">Weakness Practice</option>
-            <option value="GENERAL_PRACTICE">General Practice</option>
+            <option value="PAST_PAPER">Past Paper (legacy)</option>
+            <option value="WEAKNESS_PRACTICE">Weakness Practice (legacy)</option>
+            <option value="GENERAL_PRACTICE">General Practice (legacy)</option>
+            <option value="PAST_PAPER_TEST_DAY">Past Paper Test Day</option>
+            <option value="PAST_PAPER_IMPROVEMENT_DAY">Past Paper Improvement Day</option>
+            <option value="TOPIC_STUDY">Topic Study</option>
+            <option value="STRUCTURE_STUDY">Structure Study</option>
+            <option value="OTHER">Other</option>
           </Select>
         </div>
 

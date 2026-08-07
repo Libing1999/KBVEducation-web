@@ -8,6 +8,7 @@ import { ErrorState } from '@/components/feedback/ErrorState';
 import { AudioPlayer } from '@/components/ui/AudioPlayer';
 import { useTodayReflection, useReflectionHistory, useReflectionMutations } from '@/features/reflections/hooks/useReflections';
 import { reflectionsApi } from '@/features/reflections/api/reflectionsApi';
+import { VoiceRecorder } from '@/features/reflections/components/VoiceRecorder';
 import { formatDate } from '@/lib/format';
 import type { AnswerInput } from '@/features/reflections/types/reflection.types';
 
@@ -134,13 +135,19 @@ export default function ReflectionsPage() {
                   </button>
                 </div>
               ) : (
-                <>
-                  <input ref={audioRef} type="file" accept={AUDIO_ACCEPT} className="hidden" onChange={onPickAudio} />
-                  <Button variant="secondary" size="sm" onClick={() => audioRef.current?.click()}>
-                    <Upload className="h-4 w-4" /> {hasExistingAudio ? 'Replace voice note' : 'Upload voice note'}
-                  </Button>
-                  <p className="text-xs text-slate-400">MP3, WAV, M4A or AAC · up to 25 MB. No transcription is done — your file is stored as-is.</p>
-                </>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <input ref={audioRef} type="file" accept={AUDIO_ACCEPT} className="hidden" onChange={onPickAudio} />
+                    <Button variant="secondary" size="sm" onClick={() => audioRef.current?.click()}>
+                      <Upload className="h-4 w-4" /> {hasExistingAudio ? 'Replace voice note' : 'Upload voice note'}
+                    </Button>
+                    <p className="text-xs text-slate-400">MP3, WAV, M4A or AAC · up to 25 MB. No transcription is done — your file is stored as-is.</p>
+                  </div>
+                  <div className="border-t border-slate-100 pt-3">
+                    <p className="mb-2 text-xs font-medium text-slate-500">Or record directly in your browser (up to 10 minutes)</p>
+                    <VoiceRecorder onRecorded={(file) => { setAudio(file); setRemoveAudio(false); }} />
+                  </div>
+                </div>
               )}
             </div>
 

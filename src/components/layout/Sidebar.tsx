@@ -29,6 +29,7 @@ import {
   BadgeCheck,
   Wrench,
   Mail,
+  ListTree,
   ChevronDown,
   type LucideIcon,
 } from 'lucide-react';
@@ -94,6 +95,7 @@ const adminGroups: NavGroup[] = [
       { label: 'Cohorts', to: paths.admin.cohorts, icon: Layers },
       { label: 'Lessons', to: paths.admin.lessons, icon: BookOpen },
       { label: 'Reflections', to: paths.admin.reflections, icon: PenLine },
+      { label: 'Subject Management', to: paths.admin.subjects, icon: ListTree },
       { label: 'Practice Review', to: paths.admin.practice, icon: BookOpenCheck },
     ],
   },
@@ -279,7 +281,7 @@ export function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
         <span className="truncate text-base font-bold text-white">{appName}</span>
       </div>
 
-      <nav className="flex-1 space-y-1 overflow-y-auto p-3">
+      <nav className="sidebar-nav-scroll flex-1 space-y-1 overflow-y-auto p-3">
         {role === 'SUPER_ADMIN' ? (
           <>
             <NavLeafLink

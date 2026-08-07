@@ -42,6 +42,7 @@ export const paths = {
     reflections: '/admin/reflections',
     reflectionDetail: (id: string) => `/admin/reflections/${id}`,
     reflectionQuestions: '/admin/reflection-questions',
+    subjects: '/admin/subjects',
     practice: '/admin/practice',
     practiceDetail: (id: string) => `/admin/practice/${id}`,
     reviewRequests: '/admin/review-requests',

@@ -14,6 +14,8 @@ export const practiceApi = {
     form.append('durationMinutes', String(input.durationMinutes));
     form.append('studyType', input.studyType);
     if (input.notes) form.append('notes', input.notes);
+    if (input.transcript) form.append('transcript', input.transcript);
+    if (input.year != null) form.append('year', String(input.year));
     files.forEach((f) => form.append('files', f));
     const { data } = await apiClient.post<ApiResponse<PracticeSession>>('/student/practice', form, {
       headers: { 'Content-Type': 'multipart/form-data' },

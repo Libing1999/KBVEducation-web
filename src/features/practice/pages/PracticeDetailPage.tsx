@@ -43,7 +43,7 @@ export default function PracticeDetailPage() {
               <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm text-slate-500">
                 <span className="inline-flex items-center gap-1.5"><CalendarDays className="h-4 w-4" /> {formatDate(s.studyDate)}</span>
                 <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" /> {s.durationMinutes} min</span>
-                <span>{STUDY_TYPE_LABELS[s.studyType]}</span>
+                <span>{STUDY_TYPE_LABELS[s.studyType]}{s.year ? ` · ${s.year}` : ''}</span>
               </div>
             </div>
             <Badge tone={practiceStatusTone(s.status)}>{PRACTICE_STATUS_LABELS[s.status]}</Badge>
@@ -53,6 +53,13 @@ export default function PracticeDetailPage() {
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Notes</p>
               <p className="mt-1 whitespace-pre-line text-sm text-slate-700">{s.notes}</p>
+            </div>
+          )}
+
+          {s.transcript && (
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Transcript</p>
+              <p className="mt-1 whitespace-pre-line text-sm text-slate-700">{s.transcript}</p>
             </div>
           )}
 

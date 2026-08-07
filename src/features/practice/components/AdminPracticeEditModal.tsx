@@ -13,7 +13,10 @@ const schema = z.object({
   studyDate: z.string().min(1, 'Required'),
   subject: z.string().min(1, 'Required').max(200),
   durationMinutes: z.coerce.number().int().positive('Must be greater than 0'),
-  studyType: z.enum(['PAST_PAPER', 'WEAKNESS_PRACTICE', 'GENERAL_PRACTICE']),
+  studyType: z.enum([
+    'PAST_PAPER', 'WEAKNESS_PRACTICE', 'GENERAL_PRACTICE',
+    'PAST_PAPER_TEST_DAY', 'PAST_PAPER_IMPROVEMENT_DAY', 'TOPIC_STUDY', 'STRUCTURE_STUDY', 'OTHER',
+  ]),
   notes: z.string().optional().or(z.literal('')),
   adminComment: z.string().optional().or(z.literal('')),
 });
@@ -90,9 +93,14 @@ export function AdminPracticeEditModal({
         </FormField>
         <FormField label="Study type" htmlFor="ap-type" error={errors.studyType?.message} required>
           <Select id="ap-type" {...register('studyType')}>
-            <option value="PAST_PAPER">Past Paper</option>
-            <option value="WEAKNESS_PRACTICE">Weakness Practice</option>
-            <option value="GENERAL_PRACTICE">General Practice</option>
+            <option value="PAST_PAPER">Past Paper (legacy)</option>
+            <option value="WEAKNESS_PRACTICE">Weakness Practice (legacy)</option>
+            <option value="GENERAL_PRACTICE">General Practice (legacy)</option>
+            <option value="PAST_PAPER_TEST_DAY">Past Paper Test Day</option>
+            <option value="PAST_PAPER_IMPROVEMENT_DAY">Past Paper Improvement Day</option>
+            <option value="TOPIC_STUDY">Topic Study</option>
+            <option value="STRUCTURE_STUDY">Structure Study</option>
+            <option value="OTHER">Other</option>
           </Select>
         </FormField>
         <FormField label="Notes" htmlFor="ap-notes" error={errors.notes?.message}>
