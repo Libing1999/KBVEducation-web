@@ -64,7 +64,7 @@ export default function AdminPracticeDetailPage() {
                 <span className="inline-flex items-center gap-1.5"><Layers className="h-4 w-4" /> {s.cohortName ?? '—'}</span>
                 <span className="inline-flex items-center gap-1.5"><CalendarDays className="h-4 w-4" /> {formatDate(s.studyDate)}</span>
                 <span className="inline-flex items-center gap-1.5"><Clock className="h-4 w-4" /> {s.durationMinutes} min</span>
-                <span>{STUDY_TYPE_LABELS[s.studyType]}</span>
+                <span>{STUDY_TYPE_LABELS[s.studyType]}{s.year ? ` · ${s.year}` : ''}</span>
               </div>
             </div>
             <Badge tone={practiceStatusTone(s.status)}>{PRACTICE_STATUS_LABELS[s.status]}</Badge>
@@ -72,8 +72,15 @@ export default function AdminPracticeDetailPage() {
 
           {s.notes && (
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Notes / transcript</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Notes</p>
               <p className="mt-1 whitespace-pre-line text-sm text-slate-700">{s.notes}</p>
+            </div>
+          )}
+
+          {s.transcript && (
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Transcript</p>
+              <p className="mt-1 whitespace-pre-line text-sm text-slate-700">{s.transcript}</p>
             </div>
           )}
 

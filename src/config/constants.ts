@@ -24,6 +24,7 @@ export const QUERY_KEYS = {
   reflections: ['reflections'] as const,
   reflectionQuestions: ['reflection-questions'] as const,
   practice: ['practice'] as const,
+  subjects: ['subjects'] as const,
   progress: ['progress'] as const,
   activity: ['activity'] as const,
   calendar: ['calendar'] as const,

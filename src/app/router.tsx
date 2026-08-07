@@ -27,6 +27,7 @@ import AdminReflectionsPage from '@/features/reflections/pages/AdminReflectionsP
 import AdminReflectionDetailPage from '@/features/reflections/pages/AdminReflectionDetailPage';
 import ReflectionQuestionsPage from '@/features/reflections/pages/ReflectionQuestionsPage';
 import AdminPracticePage from '@/features/practice/pages/AdminPracticePage';
+import SubjectManagementPage from '@/features/subjects/pages/SubjectManagementPage';
 import AdminPracticeDetailPage from '@/features/practice/pages/AdminPracticeDetailPage';
 import ReviewRequestsPage from '@/features/practice/pages/ReviewRequestsPage';
 import AdminStudentActivityPage from '@/features/progress/pages/AdminStudentActivityPage';
@@ -104,6 +105,7 @@ export const router = createBrowserRouter([
               { path: paths.admin.reflections, element: <AdminReflectionsPage /> },
               { path: '/admin/reflections/:id', element: <AdminReflectionDetailPage /> },
               { path: paths.admin.reflectionQuestions, element: <ReflectionQuestionsPage /> },
+              { path: paths.admin.subjects, element: <SubjectManagementPage /> },
               { path: paths.admin.practice, element: <AdminPracticePage /> },
               { path: '/admin/practice/:id', element: <AdminPracticeDetailPage /> },
               { path: paths.admin.reviewRequests, element: <ReviewRequestsPage /> },
