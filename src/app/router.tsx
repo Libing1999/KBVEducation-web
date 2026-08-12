@@ -34,6 +34,17 @@ import ModernAuditTrailPage from '@/pages/modern/admin/ModernAuditTrailPage';
 import ModernApplicationLogsPage from '@/pages/modern/admin/ModernApplicationLogsPage';
 import ModernBackupPage from '@/pages/modern/admin/ModernBackupPage';
 
+import ModernMyLessonsPage from '@/pages/modern/student/ModernMyLessonsPage';
+import ModernStudentLessonDetailPage from '@/pages/modern/student/ModernStudentLessonDetailPage';
+import ModernTakeQuizPage from '@/pages/modern/student/ModernTakeQuizPage';
+import ModernReflectionsPage from '@/pages/modern/student/ModernReflectionsPage';
+import ModernPracticePage from '@/pages/modern/student/ModernPracticePage';
+import ModernPracticeDetailPage from '@/pages/modern/student/ModernPracticeDetailPage';
+import ModernLeaderboardPage from '@/pages/modern/student/ModernLeaderboardPage';
+import ModernTimelinePage from '@/pages/modern/student/ModernTimelinePage';
+import ModernCalendarPage from '@/pages/modern/student/ModernCalendarPage';
+import ModernMyCertificatesPage from '@/pages/modern/student/ModernMyCertificatesPage';
+
 import ForgotPasswordPage from '@/features/auth/pages/ForgotPasswordPage';
 import UsersPage from '@/features/users/pages/UsersPage';
 import StudentsPage from '@/features/students/pages/StudentsPage';
@@ -106,22 +117,22 @@ export const router = createBrowserRouter([
             // Student & parent: learning + read-only activity views (Phase 3)
             element: <RoleGuard allow={['STUDENT', 'PARENT']} />,
             children: [
-              { path: paths.myLessons, element: <MyLessonsPage /> },
-              { path: '/lessons/:id', element: <StudentLessonDetailPage /> },
-              { path: paths.activity, element: <TimelinePage /> },
-              { path: paths.calendar, element: <CalendarPage /> },
-              { path: paths.certificates, element: <MyCertificatesPage /> },
+              { path: paths.myLessons, Component: modernAware(MyLessonsPage, ModernMyLessonsPage) },
+              { path: '/lessons/:id', Component: modernAware(StudentLessonDetailPage, ModernStudentLessonDetailPage) },
+              { path: paths.activity, Component: modernAware(TimelinePage, ModernTimelinePage) },
+              { path: paths.calendar, Component: modernAware(CalendarPage, ModernCalendarPage) },
+              { path: paths.certificates, Component: modernAware(MyCertificatesPage, ModernMyCertificatesPage) },
             ],
           },
           {
             // Student-only: quiz taking + logging reflections/practice
             element: <RoleGuard allow={['STUDENT']} />,
             children: [
-              { path: '/quizzes/:quizId', element: <TakeQuizPage /> },
-              { path: paths.reflections, element: <ReflectionsPage /> },
-              { path: paths.practice, element: <PracticePage /> },
-              { path: '/practice/:id', element: <PracticeDetailPage /> },
-              { path: paths.leaderboard, element: <LeaderboardPage /> },
+              { path: '/quizzes/:quizId', Component: modernAware(TakeQuizPage, ModernTakeQuizPage) },
+              { path: paths.reflections, Component: modernAware(ReflectionsPage, ModernReflectionsPage) },
+              { path: paths.practice, Component: modernAware(PracticePage, ModernPracticePage) },
+              { path: '/practice/:id', Component: modernAware(PracticeDetailPage, ModernPracticeDetailPage) },
+              { path: paths.leaderboard, Component: modernAware(LeaderboardPage, ModernLeaderboardPage) },
             ],
           },
           {

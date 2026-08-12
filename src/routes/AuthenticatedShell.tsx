@@ -7,32 +7,49 @@ import { useSelectedUI } from '@/theme/uiSelector';
 import { peekWelcomePending, clearWelcomePending } from '@/theme/modernWelcomeFlag';
 import { useAuthStore } from '@/features/auth/store/authStore';
 import { paths } from '@/routes/paths';
+import type { Role } from '@/features/auth/types/auth.types';
 
-/** Routes shared across all roles (not under /admin) that only count as admin-area for a SUPER_ADMIN. */
-const SHARED_ADMIN_ROUTES: string[] = [paths.profile, paths.notifications];
+/** Shared across every role — only content/API calls differ, not the shell. */
+const SHARED_MODERN_PATHS: string[] = [paths.profile, paths.notifications];
+
+/** STUDENT + PARENT: learning + read-only activity views. */
+const STUDENT_PARENT_PATHS: string[] = [paths.myLessons, paths.activity, paths.calendar, paths.certificates];
+const STUDENT_PARENT_DYNAMIC_PREFIXES: string[] = ['/lessons/'];
+
+/** STUDENT-only: quiz taking + logging reflections/practice. */
+const STUDENT_ONLY_PATHS: string[] = [paths.reflections, paths.practice, paths.leaderboard];
+const STUDENT_ONLY_DYNAMIC_PREFIXES: string[] = ['/quizzes/', '/practice/'];
 
 /**
- * Every SUPER_ADMIN-only route, used to decide whether to render the Modern
- * admin shell. Shared routes like /profile and /notifications are only
- * treated as admin-area when the current user IS an admin — Student/Parent
- * keep the Default shell there even in modern mode.
+ * True if `pathname` should render inside the Modern shell for `role`.
+ * Mirrors each route's actual RoleGuard restriction in router.tsx, so a role
+ * never gets the Modern shell for a route it can't access anyway.
  */
-function isAdminAreaPath(pathname: string, isAdmin: boolean): boolean {
-  return (
-    pathname.startsWith('/admin') ||
-    pathname === paths.search ||
-    (isAdmin && SHARED_ADMIN_ROUTES.includes(pathname))
-  );
+function isModernShellPath(pathname: string, role: Role | undefined): boolean {
+  if (pathname.startsWith('/admin') || pathname === paths.search) return true;
+  if (SHARED_MODERN_PATHS.includes(pathname)) return true;
+
+  if (role === 'STUDENT' || role === 'PARENT') {
+    if (STUDENT_PARENT_PATHS.includes(pathname)) return true;
+    if (STUDENT_PARENT_DYNAMIC_PREFIXES.some((prefix) => pathname.startsWith(prefix))) return true;
+  }
+  if (role === 'STUDENT') {
+    if (STUDENT_ONLY_PATHS.includes(pathname)) return true;
+    if (STUDENT_ONLY_DYNAMIC_PREFIXES.some((prefix) => pathname.startsWith(prefix))) return true;
+  }
+  return false;
 }
 
 /**
  * Root element for the authenticated route tree (replaces a bare
  * <DashboardLayout/>). If the Modern UI just completed a login, shows the
- * Welcome screen first. Otherwise: admin-area routes get the persistent
- * Modern shell (sidebar/topbar) when selected-ui=modern; every other route
- * (dashboard is handled separately by DashboardRoute; everything else not
- * yet modernized) keeps the exact Default DashboardLayout. No route/URL
- * change — this only swaps which component tree mounts under ProtectedRoute.
+ * Welcome screen first. Otherwise: routes matched by isModernShellPath get
+ * the persistent Modern shell (hamburger-drawer sidebar/topbar, full-width
+ * content — same ModernAppShell used for admin) when selected-ui=modern;
+ * every other route (dashboard is handled separately by DashboardRoute, via
+ * its own portal escape hatch; everything else not yet modernized) keeps the
+ * exact Default DashboardLayout. No route/URL change — this only swaps which
+ * component tree mounts under ProtectedRoute.
  */
 export function AuthenticatedShell() {
   const ui = useSelectedUI();
@@ -51,7 +68,7 @@ export function AuthenticatedShell() {
     );
   }
 
-  if (ui === 'modern' && isAdminAreaPath(location.pathname, role === 'SUPER_ADMIN')) {
+  if (ui === 'modern' && isModernShellPath(location.pathname, role)) {
     return <ModernAppShell />;
   }
 

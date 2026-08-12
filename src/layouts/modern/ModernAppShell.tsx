@@ -6,26 +6,27 @@ import { ModernNotificationBell } from '@/components/modern/ModernNotificationBe
 import { ModernGlobalSearchBar } from '@/components/modern/ModernGlobalSearchBar';
 import { useAuthStore } from '@/features/auth/store/authStore';
 import { GRAIN_TEXTURE_URI } from '@/theme/grainTexture';
-import { MODERN_PORTED_ADMIN_PATHS } from '@/routes/modernPortedAdminPaths';
+import { isModernPortedPath } from '@/routes/modernPortedPaths';
 import { cn } from '@/lib/utils';
 
 /**
- * Modern UI shell for the admin area — same pattern as the Modern Dashboard:
- * full-width content at every breakpoint, no persistent sidebar; the nav
- * (<ModernNavDrawer/>, same component the Dashboard uses) only appears as an
- * overlay when the hamburger button is clicked. <ModernGlobalSearchBar/> is a
- * dark-themed port of GlobalSearchBar (same useSearch/debounce/keyboard-nav
- * logic); <ModernNotificationBell/> is likewise a dark-themed port of
- * NotificationBell (same hooks/mutations/keyboard-nav). Content area stays a dark
- * surface; pages not yet
- * ported to Modern styling render inside a light panel instead (see
- * MODERN_PORTED_ADMIN_PATHS) so their existing light-background text stays legible.
+ * Modern UI shell for every role once selected-ui=modern — same pattern as
+ * the Modern Dashboard: full-width content at every breakpoint, no
+ * persistent sidebar; the nav (<ModernNavDrawer/>, same component the
+ * Dashboard uses) only appears as an overlay when the hamburger button is
+ * clicked, and already filters its items by role. <ModernGlobalSearchBar/>
+ * is a dark-themed port of GlobalSearchBar (same useSearch/debounce/keyboard-nav
+ * logic, SUPER_ADMIN only); <ModernNotificationBell/> is likewise a
+ * dark-themed port of NotificationBell (same hooks/mutations/keyboard-nav,
+ * every role). Content area stays a dark surface; pages not yet ported to
+ * Modern styling render inside a light panel instead (see
+ * isModernPortedPath) so their existing light-background text stays legible.
  */
 export function ModernAppShell() {
   const [navOpen, setNavOpen] = useState(false);
   const role = useAuthStore((s) => s.user?.role);
   const location = useLocation();
-  const isPorted = MODERN_PORTED_ADMIN_PATHS.has(location.pathname);
+  const isPorted = isModernPortedPath(location.pathname);
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-[#080E1C] font-modern text-[#EEF2F9]">
