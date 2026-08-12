@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 import { queryClient } from '@/lib/queryClient';
 import { ErrorBoundary } from '@/components/feedback/ErrorBoundary';
 import { ThemeProvider } from '@/features/settings/components/ThemeProvider';
+import { UiVariantSwitcher } from '@/components/modern/UiVariantSwitcher';
 import { env } from '@/config/env';
 
 /** Wires global providers: error boundary, React Query, theming, toast notifications. */
@@ -21,6 +22,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
           }}
         />
         {env.isDev && <ReactQueryDevtools initialIsOpen={false} />}
+        {env.isDev && <UiVariantSwitcher />}
       </QueryClientProvider>
     </ErrorBoundary>
   );

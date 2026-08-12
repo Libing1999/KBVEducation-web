@@ -1,14 +1,39 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { AuthLayout } from '@/components/layout/AuthLayout';
-import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { ProtectedRoute } from '@/routes/ProtectedRoute';
 import { RoleGuard } from '@/routes/RoleGuard';
+import { LoginRoute } from '@/routes/LoginRoute';
+import { AuthenticatedShell } from '@/routes/AuthenticatedShell';
+import { DashboardRoute } from '@/routes/DashboardRoute';
+import { ProfileRoute } from '@/routes/ProfileRoute';
+import { modernAware } from '@/routes/modernAware';
 import { paths } from '@/routes/paths';
 
-import LoginPage from '@/features/auth/pages/LoginPage';
+import ModernUsersPage from '@/pages/modern/admin/ModernUsersPage';
+import ModernStudentsPage from '@/pages/modern/admin/ModernStudentsPage';
+import ModernParentsPage from '@/pages/modern/admin/ModernParentsPage';
+import ModernCohortsPage from '@/pages/modern/admin/ModernCohortsPage';
+import ModernLessonsPage from '@/pages/modern/admin/ModernLessonsPage';
+import ModernAdminReflectionsPage from '@/pages/modern/admin/ModernAdminReflectionsPage';
+import ModernReflectionQuestionsPage from '@/pages/modern/admin/ModernReflectionQuestionsPage';
+import ModernSubjectManagementPage from '@/pages/modern/admin/ModernSubjectManagementPage';
+import ModernAdminPracticePage from '@/pages/modern/admin/ModernAdminPracticePage';
+import ModernReviewRequestsPage from '@/pages/modern/admin/ModernReviewRequestsPage';
+import ModernScoreConfigPage from '@/pages/modern/admin/ModernScoreConfigPage';
+import ModernTierRulesPage from '@/pages/modern/admin/ModernTierRulesPage';
+import ModernAdminLeaderboardPage from '@/pages/modern/admin/ModernAdminLeaderboardPage';
+import ModernAdminAnalyticsPage from '@/pages/modern/admin/ModernAdminAnalyticsPage';
+import ModernCertificateTemplatesPage from '@/pages/modern/admin/ModernCertificateTemplatesPage';
+import ModernAdminCertificatesPage from '@/pages/modern/admin/ModernAdminCertificatesPage';
+import ModernSettingsPage from '@/pages/modern/admin/ModernSettingsPage';
+import ModernEmailSettingsPage from '@/pages/modern/admin/ModernEmailSettingsPage';
+import ModernDataExportPage from '@/pages/modern/admin/ModernDataExportPage';
+import ModernAuditLogPage from '@/pages/modern/admin/ModernAuditLogPage';
+import ModernAuditTrailPage from '@/pages/modern/admin/ModernAuditTrailPage';
+import ModernApplicationLogsPage from '@/pages/modern/admin/ModernApplicationLogsPage';
+import ModernBackupPage from '@/pages/modern/admin/ModernBackupPage';
+
 import ForgotPasswordPage from '@/features/auth/pages/ForgotPasswordPage';
-import DashboardPage from '@/features/dashboard/pages/DashboardPage';
-import ProfilePage from '@/features/profile/pages/ProfilePage';
 import UsersPage from '@/features/users/pages/UsersPage';
 import StudentsPage from '@/features/students/pages/StudentsPage';
 import ParentsPage from '@/features/parents/pages/ParentsPage';
@@ -53,10 +78,16 @@ import SearchResultsPage from '@/features/search/pages/SearchResultsPage';
 export const router = createBrowserRouter([
   {
     // Public / unauthenticated
-    element: <AuthLayout />,
     children: [
-      { path: paths.login, element: <LoginPage /> },
-      { path: paths.forgotPassword, element: <ForgotPasswordPage /> },
+      { path: paths.login, element: <LoginRoute /> },
+      {
+        path: paths.forgotPassword,
+        element: (
+          <AuthLayout>
+            <ForgotPasswordPage />
+          </AuthLayout>
+        ),
+      },
     ],
   },
   {
@@ -64,11 +95,11 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [
       {
-        element: <DashboardLayout />,
+        element: <AuthenticatedShell />,
         children: [
           { index: true, element: <Navigate to={paths.dashboard} replace /> },
-          { path: paths.dashboard, element: <DashboardPage /> },
-          { path: paths.profile, element: <ProfilePage /> },
+          { path: paths.dashboard, element: <DashboardRoute /> },
+          { path: paths.profile, element: <ProfileRoute /> },
           { path: paths.notifications, element: <NotificationsPage /> },
           {
             // Student & parent: learning + read-only activity views (Phase 3)
@@ -96,33 +127,33 @@ export const router = createBrowserRouter([
             // Admin-only subtree
             element: <RoleGuard allow={['SUPER_ADMIN']} />,
             children: [
-              { path: paths.admin.users, element: <UsersPage /> },
-              { path: paths.admin.students, element: <StudentsPage /> },
-              { path: paths.admin.parents, element: <ParentsPage /> },
-              { path: paths.admin.cohorts, element: <CohortsPage /> },
-              { path: paths.admin.lessons, element: <LessonsPage /> },
+              { path: paths.admin.users, Component: modernAware(UsersPage, ModernUsersPage) },
+              { path: paths.admin.students, Component: modernAware(StudentsPage, ModernStudentsPage) },
+              { path: paths.admin.parents, Component: modernAware(ParentsPage, ModernParentsPage) },
+              { path: paths.admin.cohorts, Component: modernAware(CohortsPage, ModernCohortsPage) },
+              { path: paths.admin.lessons, Component: modernAware(LessonsPage, ModernLessonsPage) },
               { path: '/admin/lessons/:id', element: <LessonDetailsPage /> },
-              { path: paths.admin.reflections, element: <AdminReflectionsPage /> },
+              { path: paths.admin.reflections, Component: modernAware(AdminReflectionsPage, ModernAdminReflectionsPage) },
               { path: '/admin/reflections/:id', element: <AdminReflectionDetailPage /> },
-              { path: paths.admin.reflectionQuestions, element: <ReflectionQuestionsPage /> },
-              { path: paths.admin.subjects, element: <SubjectManagementPage /> },
-              { path: paths.admin.practice, element: <AdminPracticePage /> },
+              { path: paths.admin.reflectionQuestions, Component: modernAware(ReflectionQuestionsPage, ModernReflectionQuestionsPage) },
+              { path: paths.admin.subjects, Component: modernAware(SubjectManagementPage, ModernSubjectManagementPage) },
+              { path: paths.admin.practice, Component: modernAware(AdminPracticePage, ModernAdminPracticePage) },
               { path: '/admin/practice/:id', element: <AdminPracticeDetailPage /> },
-              { path: paths.admin.reviewRequests, element: <ReviewRequestsPage /> },
+              { path: paths.admin.reviewRequests, Component: modernAware(ReviewRequestsPage, ModernReviewRequestsPage) },
               { path: '/admin/students/:id/activity', element: <AdminStudentActivityPage /> },
-              { path: paths.admin.scoreConfig, element: <ScoreConfigPage /> },
-              { path: paths.admin.tierRules, element: <TierRulesPage /> },
-              { path: paths.admin.auditLog, element: <AuditLogPage /> },
-              { path: paths.admin.leaderboard, element: <AdminLeaderboardPage /> },
-              { path: paths.admin.analytics, element: <AdminAnalyticsPage /> },
-              { path: paths.admin.certificateTemplates, element: <CertificateTemplatesPage /> },
-              { path: paths.admin.certificates, element: <AdminCertificatesPage /> },
-              { path: paths.admin.dataExport, element: <DataExportPage /> },
-              { path: paths.admin.auditTrail, element: <AuditTrailPage /> },
-              { path: paths.admin.settings, element: <SettingsPage /> },
-              { path: paths.admin.emailSettings, element: <EmailSettingsPage /> },
-              { path: paths.admin.backups, element: <BackupPage /> },
-              { path: paths.admin.applicationLogs, element: <ApplicationLogsPage /> },
+              { path: paths.admin.scoreConfig, Component: modernAware(ScoreConfigPage, ModernScoreConfigPage) },
+              { path: paths.admin.tierRules, Component: modernAware(TierRulesPage, ModernTierRulesPage) },
+              { path: paths.admin.auditLog, Component: modernAware(AuditLogPage, ModernAuditLogPage) },
+              { path: paths.admin.leaderboard, Component: modernAware(AdminLeaderboardPage, ModernAdminLeaderboardPage) },
+              { path: paths.admin.analytics, Component: modernAware(AdminAnalyticsPage, ModernAdminAnalyticsPage) },
+              { path: paths.admin.certificateTemplates, Component: modernAware(CertificateTemplatesPage, ModernCertificateTemplatesPage) },
+              { path: paths.admin.certificates, Component: modernAware(AdminCertificatesPage, ModernAdminCertificatesPage) },
+              { path: paths.admin.dataExport, Component: modernAware(DataExportPage, ModernDataExportPage) },
+              { path: paths.admin.auditTrail, Component: modernAware(AuditTrailPage, ModernAuditTrailPage) },
+              { path: paths.admin.settings, Component: modernAware(SettingsPage, ModernSettingsPage) },
+              { path: paths.admin.emailSettings, Component: modernAware(EmailSettingsPage, ModernEmailSettingsPage) },
+              { path: paths.admin.backups, Component: modernAware(BackupPage, ModernBackupPage) },
+              { path: paths.admin.applicationLogs, Component: modernAware(ApplicationLogsPage, ModernApplicationLogsPage) },
               { path: paths.search, element: <SearchResultsPage /> },
             ],
           },
