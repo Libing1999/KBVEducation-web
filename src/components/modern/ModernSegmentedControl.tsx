@@ -36,7 +36,7 @@ export function ModernSegmentedControl({
           className={cn(
             'min-h-11 rounded-[9px] px-[11px] py-[11px] text-[13px] transition-colors',
             value === option
-              ? 'bg-white/8 text-[#EEF2F9] shadow-[0_1px_3px_rgba(0,0,0,.3)]'
+              ? 'bg-white/10 text-[#EEF2F9] shadow-[0_1px_3px_rgba(0,0,0,.3)]'
               : 'text-[rgba(238,242,249,.72)] hover:text-[#EEF2F9]',
           )}
         >

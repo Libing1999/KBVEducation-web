@@ -8,14 +8,21 @@ import { peekWelcomePending, clearWelcomePending } from '@/theme/modernWelcomeFl
 import { useAuthStore } from '@/features/auth/store/authStore';
 import { paths } from '@/routes/paths';
 
+/** Routes shared across all roles (not under /admin) that only count as admin-area for a SUPER_ADMIN. */
+const SHARED_ADMIN_ROUTES: string[] = [paths.profile, paths.notifications];
+
 /**
  * Every SUPER_ADMIN-only route, used to decide whether to render the Modern
- * admin shell. /profile is shared across all roles (not under /admin), so
- * it's only treated as admin-area when the current user IS an admin —
- * Student/Parent keep the Default shell there even in modern mode.
+ * admin shell. Shared routes like /profile and /notifications are only
+ * treated as admin-area when the current user IS an admin — Student/Parent
+ * keep the Default shell there even in modern mode.
  */
 function isAdminAreaPath(pathname: string, isAdmin: boolean): boolean {
-  return pathname.startsWith('/admin') || pathname === paths.search || (isAdmin && pathname === paths.profile);
+  return (
+    pathname.startsWith('/admin') ||
+    pathname === paths.search ||
+    (isAdmin && SHARED_ADMIN_ROUTES.includes(pathname))
+  );
 }
 
 /**

@@ -33,4 +33,6 @@ export const MODERN_PORTED_ADMIN_PATHS = new Set<string>([
   paths.admin.applicationLogs,
   paths.admin.backups,
   paths.profile,
+  paths.notifications,
+  paths.search,
 ]);

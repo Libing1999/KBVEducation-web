@@ -6,6 +6,7 @@ import { LoginRoute } from '@/routes/LoginRoute';
 import { AuthenticatedShell } from '@/routes/AuthenticatedShell';
 import { DashboardRoute } from '@/routes/DashboardRoute';
 import { ProfileRoute } from '@/routes/ProfileRoute';
+import { NotificationsRoute } from '@/routes/NotificationsRoute';
 import { modernAware } from '@/routes/modernAware';
 import { paths } from '@/routes/paths';
 
@@ -56,7 +57,6 @@ import SubjectManagementPage from '@/features/subjects/pages/SubjectManagementPa
 import AdminPracticeDetailPage from '@/features/practice/pages/AdminPracticeDetailPage';
 import ReviewRequestsPage from '@/features/practice/pages/ReviewRequestsPage';
 import AdminStudentActivityPage from '@/features/progress/pages/AdminStudentActivityPage';
-import NotificationsPage from '@/features/notifications/pages/NotificationsPage';
 import NotFoundPage from '@/features/misc/pages/NotFoundPage';
 import ScoreConfigPage from '@/features/scoring/pages/ScoreConfigPage';
 import TierRulesPage from '@/features/scoring/pages/TierRulesPage';
@@ -74,6 +74,7 @@ import EmailSettingsPage from '@/features/settings/pages/EmailSettingsPage';
 import BackupPage from '@/features/backup/pages/BackupPage';
 import ApplicationLogsPage from '@/features/applicationLogs/pages/ApplicationLogsPage';
 import SearchResultsPage from '@/features/search/pages/SearchResultsPage';
+import ModernSearchResultsPage from '@/pages/modern/admin/ModernSearchResultsPage';
 
 export const router = createBrowserRouter([
   {
@@ -100,7 +101,7 @@ export const router = createBrowserRouter([
           { index: true, element: <Navigate to={paths.dashboard} replace /> },
           { path: paths.dashboard, element: <DashboardRoute /> },
           { path: paths.profile, element: <ProfileRoute /> },
-          { path: paths.notifications, element: <NotificationsPage /> },
+          { path: paths.notifications, element: <NotificationsRoute /> },
           {
             // Student & parent: learning + read-only activity views (Phase 3)
             element: <RoleGuard allow={['STUDENT', 'PARENT']} />,
@@ -154,7 +155,7 @@ export const router = createBrowserRouter([
               { path: paths.admin.emailSettings, Component: modernAware(EmailSettingsPage, ModernEmailSettingsPage) },
               { path: paths.admin.backups, Component: modernAware(BackupPage, ModernBackupPage) },
               { path: paths.admin.applicationLogs, Component: modernAware(ApplicationLogsPage, ModernApplicationLogsPage) },
-              { path: paths.search, element: <SearchResultsPage /> },
+              { path: paths.search, Component: modernAware(SearchResultsPage, ModernSearchResultsPage) },
             ],
           },
         ],

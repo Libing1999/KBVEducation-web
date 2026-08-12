@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import { ModernNavDrawer } from '@/components/modern/ModernNavDrawer';
-import { NotificationBell } from '@/features/notifications/components/NotificationBell';
-import { GlobalSearchBar } from '@/features/search/components/GlobalSearchBar';
+import { ModernNotificationBell } from '@/components/modern/ModernNotificationBell';
+import { ModernGlobalSearchBar } from '@/components/modern/ModernGlobalSearchBar';
 import { useAuthStore } from '@/features/auth/store/authStore';
 import { GRAIN_TEXTURE_URI } from '@/theme/grainTexture';
 import { MODERN_PORTED_ADMIN_PATHS } from '@/routes/modernPortedAdminPaths';
@@ -13,9 +13,11 @@ import { cn } from '@/lib/utils';
  * Modern UI shell for the admin area — same pattern as the Modern Dashboard:
  * full-width content at every breakpoint, no persistent sidebar; the nav
  * (<ModernNavDrawer/>, same component the Dashboard uses) only appears as an
- * overlay when the hamburger button is clicked. Reuses <NotificationBell/>
- * and <GlobalSearchBar/> as-is — same logic as the Default UI, just a dark
- * topbar around them. Content area stays a dark surface; pages not yet
+ * overlay when the hamburger button is clicked. <ModernGlobalSearchBar/> is a
+ * dark-themed port of GlobalSearchBar (same useSearch/debounce/keyboard-nav
+ * logic); <ModernNotificationBell/> is likewise a dark-themed port of
+ * NotificationBell (same hooks/mutations/keyboard-nav). Content area stays a dark
+ * surface; pages not yet
  * ported to Modern styling render inside a light panel instead (see
  * MODERN_PORTED_ADMIN_PATHS) so their existing light-background text stays legible.
  */
@@ -35,7 +37,7 @@ export function ModernAppShell() {
 
       <ModernNavDrawer open={navOpen} onClose={() => setNavOpen(false)} />
 
-      <header className="flex h-16 shrink-0 items-center justify-between border-b border-[rgba(238,242,249,.1)] bg-[#0A1428]/80 px-4 backdrop-blur-md md:px-6">
+      <header className="relative z-30 flex h-16 shrink-0 items-center justify-between border-b border-[rgba(238,242,249,.1)] bg-[#0A1428]/80 px-4 backdrop-blur-md md:px-6">
         <div className="flex items-center gap-3">
           <button
             type="button"
@@ -49,11 +51,11 @@ export function ModernAppShell() {
         </div>
         {role === 'SUPER_ADMIN' && (
           <div className="hidden flex-1 justify-center md:flex">
-            <GlobalSearchBar />
+            <ModernGlobalSearchBar />
           </div>
         )}
         <div className="ml-auto flex items-center gap-4">
-          <NotificationBell />
+          <ModernNotificationBell />
         </div>
       </header>
       <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-6">
