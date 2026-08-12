@@ -43,7 +43,14 @@ export function ModernLoginPage() {
   }
 
   const onSubmit = (values: LoginFormValues) => {
-    login(values, { onSuccess: () => setWelcomePending() });
+    // Set the flag *before* logging in, not in an onSuccess callback: the
+    // mutation's own onSuccess navigates to /dashboard, which unmounts this
+    // page before TanStack Query's per-call onSuccess dispatch (gated on the
+    // observer still having listeners) gets a chance to run — so a
+    // post-success callback here silently never fires. A failed login just
+    // leaves the flag armed for the next successful attempt, which is fine.
+    setWelcomePending();
+    login(values);
   };
 
   return (

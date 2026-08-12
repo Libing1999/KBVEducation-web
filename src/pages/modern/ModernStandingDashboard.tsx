@@ -160,36 +160,36 @@ export function ModernStandingDashboard() {
           only used as the "Your standing, below" cue button's scroll target. */}
       <section ref={detailRef} className="mx-auto max-w-[640px] px-6">
         <div className="animate-[kbvReveal_0.8s_cubic-bezier(.16,1,.3,1)_both]">
-        <p className="mb-[clamp(28px,4vh,44px)] text-center text-[10.5px] font-medium uppercase tracking-[0.28em] text-[rgba(238,242,249,.5)]">
-          What&rsquo;s behind it
-        </p>
+          <p className="mb-[clamp(28px,4vh,44px)] text-center text-[10.5px] font-medium uppercase tracking-[0.28em] text-[rgba(238,242,249,.5)]">
+            What&rsquo;s behind it
+          </p>
 
-        <div className="flex flex-wrap items-baseline justify-center gap-y-3">
-          {pillars.map((p) => (
-            <PillarStat key={p.name} pillar={p} />
-          ))}
-        </div>
-
-        {role === 'STUDENT' && goal && (
-          <div
-            className="mx-auto mt-[clamp(42px,7vh,62px)] flex max-w-[620px] flex-wrap items-center justify-center gap-[22px] rounded-2xl border px-7 py-[22px]"
-            style={{
-              borderColor: 'rgba(176,130,28,.26)',
-              background: 'radial-gradient(140% 200% at 0% 50%, rgba(176,130,28,.07), transparent 58%)',
-            }}
-          >
-            <p className="text-[14.5px] text-[rgba(238,242,249,.6)]">
-              <span className="font-garamond font-semibold text-[#EEF2F9]">{goal}</span> · your biggest
-              lever is <span className="font-garamond font-semibold text-[#EEF2F9]">{biggestLever.name}</span>.
-            </p>
-            <Link
-              to={paths.practice}
-              className="whitespace-nowrap rounded-[10px] bg-[#B0821C] px-6 py-3 text-[13.5px] font-medium text-[#231803] transition-transform hover:-translate-y-px"
-            >
-              Log a session →
-            </Link>
+          <div className="flex flex-wrap items-baseline justify-center gap-y-3">
+            {pillars.map((p) => (
+              <PillarStat key={p.name} pillar={p} />
+            ))}
           </div>
-        )}
+
+          {role === 'STUDENT' && goal && (
+            <div
+              className="mx-auto mt-[clamp(42px,7vh,62px)] flex max-w-[620px] flex-wrap items-center justify-center gap-[22px] rounded-2xl border px-7 py-[22px]"
+              style={{
+                borderColor: 'rgba(176,130,28,.26)',
+                background: 'radial-gradient(140% 200% at 0% 50%, rgba(176,130,28,.07), transparent 58%)',
+              }}
+            >
+              <p className="text-[14.5px] text-[rgba(238,242,249,.6)]">
+                <span className="font-garamond font-semibold text-[#EEF2F9]">{goal}</span> · your biggest
+                lever is <span className="font-garamond font-semibold text-[#EEF2F9]">{biggestLever.name}</span>.
+              </p>
+              <Link
+                to={paths.practice}
+                className="whitespace-nowrap rounded-[10px] bg-[#B0821C] px-6 py-3 text-[13.5px] font-medium text-[#231803] transition-transform hover:-translate-y-px"
+              >
+                Log a session →
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 

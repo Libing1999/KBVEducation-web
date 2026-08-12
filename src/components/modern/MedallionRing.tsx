@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useCountUp } from '@/components/modern/useCountUp';
 
 interface MedallionRingProps {
@@ -12,8 +13,27 @@ export function MedallionRing({ value, max = 100, size = 320 }: MedallionRingPro
   const r = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * r;
   const pct = Math.max(0, Math.min(1, value / max));
-  const offset = circumference * (1 - pct);
+  const targetOffset = circumference * (1 - pct);
   const displayed = useCountUp(Math.round(value));
+  const [offset, setOffset] = useState(circumference);
+
+  useEffect(() => {
+    const reduce =
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      setOffset(targetOffset);
+      return;
+    }
+    let raf2 = 0;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => setOffset(targetOffset));
+    });
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+    };
+  }, [targetOffset]);
 
   return (
     <div className="relative mx-auto" style={{ width: size, height: size }}>
