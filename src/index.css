@@ -3,6 +3,11 @@
 @import '@fontsource/inter/600.css';
 @import '@fontsource/inter/700.css';
 
+/* Modern UI only (font-garamond / font-modern in tailwind.config.js). The
+   Default UI's body font stays Inter — these registrations don't change it. */
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -79,4 +84,48 @@
 .sidebar-nav-scroll::-webkit-scrollbar-thumb {
   background-color: rgb(var(--color-secondary));
   border-radius: 9999px;
+}
+
+/* Modern UI: one-time fade+rise used via Tailwind's animate-[kbvReveal_...] arbitrary value. */
+@keyframes kbvReveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modern UI's nav drawer reuses <SidebarContent/> as-is (same nav items, same
+   permissions, same active-route logic as the Default UI) but re-themes it to
+   the Modern navy/gold palette by locally overriding the same CSS custom
+   properties the Default UI's admin-configurable brand theme already uses
+   (--color-primary-N / --color-accent-N). Scoped to this class only, so it
+   never touches :root and never affects the Default UI's real sidebar. */
+.kbv-modern-nav {
+  --color-primary: 10 20 40;
+  --color-primary-50: 224 229 238;
+  --color-primary-100: 197 206 222;
+  --color-primary-200: 145 159 189;
+  --color-primary-300: 94 113 156;
+  --color-primary-400: 52 74 116;
+  --color-primary-500: 10 20 40;
+  --color-primary-600: 8 17 34;
+  --color-primary-700: 6 13 27;
+  --color-primary-800: 5 10 20;
+  --color-primary-900: 3 7 14;
+
+  --color-accent: 176 130 28;
+  --color-accent-50: 251 245 231;
+  --color-accent-100: 244 229 191;
+  --color-accent-200: 233 204 133;
+  --color-accent-300: 219 182 82;
+  --color-accent-400: 196 151 42;
+  --color-accent-500: 176 130 28;
+  --color-accent-600: 141 104 22;
+  --color-accent-700: 106 78 17;
+  --color-accent-800: 70 52 11;
+  --color-accent-900: 35 26 6;
 }

@@ -42,6 +42,10 @@ export default {
       },
       fontFamily: {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        // Modern UI only (see src/pages/modern, src/layouts/modern) — the
+        // Default UI keeps using `font-sans` (Inter) everywhere.
+        garamond: ['"EB Garamond"', 'Georgia', 'serif'],
+        modern: ['"General Sans"', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         card: '14px',
