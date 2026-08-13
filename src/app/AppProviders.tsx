@@ -43,7 +43,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
           toastOptions={ui === 'modern' ? MODERN_TOAST_OPTIONS : DEFAULT_TOAST_OPTIONS}
         />
         {env.isDev && <ReactQueryDevtools initialIsOpen={false} />}
-        {env.isDev && <UiVariantSwitcher />}
+        <UiVariantSwitcher />
       </QueryClientProvider>
     </ErrorBoundary>
   );
