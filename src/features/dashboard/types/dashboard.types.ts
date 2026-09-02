@@ -80,6 +80,7 @@ export interface AttendanceDay {
   date: string;
   active: boolean;
   voided: boolean;
+  restOrSkip: boolean;
 }
 
 export interface ScoreDashboard {

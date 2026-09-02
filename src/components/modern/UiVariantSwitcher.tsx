@@ -152,9 +152,13 @@ export function UiVariantSwitcher() {
       onPointerCancel={onPointerUp}
       style={style}
       // Bottom-left (not bottom-right) default so this never overlaps the bottom-right-aligned
-      // action buttons ("Save", "Submit", etc.) that most forms in this app use.
+      // action buttons ("Save", "Submit", etc.) that most forms in this app use. Raised on narrow
+      // viewports (max-[680px]) so it doesn't sit under the Modern Student shell's bottom-fixed
+      // mobile tab bar (see kbvStudentShell.css's own @media(max-width:680px) breakpoint) — only
+      // applies to the undragged default position; once dragged, the inline `style` above takes
+      // over and the user's own placement is respected everywhere.
       className={
-        'fixed bottom-3 left-3 z-50 flex items-center gap-1 rounded-full border border-slate-300 bg-white/95 p-1 text-xs shadow-card backdrop-blur touch-none select-none ' +
+        'fixed bottom-3 left-3 max-[680px]:bottom-16 z-50 flex items-center gap-1 rounded-full border border-slate-300 bg-white/95 p-1 text-xs shadow-card backdrop-blur touch-none select-none ' +
         (isDragging ? 'cursor-grabbing' : 'cursor-grab')
       }
     >

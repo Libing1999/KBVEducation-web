@@ -41,6 +41,13 @@ export interface ParentCertificateInfo {
   tierLabel: string;
 }
 
+/** One of a parent's linked children, for the Parent screen's child selector. */
+export interface ParentChild {
+  id: string;
+  firstName: string;
+  lastName: string;
+}
+
 /** A single note in the "Messages from Bhavya" rotating card. Mirrors the
  *  backend's ParentMessageResponse — `date` is a raw ISO instant, formatted
  *  to a relative string ("2 days ago") on render via formatRelativeTime. */

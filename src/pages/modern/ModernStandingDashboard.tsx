@@ -101,7 +101,7 @@ export function ModernStandingDashboard() {
   const pillars: Pillar[] = [
     { name: 'Practice', value: dashboard.practicePercentage },
     { name: 'Reflection', value: dashboard.reflectionPercentage },
-    { name: 'Homework', value: dashboard.homeworkPercentage },
+    { name: 'Post-Lesson Homework', value: dashboard.homeworkPercentage },
     { name: 'Recall', value: dashboard.quizPercentage },
   ];
   const biggestLever = pillars.reduce((min, p) => (p.value < min.value ? p : min), pillars[0]);

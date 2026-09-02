@@ -102,16 +102,16 @@ export default function AdminAnalyticsPage() {
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <TrendChart
-              title="Quiz Performance"
-              subtitle="Average quiz score over time"
+              title="Post-Lesson Quiz Performance"
+              subtitle="Average Post-Lesson Quiz score over time"
               data={quizTrend}
               isLoading={quizLoading}
               color="#0D9488"
             />
             <Card>
-              <CardHeader title="Homework Completion" subtitle="Cohort average" />
+              <CardHeader title="Post-Lesson Homework Completion" subtitle="Cohort average" />
               <CardBody className="flex h-full flex-col justify-center">
-                <ScoreMeter label="Homework" value={analytics.averageHomework} tone="accent" />
+                <ScoreMeter label="Post-Lesson Homework" value={analytics.averageHomework} tone="accent" />
               </CardBody>
             </Card>
           </div>

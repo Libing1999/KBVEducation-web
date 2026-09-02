@@ -19,8 +19,8 @@ const SORT_OPTIONS: { value: LeaderboardSortField; label: string }[] = [
   { value: 'COMPOSITE', label: 'Composite Score' },
   { value: 'PRACTICE', label: 'Practice %' },
   { value: 'REFLECTION', label: 'Reflection %' },
-  { value: 'HOMEWORK', label: 'Homework %' },
-  { value: 'QUIZ', label: 'Quiz %' },
+  { value: 'HOMEWORK', label: 'Post-Lesson Homework %' },
+  { value: 'QUIZ', label: 'Post-Lesson Quiz %' },
 ];
 
 export default function AdminLeaderboardPage() {
@@ -48,8 +48,8 @@ export default function AdminLeaderboardPage() {
     },
     { key: 'practice', header: 'Practice %', align: 'right', render: (e) => `${e.practicePercentage.toFixed(1)}%` },
     { key: 'reflection', header: 'Reflection %', align: 'right', render: (e) => `${e.reflectionPercentage.toFixed(1)}%` },
-    { key: 'homework', header: 'Homework %', align: 'right', render: (e) => `${e.homeworkPercentage.toFixed(1)}%` },
-    { key: 'quiz', header: 'Quiz %', align: 'right', render: (e) => `${e.quizPercentage.toFixed(1)}%` },
+    { key: 'homework', header: 'Post-Lesson Homework %', align: 'right', render: (e) => `${e.homeworkPercentage.toFixed(1)}%` },
+    { key: 'quiz', header: 'Post-Lesson Quiz %', align: 'right', render: (e) => `${e.quizPercentage.toFixed(1)}%` },
   ];
 
   return (

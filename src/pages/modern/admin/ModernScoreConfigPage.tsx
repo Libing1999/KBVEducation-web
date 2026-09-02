@@ -123,7 +123,7 @@ export default function ModernScoreConfigPage() {
                 {...register('reflectionWeight')}
               />
             </FormField>
-            <FormField label="Homework Weight" htmlFor="msc-homework-weight" error={errors.homeworkWeight?.message} required>
+            <FormField label="Post-Lesson Homework Weight" htmlFor="msc-homework-weight" error={errors.homeworkWeight?.message} required>
               <Input
                 id="msc-homework-weight"
                 type="number"
@@ -134,7 +134,7 @@ export default function ModernScoreConfigPage() {
                 {...register('homeworkWeight')}
               />
             </FormField>
-            <FormField label="Quiz Weight" htmlFor="msc-quiz-weight" error={errors.quizWeight?.message} required>
+            <FormField label="Post-Lesson Quiz Weight" htmlFor="msc-quiz-weight" error={errors.quizWeight?.message} required>
               <Input
                 id="msc-quiz-weight"
                 type="number"
@@ -163,7 +163,7 @@ export default function ModernScoreConfigPage() {
             <FormField label="Total Reflection Days" htmlFor="msc-total-reflection" error={errors.totalReflectionDays?.message}>
               <Input id="msc-total-reflection" type="number" min={0} {...register('totalReflectionDays')} />
             </FormField>
-            <FormField label="Total Homework Count" htmlFor="msc-total-homework" error={errors.totalHomeworkCount?.message}>
+            <FormField label="Total Post-Lesson Homework Count" htmlFor="msc-total-homework" error={errors.totalHomeworkCount?.message}>
               <Input id="msc-total-homework" type="number" min={0} {...register('totalHomeworkCount')} />
             </FormField>
           </CardBody>
@@ -187,8 +187,8 @@ export default function ModernScoreConfigPage() {
                 <option value="COMPOSITE">Composite Score</option>
                 <option value="PRACTICE">Practice %</option>
                 <option value="REFLECTION">Reflection %</option>
-                <option value="HOMEWORK">Homework %</option>
-                <option value="QUIZ">Quiz %</option>
+                <option value="HOMEWORK">Post-Lesson Homework %</option>
+                <option value="QUIZ">Post-Lesson Quiz %</option>
               </Select>
             </FormField>
 

@@ -60,11 +60,16 @@ export const certificatesApi = {
   downloadMine: (id: string, certificateNumber: string): Promise<void> =>
     downloadFile(`/student/certificates/${id}/download`, `${certificateNumber}.pdf`),
 
-  listForParent: async (): Promise<Certificate[]> => {
-    const { data } = await apiClient.get<ApiResponse<Certificate[]>>('/parent/certificates');
+  listForParent: async (studentId?: string): Promise<Certificate[]> => {
+    const { data } = await apiClient.get<ApiResponse<Certificate[]>>('/parent/certificates', {
+      params: studentId ? { studentId } : undefined,
+    });
     return data.data;
   },
 
-  downloadForParent: (id: string, certificateNumber: string): Promise<void> =>
-    downloadFile(`/parent/certificates/${id}/download`, `${certificateNumber}.pdf`),
+  downloadForParent: (id: string, certificateNumber: string, studentId?: string): Promise<void> =>
+    downloadFile(
+      `/parent/certificates/${id}/download${studentId ? `?studentId=${studentId}` : ''}`,
+      `${certificateNumber}.pdf`,
+    ),
 };

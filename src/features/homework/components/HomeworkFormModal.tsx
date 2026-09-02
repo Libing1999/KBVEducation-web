@@ -71,11 +71,11 @@ export function HomeworkFormModal({ open, onClose, lessonId, homework }: Props) 
     <Modal
       open={open}
       onClose={onClose}
-      title={isEdit ? 'Homework settings' : 'Configure homework'}
+      title={isEdit ? 'Post-Lesson Homework settings' : 'Configure Post-Lesson Homework'}
       footer={
         <>
           <Button variant="outline" onClick={onClose} disabled={upsert.isPending}>Cancel</Button>
-          <Button onClick={submit} isLoading={upsert.isPending}>{isEdit ? 'Save changes' : 'Save homework'}</Button>
+          <Button onClick={submit} isLoading={upsert.isPending}>{isEdit ? 'Save changes' : 'Save Post-Lesson Homework'}</Button>
         </>
       }
     >

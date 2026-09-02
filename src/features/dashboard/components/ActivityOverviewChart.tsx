@@ -14,8 +14,8 @@ interface Props {
 const SERIES = [
   { key: 'reflections', label: 'Reflections', color: '#2a78d6' },
   { key: 'practiceLogs', label: 'Practice Logs', color: '#008300' },
-  { key: 'homeworkSubmissions', label: 'Homework Submissions', color: '#e87ba4' },
-  { key: 'quizAttempts', label: 'Quiz Attempts', color: '#eda100' },
+  { key: 'homeworkSubmissions', label: 'Post-Lesson Homework Submissions', color: '#e87ba4' },
+  { key: 'quizAttempts', label: 'Post-Lesson Quiz Attempts', color: '#eda100' },
 ] as const;
 
 export function ActivityOverviewChart({ data }: Props) {

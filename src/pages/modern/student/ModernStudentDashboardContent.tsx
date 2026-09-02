@@ -115,8 +115,8 @@ export function ModernStudentDashboardContent() {
   const trajGap = trajThresh != null ? Math.round(trajThresh - trajNow) : null;
 
   const attendance = dashboard.attendance;
-  const availableDays = attendance.filter((d) => !d.voided).length;
-  const activeDays = attendance.filter((d) => d.active).length;
+  const availableDays = attendance.filter((d) => !d.voided && !d.restOrSkip).length;
+  const activeDays = attendance.filter((d) => d.active && !d.voided && !d.restOrSkip).length;
 
   const scrollToDetail = () => detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
@@ -262,7 +262,12 @@ export function ModernStudentDashboardContent() {
             </div>
             <div className="cad-grid">
               {attendance.map((d) => (
-                <i key={d.date} className={d.voided ? 'void' : undefined} style={{ opacity: detailIn2 ? (d.active ? 1 : d.voided ? 1 : 0.16) : 0 }} />
+                <i
+                  key={d.date}
+                  title={d.restOrSkip ? 'Rest/Skip day — not counted' : d.voided ? 'Voided — not counted' : undefined}
+                  className={d.voided ? 'void' : d.restOrSkip ? 'rest' : undefined}
+                  style={{ opacity: detailIn2 ? (d.active ? 1 : d.voided || d.restOrSkip ? 1 : 0.16) : 0 }}
+                />
               ))}
             </div>
           </div>

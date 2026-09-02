@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { cohortsApi } from '@/features/cohorts/api/cohortsApi';
-import type { CohortRequest, CohortsQuery } from '@/features/cohorts/types/cohort.types';
+import type { CohortDayType, CohortRequest, CohortsQuery } from '@/features/cohorts/types/cohort.types';
 import { QUERY_KEYS } from '@/config/constants';
 import { getErrorMessage } from '@/lib/utils';
 
@@ -63,4 +63,36 @@ export function useCohortMutations() {
   });
 
   return { create, update, archive, assignStudent, removeStudent };
+}
+
+export function useCohortDays(cohortId: string | null, from: string, to: string) {
+  return useQuery({
+    queryKey: [...QUERY_KEYS.cohorts, cohortId, 'days', from, to],
+    queryFn: () => cohortsApi.listDays(cohortId as string, from, to),
+    enabled: !!cohortId && !!from && !!to,
+  });
+}
+
+export function useCohortDayMutations(cohortId: string | null) {
+  const qc = useQueryClient();
+  const invalidate = () => {
+    qc.invalidateQueries({ queryKey: [...QUERY_KEYS.cohorts, cohortId, 'days'] });
+    qc.invalidateQueries({ queryKey: QUERY_KEYS.studentDashboard });
+  };
+  const onError = (e: unknown) => toast.error(getErrorMessage(e));
+
+  const setDay = useMutation({
+    mutationFn: ({ date, dayType }: { date: string; dayType: CohortDayType }) =>
+      cohortsApi.setDay(cohortId as string, date, dayType),
+    onSuccess: () => { invalidate(); toast.success('Day classification saved'); },
+    onError,
+  });
+
+  const resetDay = useMutation({
+    mutationFn: (date: string) => cohortsApi.resetDay(cohortId as string, date),
+    onSuccess: () => { invalidate(); toast.success('Day classification reset'); },
+    onError,
+  });
+
+  return { setDay, resetDay };
 }

@@ -42,8 +42,8 @@ export function ModernScoreBreakdownCard({
   const meters = [
     { label: 'Practice', value: practicePercentage },
     { label: 'Reflection', value: reflectionPercentage },
-    { label: 'Homework', value: homeworkPercentage },
-    { label: 'Quiz', value: quizPercentage },
+    { label: 'Post-Lesson Homework', value: homeworkPercentage },
+    { label: 'Post-Lesson Quiz', value: quizPercentage },
   ];
   return (
     <ModernCard title="Score Breakdown" subtitle="Category performance" bodyClassName="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -265,7 +265,7 @@ export function ModernParentActivitySection() {
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <ModernStat icon={Flame} label="Reflection streak" value={`${progress.reflectionStreak} ${progress.reflectionStreak === 1 ? 'day' : 'days'}`} />
         <ModernStat icon={Flame} label="Practice streak" value={`${progress.practiceStreak} ${progress.practiceStreak === 1 ? 'day' : 'days'}`} />
-        <ModernStat icon={ClipboardList} label="Homework submitted" value={progress.courseTotal.homeworkSubmitted} />
+        <ModernStat icon={ClipboardList} label="Post-Lesson Homework submitted" value={progress.courseTotal.homeworkSubmitted} />
         <ModernStat icon={FileQuestion} label="Quizzes completed" value={progress.courseTotal.quizzesCompleted} />
       </div>
 
@@ -331,8 +331,8 @@ function ModernMetricsCard({ title, metrics }: { title: string; metrics: Progres
   const items = [
     { label: 'Reflection days', value: metrics.reflectionDays },
     { label: 'Practice days', value: metrics.practiceDays },
-    { label: 'Homework', value: metrics.homeworkSubmitted },
-    { label: 'Quizzes', value: metrics.quizzesCompleted },
+    { label: 'Post-Lesson Homework', value: metrics.homeworkSubmitted },
+    { label: 'Post-Lesson Quizzes', value: metrics.quizzesCompleted },
     { label: 'Lessons', value: metrics.lessonsCompleted },
   ];
   return (
@@ -376,7 +376,7 @@ export function ModernTodayAndActivity() {
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <ModernStat icon={Flame} label="Reflection streak" value={`${progress.reflectionStreak} ${progress.reflectionStreak === 1 ? 'day' : 'days'}`} />
         <ModernStat icon={Flame} label="Practice streak" value={`${progress.practiceStreak} ${progress.practiceStreak === 1 ? 'day' : 'days'}`} />
-        <ModernStat icon={ClipboardList} label="Homework submitted" value={progress.courseTotal.homeworkSubmitted} />
+        <ModernStat icon={ClipboardList} label="Post-Lesson Homework submitted" value={progress.courseTotal.homeworkSubmitted} />
         <ModernStat icon={FileQuestion} label="Quizzes completed" value={progress.courseTotal.quizzesCompleted} />
       </div>
 

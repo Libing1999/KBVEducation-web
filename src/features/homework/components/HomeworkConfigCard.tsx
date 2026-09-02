@@ -18,7 +18,7 @@ export function HomeworkConfigCard({ lessonId }: { lessonId: string }) {
   if (isLoading) {
     return (
       <Card>
-        <CardHeader title="Homework" />
+        <CardHeader title="Post-Lesson Homework" />
         <CardBody className="flex justify-center py-10"><Spinner /></CardBody>
       </Card>
     );
@@ -28,14 +28,14 @@ export function HomeworkConfigCard({ lessonId }: { lessonId: string }) {
     return (
       <>
         <Card>
-          <CardHeader title="Homework" subtitle="No homework configured for this lesson" />
+          <CardHeader title="Post-Lesson Homework" subtitle="No Post-Lesson Homework configured for this lesson" />
           <CardBody className="flex flex-col items-center gap-3 py-8 text-center">
             <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary-50 text-primary">
               <ClipboardList className="h-5 w-5" />
             </div>
             <p className="text-sm text-slate-500">Set an assignment for students to submit.</p>
             <Button size="sm" onClick={() => setFormOpen(true)}>
-              <Plus className="h-4 w-4" /> Configure homework
+              <Plus className="h-4 w-4" /> Configure Post-Lesson Homework
             </Button>
           </CardBody>
         </Card>
@@ -47,7 +47,7 @@ export function HomeworkConfigCard({ lessonId }: { lessonId: string }) {
   return (
     <Card>
       <CardHeader
-        title="Homework"
+        title="Post-Lesson Homework"
         subtitle={homework.title}
         action={
           <div className="flex gap-2">
@@ -88,8 +88,8 @@ export function HomeworkConfigCard({ lessonId }: { lessonId: string }) {
 
       <ConfirmDialog
         open={deleteOpen}
-        title="Delete homework"
-        message="Delete this homework configuration? This can’t be undone."
+        title="Delete Post-Lesson Homework"
+        message="Delete this Post-Lesson Homework configuration? This can’t be undone."
         confirmLabel="Delete"
         danger
         isLoading={remove.isPending}

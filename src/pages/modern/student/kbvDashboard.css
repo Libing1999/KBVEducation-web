@@ -83,6 +83,7 @@
 @media (min-width: 480px) { .kbv-dash .cad-grid { grid-template-columns: repeat(15, 1fr); } }
 .kbv-dash .cad-grid i { aspect-ratio: 1; border-radius: 3px; background: var(--cell); display: block; }
 .kbv-dash .cad-grid i.void { background: transparent; border: 1px dashed var(--line); }
+.kbv-dash .cad-grid i.rest { background: transparent; border: 1px dotted var(--gold); opacity: .5 !important; }
 
 .kbv-dash .pil { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(16px, 3vw, 32px); max-width: 640px; margin: 0 auto; }
 @media (min-width: 480px) { .kbv-dash .pil { grid-template-columns: repeat(4, 1fr); } }

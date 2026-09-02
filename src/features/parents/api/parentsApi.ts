@@ -34,8 +34,8 @@ export const parentsApi = {
     return data.data;
   },
 
-  unlinkStudent: async (id: string): Promise<void> => {
-    await apiClient.delete<ApiResponse<void>>(`/admin/parents/${id}/student`);
+  unlinkStudent: async (id: string, studentId: string): Promise<void> => {
+    await apiClient.delete<ApiResponse<void>>(`/admin/parents/${id}/student/${studentId}`);
   },
 
   remove: async (id: string): Promise<void> => {

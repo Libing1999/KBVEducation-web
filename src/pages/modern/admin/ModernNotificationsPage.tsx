@@ -82,7 +82,7 @@ export default function ModernNotificationsPage() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="font-garamond text-xl font-medium text-[#F6F9FE]">Notifications</h1>
-          <p className="text-sm text-[rgba(238,242,249,.55)]">Updates about your lessons, quizzes and homework.</p>
+          <p className="text-sm text-[rgba(238,242,249,.55)]">Updates about your lessons, Post-Lesson Quizzes and Post-Lesson Homework.</p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant={grouped ? 'secondary' : 'outline'} size="sm" onClick={() => setGrouped((g) => !g)}>

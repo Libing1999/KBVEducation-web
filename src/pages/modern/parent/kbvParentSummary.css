@@ -85,8 +85,13 @@
 .kbv-parent .bmark .sb { display: block; font-family: var(--ui); font-size: 7px; letter-spacing: .24em; text-transform: uppercase; margin-top: 5px; opacity: .62; padding-left: .24em; }
 
 .kbv-parent .p-headright { display: flex; align-items: center; gap: 12px; }
-.kbv-parent .who { font-size: 13px; color: var(--dim); white-space: nowrap; }
+.kbv-parent .who { font-size: 13px; color: var(--dim); white-space: nowrap; display: flex; align-items: center; }
 .kbv-parent .who-sep { opacity: .5; margin: 0 6px; }
+.kbv-parent .who-child-select {
+  font: inherit; color: var(--fg); background: transparent; border: none; border-bottom: 1px dotted var(--dim);
+  padding: 0 2px 1px; cursor: pointer; appearance: none; -webkit-appearance: none;
+}
+.kbv-parent .who-child-select:focus-visible { outline: 1px solid var(--gold); outline-offset: 2px; }
 
 .kbv-parent .theme-orb, .kbv-parent .acct-btn {
   width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; padding: 0;

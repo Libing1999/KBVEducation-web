@@ -19,7 +19,7 @@ export default function TakeQuizPage() {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [result, setResult] = useState<QuizSubmissionResult | null>(null);
 
-  if (isLoading) return <LoadingState label="Loading quiz…" />;
+  if (isLoading) return <LoadingState label="Loading Post-Lesson Quiz…" />;
   if (isError || !quiz) return <ErrorState onRetry={() => refetch()} />;
 
   const backToLesson = paths.myLessonDetail(quiz.lessonId);
@@ -38,11 +38,11 @@ export default function TakeQuizPage() {
             <div className="flex h-14 w-14 items-center justify-center rounded-full bg-green-100 text-green-600">
               <CheckCircle2 className="h-7 w-7" />
             </div>
-            <h1 className="text-lg font-bold text-slate-800">Quiz submitted</h1>
+            <h1 className="text-lg font-bold text-slate-800">Post-Lesson Quiz submitted</h1>
             <p className="max-w-sm text-sm text-slate-500">
               {result
                 ? `You answered ${result.answered} of ${result.totalQuestions} questions. Your responses have been recorded.`
-                : 'You have already completed this quiz. It can only be taken once.'}
+                : 'You have already completed this Post-Lesson Quiz. It can only be taken once.'}
             </p>
             <Link
               to={backToLesson}
@@ -144,15 +144,15 @@ export default function TakeQuizPage() {
             {answeredCount} of {questions.length} answered · you can submit once
           </p>
           <Button onClick={() => setConfirmOpen(true)} isLoading={submit.isPending}>
-            {!submit.isPending && <Send className="h-4 w-4" />} Submit quiz
+            {!submit.isPending && <Send className="h-4 w-4" />} Submit Post-Lesson Quiz
           </Button>
         </CardBody>
       </Card>
 
       <ConfirmDialog
         open={confirmOpen}
-        title="Submit quiz?"
-        message={`You've answered ${answeredCount} of ${questions.length} questions. Once submitted, the quiz can't be retaken.`}
+        title="Submit Post-Lesson Quiz?"
+        message={`You've answered ${answeredCount} of ${questions.length} questions. Once submitted, the Post-Lesson Quiz can't be retaken.`}
         confirmLabel="Submit"
         isLoading={submit.isPending}
         onConfirm={doSubmit}

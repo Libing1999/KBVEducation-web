@@ -122,7 +122,7 @@ export default function ScoreConfigPage() {
                 {...register('reflectionWeight')}
               />
             </FormField>
-            <FormField label="Homework Weight" htmlFor="sc-homework-weight" error={errors.homeworkWeight?.message} required>
+            <FormField label="Post-Lesson Homework Weight" htmlFor="sc-homework-weight" error={errors.homeworkWeight?.message} required>
               <Input
                 id="sc-homework-weight"
                 type="number"
@@ -133,7 +133,7 @@ export default function ScoreConfigPage() {
                 {...register('homeworkWeight')}
               />
             </FormField>
-            <FormField label="Quiz Weight" htmlFor="sc-quiz-weight" error={errors.quizWeight?.message} required>
+            <FormField label="Post-Lesson Quiz Weight" htmlFor="sc-quiz-weight" error={errors.quizWeight?.message} required>
               <Input
                 id="sc-quiz-weight"
                 type="number"
@@ -162,7 +162,7 @@ export default function ScoreConfigPage() {
             <FormField label="Total Reflection Days" htmlFor="sc-total-reflection" error={errors.totalReflectionDays?.message}>
               <Input id="sc-total-reflection" type="number" min={0} {...register('totalReflectionDays')} />
             </FormField>
-            <FormField label="Total Homework Count" htmlFor="sc-total-homework" error={errors.totalHomeworkCount?.message}>
+            <FormField label="Total Post-Lesson Homework Count" htmlFor="sc-total-homework" error={errors.totalHomeworkCount?.message}>
               <Input id="sc-total-homework" type="number" min={0} {...register('totalHomeworkCount')} />
             </FormField>
           </CardBody>
@@ -186,8 +186,8 @@ export default function ScoreConfigPage() {
                 <option value="COMPOSITE">Composite Score</option>
                 <option value="PRACTICE">Practice %</option>
                 <option value="REFLECTION">Reflection %</option>
-                <option value="HOMEWORK">Homework %</option>
-                <option value="QUIZ">Quiz %</option>
+                <option value="HOMEWORK">Post-Lesson Homework %</option>
+                <option value="QUIZ">Post-Lesson Quiz %</option>
               </Select>
             </FormField>
 

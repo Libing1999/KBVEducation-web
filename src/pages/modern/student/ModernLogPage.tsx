@@ -142,10 +142,10 @@ function RecallCard({ quizId, onDone }: { quizId: string; onDone: () => void }) 
   const [submitted, setSubmitted] = useState(false);
 
   if (isLoading) return <div className="flex justify-center py-6"><Spinner /></div>;
-  if (isError || !quiz) return <p className="priv">Couldn&rsquo;t load today&rsquo;s quiz.</p>;
+  if (isError || !quiz) return <p className="priv">Couldn&rsquo;t load today&rsquo;s Post-Lesson Quiz.</p>;
 
   if (quiz.alreadySubmitted || submitted) {
-    return <p className="priv">You&rsquo;ve already completed this quiz — it can only be taken once.</p>;
+    return <p className="priv">You&rsquo;ve already completed this Post-Lesson Quiz — it can only be taken once.</p>;
   }
 
   const questions = [...quiz.questions].sort((a, b) => a.displayOrder - b.displayOrder);
@@ -253,7 +253,7 @@ export function ModernLogPage() {
     reflect: { title: 'Reflection', subtitle: 'A quick written or spoken check-in — a minute is plenty.' },
     practice: { title: 'Practice', subtitle: 'Log today’s study session.' },
     recall: { title: 'Post-Lesson Quiz', subtitle: lesson?.quizTitle ? `From ${lesson.title}` : 'Answer from memory.' },
-    hw: { title: 'Post-Lesson Homework', subtitle: lesson?.homeworkInstructions || 'Submit your homework for today’s lesson.' },
+    hw: { title: 'Post-Lesson Homework', subtitle: lesson?.homeworkInstructions || 'Submit your Post-Lesson Homework for today’s lesson.' },
   };
 
   const todayLabel = new Intl.DateTimeFormat(undefined, { weekday: 'long', month: 'short', day: 'numeric' }).format(new Date());

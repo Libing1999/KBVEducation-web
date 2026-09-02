@@ -29,7 +29,7 @@ export default function ModernSearchResultsPage() {
 
   return (
     <div className="space-y-5">
-      <PageHeader title="Search Results" subtitle="Users, cohorts, lessons, homework, quizzes, and more." />
+      <PageHeader title="Search Results" subtitle="Users, cohorts, lessons, Post-Lesson Homework, Post-Lesson Quizzes, and more." />
 
       <Card>
         <div className="border-b border-[rgba(238,242,249,.1)] p-4">

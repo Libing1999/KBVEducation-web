@@ -2,10 +2,19 @@ import { useQuery } from '@tanstack/react-query';
 import { parentApi } from '@/features/parent/api/parentApi';
 import { QUERY_KEYS } from '@/config/constants';
 
-export function useParentSummary() {
+export function useParentSummary(studentId?: string) {
   return useQuery({
-    queryKey: QUERY_KEYS.parentSummary,
-    queryFn: parentApi.summary,
+    queryKey: [...QUERY_KEYS.parentSummary, studentId ?? null],
+    queryFn: () => parentApi.summary(studentId),
+  });
+}
+
+/** The Parent screen's child selector — a parent with only one linked child never
+ *  needs this rendered, but the list is fetched regardless so the screen knows. */
+export function useParentChildren() {
+  return useQuery({
+    queryKey: QUERY_KEYS.parentChildren,
+    queryFn: parentApi.children,
   });
 }
 
@@ -17,10 +26,10 @@ export function useParentSummary() {
  * linked" error for the rest of the screen. retry:false avoids retry storms on a
  * genuine failure, and this call never blocks or errors out the rest of the screen.
  */
-export function useParentMessages() {
+export function useParentMessages(studentId?: string) {
   return useQuery({
-    queryKey: QUERY_KEYS.parentMessages,
-    queryFn: parentApi.messages,
+    queryKey: [...QUERY_KEYS.parentMessages, studentId ?? null],
+    queryFn: () => parentApi.messages(studentId),
     retry: false,
     throwOnError: false,
   });

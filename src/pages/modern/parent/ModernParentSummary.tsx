@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { useAuthStore } from '@/features/auth/store/authStore';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { useKbvTheme } from '@/theme/kbvTheme';
-import { useParentSummary, useParentMessages } from '@/features/parent/hooks/useParentSummary';
+import { useParentSummary, useParentMessages, useParentChildren } from '@/features/parent/hooks/useParentSummary';
 import { certificatesApi } from '@/features/certificates/api/certificatesApi';
 import { romanTierLabel } from '@/theme/tierDisplay';
 import { getErrorMessage } from '@/lib/utils';
@@ -63,10 +63,16 @@ export function ModernParentSummary() {
   // stored kbv-theme preference still wins here exactly as everywhere else.
   const [theme, setTheme] = useKbvTheme('light');
 
-  const { data, isLoading, isError, error, isFetching, refetch } = useParentSummary();
+  // A parent with only one linked child never sees this list surfaced anywhere — the
+  // selector below only renders once there's an actual choice to make.
+  const { data: children } = useParentChildren();
+  const [selectedChildId, setSelectedChildId] = useState<string | null>(null);
+  const effectiveChildId = selectedChildId ?? children?.[0]?.id;
+
+  const { data, isLoading, isError, error, isFetching, refetch } = useParentSummary(effectiveChildId);
   // "Messages from Bhavya" — useParentMessages swallows any failure (see its own doc
   // comment), so an empty/undefined result here just means the card doesn't render below.
-  const { data: messages } = useParentMessages();
+  const { data: messages } = useParentMessages(effectiveChildId);
 
   const [acctOpen, setAcctOpen] = useState(false);
   const acctRef = useRef<HTMLDivElement>(null);
@@ -98,7 +104,7 @@ export function ModernParentSummary() {
     if (!data?.certificate) return;
     setDownloading(true);
     try {
-      await certificatesApi.downloadForParent(data.certificate.id, data.certificate.certificateNumber);
+      await certificatesApi.downloadForParent(data.certificate.id, data.certificate.certificateNumber, effectiveChildId);
     } finally {
       setDownloading(false);
     }
@@ -118,12 +124,31 @@ export function ModernParentSummary() {
           <span className="sb">Education</span>
         </div>
         <div className="p-headright">
-          {data && (
+          {data && children && children.length > 1 ? (
             <div className="who">
-              {data.childName}
+              <select
+                className="who-child-select"
+                aria-label="Select child"
+                value={effectiveChildId ?? ''}
+                onChange={(e) => setSelectedChildId(e.target.value)}
+              >
+                {children.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.firstName} {c.lastName}
+                  </option>
+                ))}
+              </select>
               <span className="who-sep">&middot;</span>
               {data.cohortName}
             </div>
+          ) : (
+            data && (
+              <div className="who">
+                {data.childName}
+                <span className="who-sep">&middot;</span>
+                {data.cohortName}
+              </div>
+            )
           )}
           <button
             className="theme-orb"

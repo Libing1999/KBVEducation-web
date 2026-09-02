@@ -31,3 +31,13 @@ export interface CohortsQuery {
   sort?: string;
   direction?: 'asc' | 'desc';
 }
+
+export type CohortDayType = 'LESSON_DAY' | 'REST_DAY' | 'SKIP_DAY';
+
+/** One date's classification for a cohort. `configured=false` means no admin override
+ *  exists for this date — `dayType` is the default (LESSON_DAY). */
+export interface CohortDay {
+  date: string;
+  dayType: CohortDayType;
+  configured: boolean;
+}

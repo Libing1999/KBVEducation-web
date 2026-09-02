@@ -102,16 +102,16 @@ export default function ModernAdminAnalyticsPage() {
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             <ModernTrendChart
-              title="Quiz Performance"
-              subtitle="Average quiz score over time"
+              title="Post-Lesson Quiz Performance"
+              subtitle="Average Post-Lesson Quiz score over time"
               data={quizTrend}
               isLoading={quizLoading}
               color="#8fd6ae"
             />
-            <ModernCard title="Homework Completion" subtitle="Cohort average">
+            <ModernCard title="Post-Lesson Homework Completion" subtitle="Cohort average">
               <div className="flex h-full flex-col justify-center space-y-1.5">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-[rgba(238,242,249,.6)]">Homework</span>
+                  <span className="text-[rgba(238,242,249,.6)]">Post-Lesson Homework</span>
                   <span className="font-semibold text-[#EEF2F9]">{Math.max(0, Math.min(100, analytics.averageHomework)).toFixed(0)}%</span>
                 </div>
                 <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
