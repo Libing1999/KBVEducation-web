@@ -1,0 +1,139 @@
+/* ============================================================
+   KBV Student — shared shell chrome (brand mark, 3-tab nav, who/logout,
+   theme orb, field/grain background). Ported from the approved design
+   system's Student UI (03-dashboard / 04-log / 05-leaderboard all share
+   this exact header). Scoped under .kbv-shell instead of <body> so it can
+   portal-mount without touching the rest of the app's global styles.
+   ============================================================ */
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap");
+@import url("https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600,700&display=swap");
+
+.kbv-shell {
+  --display: 'EB Garamond', Georgia, serif;
+  --ui: 'General Sans', 'Segoe UI', system-ui, sans-serif;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  --gold: #B0821C;
+  --gold-hi: #F4D888;
+  --gold-deep: #8a6414;
+  --ink: #231803;
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-family: var(--ui);
+  -webkit-font-smoothing: antialiased;
+  --bg: #080E1C;
+  --fg: #EEF2F9;
+  --dim: rgba(238, 242, 249, .6);
+  --faint: rgba(238, 242, 249, .5);
+  --line: rgba(238, 242, 249, .12);
+  --field: radial-gradient(56% 44% at 50% 26%, rgba(38, 64, 112, .34), transparent 66%), linear-gradient(180deg, #0C1830, #0A1428 46%, #070E1C);
+  --grain-op: .5;
+  --grain-blend: overlay;
+  --sw-bg: rgba(6, 14, 32, .9);
+  --sw-line: rgba(255, 255, 255, .14);
+  --sw-on: #fff;
+  --label: rgba(238, 242, 249, .5);
+  --card: rgba(30, 52, 96, .26);
+  --card-line: rgba(255, 255, 255, .09);
+  --card-sh: 0 1px 2px rgba(0, 0, 0, .28), 0 14px 32px rgba(0, 0, 0, .34);
+  background: var(--bg);
+  color: var(--fg);
+}
+.kbv-shell[data-theme="light"] {
+  --bg: #FAF7F0;
+  --fg: #1B2740;
+  --dim: rgba(27, 39, 64, .62);
+  --faint: rgba(27, 39, 64, .42);
+  --line: #E9E2D4;
+  --field: radial-gradient(64% 54% at 50% 22%, #FFFDF9, #F7F3EA 58%, #F0E9DA);
+  --grain-op: .32;
+  --grain-blend: multiply;
+  --gold: #A67C1E;
+  --gold-deep: #7d5c13;
+  --sw-bg: rgba(250, 247, 240, .92);
+  --sw-line: rgba(27, 39, 64, .12);
+  --sw-on: #1B2740;
+  --label: #6a5220;
+  --card: #FFFEFB;
+  --card-line: #EBE3D3;
+  --card-sh: 0 1px 2px rgba(30, 42, 72, .04), 0 12px 26px rgba(30, 42, 72, .06);
+}
+.kbv-shell *, .kbv-shell *::before, .kbv-shell *::after { box-sizing: border-box; }
+.kbv-shell .field { position: fixed; inset: 0; z-index: -2; background: var(--field); }
+.kbv-shell .grain {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: var(--grain-op); mix-blend-mode: var(--grain-blend);
+  background-size: 170px 170px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='170'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.kbv-shell .bar {
+  position: sticky; top: 0; left: 0; right: 0; z-index: 40;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: clamp(16px, 3vw, 28px) clamp(24px, 5vw, 70px);
+  background: linear-gradient(to bottom, var(--bg) 70%, transparent);
+}
+.kbv-shell .bmark { font-family: var(--display); letter-spacing: .26em; font-weight: 600; font-size: 17px; padding-left: .26em; color: var(--fg); }
+.kbv-shell .bmark .rule { display: block; height: 1px; margin-top: 4px; background: var(--gold); opacity: .85; }
+.kbv-shell .bmark .sb { display: block; font-family: var(--ui); font-size: 7.5px; letter-spacing: .24em; text-transform: uppercase; margin-top: 5px; opacity: .6; padding-left: .24em; }
+.kbv-shell .headright { display: flex; align-items: center; gap: 12px; }
+.kbv-shell .who { font-family: var(--ui); font-size: 12px; letter-spacing: .02em; color: var(--dim); white-space: nowrap; }
+
+/* Account popover — same structure/behavior as the Parent screen's account popover
+ * (icon button + Name/Email rows + Log out), for a consistent pattern across roles. */
+.kbv-shell .acct-wrap { position: relative; }
+.kbv-shell .acct-btn {
+  width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; padding: 0;
+  background: var(--sw-bg); border: 1px solid var(--sw-line); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .2), inset 0 1px 0 rgba(255, 255, 255, .08); color: var(--sw-on);
+  transition: transform .2s var(--ease), box-shadow .2s var(--ease); flex: 0 0 auto;
+}
+.kbv-shell .acct-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0, 0, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .1); }
+.kbv-shell .acct-btn:active { transform: translateY(0) scale(.94); }
+.kbv-shell .acct-btn svg { width: 16px; height: 16px; }
+.kbv-shell .acct-pop {
+  position: absolute; top: calc(100% + 10px); right: 0; width: 216px; background: var(--card); border: 1px solid var(--card-line); border-radius: 12px;
+  box-shadow: var(--card-sh); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); padding: 15px 17px; z-index: 80;
+}
+.kbv-shell .acct-row { display: flex; flex-direction: column; gap: 2px; padding: 7px 0; border-bottom: 1px solid var(--line); }
+.kbv-shell .acct-row:last-of-type { border-bottom: 0; }
+.kbv-shell .acct-lab { font-size: 9.5px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--label); }
+.kbv-shell .acct-val { font-size: 13px; color: var(--fg); }
+.kbv-shell .acct-logout {
+  width: 100%; text-align: left; background: none; border: 0; cursor: pointer; margin-top: 4px; padding: 9px 0 2px;
+  font-family: var(--ui); font-size: 12.5px; font-weight: 500; color: var(--label); transition: color .18s var(--ease);
+}
+.kbv-shell .acct-logout:hover { color: var(--fg); }
+.kbv-shell .topnav { display: flex; align-items: center; gap: clamp(18px, 3vw, 32px); }
+.kbv-shell .topnav a { font-family: var(--ui); font-size: 12.5px; font-weight: 500; letter-spacing: .02em; color: var(--dim); text-decoration: none; padding: 6px 2px; position: relative; white-space: nowrap; transition: color .2s var(--ease); }
+.kbv-shell .topnav a:hover { color: var(--fg); }
+.kbv-shell .topnav a.on { color: var(--fg); }
+.kbv-shell .topnav a.on::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--gold); border-radius: 2px; }
+@media (max-width: 680px) {
+  .kbv-shell .topnav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 45; justify-content: space-around;
+    padding: 10px clamp(12px,4vw,24px) calc(10px + env(safe-area-inset-bottom)); background: var(--bg); border-top: 1px solid var(--line); gap: 0; }
+  .kbv-shell .topnav a { padding: 6px 10px; }
+  .kbv-shell .topnav a.on::after { bottom: -8px; }
+}
+
+.kbv-shell .theme-orb {
+  position: fixed; bottom: 20px; right: 22px; z-index: 60; width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center; cursor: pointer; padding: 0;
+  background: var(--sw-bg); border: 1px solid var(--sw-line);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.08);
+  color: var(--sw-on); transition: transform .2s var(--ease), box-shadow .2s var(--ease);
+}
+@media (max-width: 680px) { .kbv-shell .theme-orb { bottom: 76px; } }
+.kbv-shell .theme-orb:hover { transform: translateY(-1px); }
+.kbv-shell .theme-orb:active { transform: translateY(0) scale(.94); }
+.kbv-shell .theme-orb .ti { position: absolute; width: 19px; height: 19px; opacity: 0; transform: scale(.5) rotate(-45deg); transition: opacity .3s var(--ease), transform .34s var(--ease); }
+.kbv-shell .theme-orb .ti-moon { opacity: 1; transform: scale(1) rotate(0deg); }
+.kbv-shell[data-theme="light"] .theme-orb .ti-sun { opacity: 1; transform: scale(1) rotate(0deg); }
+.kbv-shell[data-theme="light"] .theme-orb .ti-moon { opacity: 0; transform: scale(.5) rotate(45deg); }
+
+.kbv-shell .reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.kbv-shell .reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .kbv-shell .reveal { transition: none !important; opacity: 1 !important; transform: none !important; }
+}

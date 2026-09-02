@@ -47,7 +47,7 @@ function PillarStat({ pillar }: { pillar: Pillar }) {
  */
 export function ModernStandingDashboard() {
   const role = useAuthStore((s) => s.user?.role);
-  const { data: dashboard, isLoading, isError, refetch } = useMyDashboard();
+  const { data: dashboard, isLoading, isError, isFetching, refetch } = useMyDashboard();
   const { data: tier } = useMyTier();
   const detailRef = useRef<HTMLDivElement>(null);
 
@@ -60,19 +60,26 @@ export function ModernStandingDashboard() {
   }
   if (isError || !dashboard) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-[#080E1C] text-[rgba(238,242,249,.72)]">
-        <p>
-          {role === 'PARENT'
-            ? 'Could not load your linked student’s standing. They may not be linked yet.'
-            : 'Failed to load your standing.'}
-        </p>
-        <button
-          type="button"
-          onClick={() => refetch()}
-          className="rounded-lg border border-[rgba(238,242,249,.2)] px-4 py-2 text-sm hover:bg-white/5"
-        >
-          Retry
-        </button>
+      <div className="min-h-screen bg-[#080E1C] text-[rgba(238,242,249,.72)]">
+        {/* Navigation must stay reachable even when the dashboard data fails to
+            load — otherwise a student with a failing/empty standing has no way
+            to reach Practice/Reflections/Leaderboard/etc. */}
+        <ModernDashboardBar />
+        <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 pt-16 text-center">
+          <p>
+            {role === 'PARENT'
+              ? 'Could not load your linked student’s standing. They may not be linked yet.'
+              : 'Failed to load your standing.'}
+          </p>
+          <button
+            type="button"
+            onClick={() => refetch()}
+            disabled={isFetching}
+            className="rounded-lg border border-[rgba(238,242,249,.2)] px-4 py-2 text-sm hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {isFetching ? 'Retrying…' : 'Retry'}
+          </button>
+        </div>
       </div>
     );
   }

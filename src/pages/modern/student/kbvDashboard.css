@@ -1,0 +1,106 @@
+/* ============================================================
+   KBV Student — Dashboard ("Standing"). Scoped under .kbv-dash, nested
+   inside .kbv-shell (see kbvStudentShell.css for the shared theme vars).
+   Ported from Student UI/03-dashboard/dashboard.css.
+   Medallion (dark, number-as-hero coin) / Almanac (light, arc gauge) —
+   driven by the shell's shared data-theme, not a standalone switch.
+   ============================================================ */
+.kbv-dash {
+  --track: rgba(238, 242, 249, .12);
+  --bar: rgba(238, 242, 249, .82);
+  --cell: #8FA9D6;
+  --arc-num: #1B3A6B;
+  --gold-hi: #F4D888;
+}
+.kbv-shell[data-theme="light"] .kbv-dash {
+  --track: #E9E2D4;
+  --bar: #274d86;
+  --cell: #274d86;
+}
+
+.kbv-dash .glance { position: relative; min-height: 86vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: clamp(24px, 6vh, 60px) 24px clamp(48px, 8vh, 80px); }
+.kbv-dash .lab { font-family: var(--ui); font-weight: 500; font-size: 11px; letter-spacing: .34em; text-transform: uppercase; color: var(--dim); margin-bottom: clamp(22px, 4vh, 44px); }
+.kbv-dash .focal { position: relative; display: grid; place-items: center; }
+.kbv-dash .f { display: none; flex-direction: column; align-items: center; }
+.kbv-dash .ringwrap { position: relative; aspect-ratio: 1; display: grid; place-items: center; }
+.kbv-dash .ringwrap svg.kbv-ring { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.kbv-dash .gnum { position: relative; z-index: 2; font-family: var(--display); font-weight: 600; letter-spacing: -.02em; line-height: .82; font-variant-numeric: lining-nums tabular-nums; }
+
+/* MEDALLION (dark) — shown by default; number-as-hero on navy, one luminous gold hairline */
+.kbv-dash .f-coin { display: flex; }
+.kbv-dash .f-coin .ringwrap { width: min(48vh, 384px, 84vw); }
+.kbv-dash .f-coin .g-track { stroke: rgba(238, 242, 249, .08); stroke-width: 5; }
+.kbv-dash .f-coin .g-fill { stroke: url(#ggoldC); stroke-width: 6; stroke-linecap: round; filter: drop-shadow(0 0 7px rgba(244, 216, 136, .45)); transition: stroke-dashoffset 1.4s cubic-bezier(.16, 1, .3, 1); }
+.kbv-dash .f-coin .gnum { font-size: clamp(94px, 17vh, 154px); color: #F4EEDD; }
+
+/* ALMANAC (light) — the quiet instrument on paper */
+.kbv-shell[data-theme="light"] .kbv-dash .f-coin { display: none; }
+.kbv-shell[data-theme="light"] .kbv-dash .f-arc { display: flex; }
+.kbv-dash .f-arc .ringwrap { width: min(42vh, 322px, 80vw); filter: drop-shadow(0 16px 26px rgba(30, 42, 72, .12)); }
+.kbv-dash .f-arc .g-track { stroke: var(--track); stroke-width: 11; }
+.kbv-dash .f-arc .g-fill { stroke: url(#ggold); stroke-width: 11.5; stroke-linecap: round; transition: stroke-dashoffset 1.4s cubic-bezier(.16, 1, .3, 1); }
+.kbv-dash .f-arc .g-notch { stroke: var(--gold); stroke-width: 2.2; stroke-linecap: round; }
+.kbv-dash .f-arc .g-tip circle { fill: var(--gold-hi, #F4D888); filter: drop-shadow(0 0 5px rgba(216, 171, 62, .85)); }
+.kbv-dash .f-arc .gnum { font-size: clamp(76px, 14vh, 120px); color: var(--arc-num); }
+
+@media (max-height: 640px) {
+  .kbv-dash .f-coin .ringwrap { width: min(34vh, 230px); }
+  .kbv-dash .f-arc .ringwrap { width: min(32vh, 210px); }
+}
+
+.kbv-dash .meta { margin-top: clamp(24px, 4vh, 44px); display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.kbv-dash .meta .rl { width: 46px; height: 1px; background: var(--gold); }
+.kbv-dash .tier { font-family: var(--display); font-weight: 500; font-size: clamp(22px, 3vw, 28px); color: var(--fg); line-height: 1.1; }
+.kbv-dash .tier em { font-style: italic; color: var(--gold); }
+.kbv-dash .goal { font-family: var(--ui); font-weight: 500; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-deep); }
+.kbv-dash .goal em { font-style: normal; color: var(--gold); }
+
+.kbv-dash .cue { margin-top: clamp(28px, 5vh, 56px); background: none; border: 0; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 9px; color: var(--faint); font-family: var(--ui); font-size: 9.5px; letter-spacing: .24em; text-transform: uppercase; transition: color .3s var(--ease); }
+.kbv-dash .cue:hover { color: var(--gold); }
+.kbv-dash .cue .arw { width: 1px; height: 28px; background: linear-gradient(180deg, var(--gold), transparent); }
+
+.kbv-dash .band { max-width: 800px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 40px); }
+.kbv-dash .sec-lab { font-family: var(--ui); font-weight: 500; font-size: 10.5px; letter-spacing: .28em; text-transform: uppercase; color: var(--faint); text-align: center; margin: clamp(30px, 6vh, 64px) 0 clamp(28px, 4vh, 44px); }
+.kbv-dash .exam { text-align: center; font-family: var(--display); font-size: clamp(20px, 3vw, 26px); color: var(--fg); margin-bottom: clamp(30px, 5vh, 46px); }
+.kbv-dash .exam b { color: var(--gold); font-weight: 600; }
+.kbv-dash .traj { max-width: 460px; margin: 0 auto; }
+.kbv-dash .traj-lab { font-family: var(--ui); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--faint); margin-bottom: 16px; }
+.kbv-dash .traj-track { position: relative; height: 3px; background: var(--track); border-radius: 3px; }
+.kbv-dash .traj-now { position: absolute; left: 0; top: 0; height: 100%; border-radius: 3px; background: var(--bar); transition: width 1.1s cubic-bezier(.16,1,.3,1); }
+.kbv-dash .traj-thresh { position: absolute; top: -6px; width: 2px; height: 15px; background: var(--gold); }
+.kbv-dash .traj-thresh-label { position: absolute; top: -16px; left: 50%; transform: translateX(-50%); font-family: var(--ui); font-size: 8.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); white-space: nowrap; }
+.kbv-dash .traj-dot { position: absolute; top: 50%; width: 9px; height: 9px; border-radius: 50%; background: var(--fg); transform: translate(-50%, -50%); transition: left 1.1s cubic-bezier(.16,1,.3,1); }
+.kbv-dash .traj-cap { margin-top: 18px; font-size: 14px; color: var(--dim); line-height: 1.55; }
+.kbv-dash .traj-cap b { font-family: var(--display); font-weight: 600; color: var(--fg); }
+.kbv-dash .traj-cap em { font-style: normal; color: var(--gold); }
+
+.kbv-dash .cad { max-width: 520px; margin: clamp(32px, 5vh, 48px) auto 0; }
+.kbv-dash .cad-lab { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 13px; }
+.kbv-dash .cad-lab .l { font-family: var(--ui); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--faint); }
+.kbv-dash .cad-lab .r { font-size: 13px; color: var(--dim); }
+.kbv-dash .cad-lab .r b { color: var(--fg); }
+.kbv-dash .cad-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; }
+@media (min-width: 480px) { .kbv-dash .cad-grid { grid-template-columns: repeat(15, 1fr); } }
+.kbv-dash .cad-grid i { aspect-ratio: 1; border-radius: 3px; background: var(--cell); display: block; }
+.kbv-dash .cad-grid i.void { background: transparent; border: 1px dashed var(--line); }
+
+.kbv-dash .pil { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(16px, 3vw, 32px); max-width: 640px; margin: 0 auto; }
+@media (min-width: 480px) { .kbv-dash .pil { grid-template-columns: repeat(4, 1fr); } }
+.kbv-dash .pil-n { font-family: var(--ui); font-size: 9.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+.kbv-dash .pil-v { font-family: var(--display); font-weight: 600; font-size: clamp(22px, 3vw, 30px); color: var(--fg); margin: 6px 0 0; line-height: 1; font-variant-numeric: lining-nums tabular-nums; }
+.kbv-dash .pil-t { height: 3px; background: var(--track); border-radius: 3px; margin-top: 10px; overflow: hidden; }
+.kbv-dash .pil-f { display: block; height: 100%; background: var(--bar); border-radius: 3px; transition: width 1s cubic-bezier(.16,1,.3,1); }
+.kbv-dash .pil-w { font-family: var(--ui); font-size: 8.5px; letter-spacing: .06em; color: var(--faint); margin-top: 7px; text-transform: uppercase; }
+
+.kbv-dash .pace { display: flex; justify-content: center; gap: clamp(24px, 6vw, 64px); max-width: 640px; margin: clamp(36px, 6vh, 58px) auto 0; text-align: center; flex-wrap: wrap; }
+.kbv-dash .pace .pq .l { font-family: var(--ui); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); }
+.kbv-dash .pace .pq .v { font-family: var(--display); font-weight: 600; font-size: clamp(26px, 4vw, 36px); margin: 6px 0 3px; color: var(--fg); font-variant-numeric: lining-nums tabular-nums; }
+.kbv-dash .pace .pq.h .v { color: var(--gold); }
+.kbv-dash .pace .pq .t { font-size: 11px; color: var(--dim); font-style: italic; font-family: var(--display); }
+
+.kbv-dash .nudge { display: flex; align-items: center; justify-content: center; gap: 22px; flex-wrap: wrap; max-width: 620px; margin: clamp(36px, 7vh, 62px) auto clamp(48px, 10vh, 100px); padding: 22px 28px; border-radius: 16px; border: 1px solid rgba(176,130,28,.26); background: radial-gradient(140% 200% at 0% 50%, rgba(176,130,28,.07), transparent 58%); }
+.kbv-dash .nudge .t { font-size: 14.5px; color: var(--dim); }
+.kbv-dash .nudge .t b { font-family: var(--display); font-weight: 600; color: var(--fg); }
+.kbv-dash .nudge .t em { font-style: normal; color: var(--gold); }
+.kbv-dash .nudge button { background: var(--gold); color: var(--ink); border: 0; border-radius: 10px; padding: 13px 24px; font-family: var(--ui); font-weight: 500; font-size: 13.5px; cursor: pointer; white-space: nowrap; transition: transform .2s var(--ease); }
+.kbv-dash .nudge button:hover { transform: translateY(-1px); }

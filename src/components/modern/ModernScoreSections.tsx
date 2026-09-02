@@ -15,7 +15,6 @@ import {
   Lock,
 } from 'lucide-react';
 import { ModernCard } from '@/components/modern/ModernCard';
-import { useAuthStore } from '@/features/auth/store/authStore';
 import { useMyLeaderboard } from '@/features/leaderboard/hooks/useLeaderboard';
 import { useMyCertificates, useParentCertificates } from '@/features/certificates/hooks/useCertificates';
 import { useProgress, useActivity } from '@/features/progress/hooks/useProgress';
@@ -115,14 +114,17 @@ export function ModernTierProgressCard({ tier }: { tier: TierDetail }) {
   );
 }
 
-/** Modern-themed port of LeaderboardPositionCard — same useMyLeaderboard data. Renders nothing if disabled/no cohort. */
+/**
+ * Modern-themed port of LeaderboardPositionCard — same useMyLeaderboard data.
+ * Renders nothing if disabled/no cohort. The backend only ever returns the
+ * public top-N entries plus the caller's own entry (never the full cohort
+ * ranking — see LeaderboardServiceImpl.studentView), so `ownEntry` is used
+ * directly rather than searching a full list for "me".
+ */
 export function ModernLeaderboardCard() {
-  const userId = useAuthStore((s) => s.user?.id);
   const { data, isLoading, isError } = useMyLeaderboard();
 
-  if (isLoading || isError || !data || data.length === 0) return null;
-  const mine = data.find((e) => e.studentId === userId);
-  if (!mine) return null;
+  if (isLoading || isError || !data) return null;
 
   return (
     <ModernCard
@@ -138,8 +140,8 @@ export function ModernLeaderboardCard() {
           <Trophy className="h-6 w-6" />
         </div>
         <div>
-          <p className="font-garamond text-2xl font-semibold text-[#F6F9FE]">#{mine.rank}</p>
-          <p className="text-sm text-[rgba(238,242,249,.6)]">out of {data.length} in your cohort</p>
+          <p className="font-garamond text-2xl font-semibold text-[#F6F9FE]">#{data.ownEntry.rank}</p>
+          <p className="text-sm text-[rgba(238,242,249,.6)]">out of {data.totalStudents} in your cohort</p>
         </div>
       </div>
     </ModernCard>

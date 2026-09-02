@@ -1,0 +1,20 @@
+import { apiClient } from '@/lib/apiClient';
+import type { ApiResponse } from '@/types/api';
+import type { ParentMessage, ParentSummary } from '@/features/parent/types/parent.types';
+
+export const parentApi = {
+  summary: async (): Promise<ParentSummary> => {
+    const { data } = await apiClient.get<ApiResponse<ParentSummary>>('/parent/summary');
+    return data.data;
+  },
+
+  /**
+   * "Messages from Bhavya". Backed by the shared messaging system (also used by the
+   * Student Leaderboard's "Live Action" drawer) — see useParentMessages for why this
+   * call's failure/empty result is still handled gracefully regardless.
+   */
+  messages: async (): Promise<ParentMessage[]> => {
+    const { data } = await apiClient.get<ApiResponse<ParentMessage[]>>('/parent/messages');
+    return data.data;
+  },
+};

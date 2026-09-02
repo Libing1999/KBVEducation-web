@@ -2,20 +2,21 @@ import { Link } from 'react-router-dom';
 import { Trophy, ArrowRight } from 'lucide-react';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { LoadingState } from '@/components/ui/Spinner';
-import { useAuthStore } from '@/features/auth/store/authStore';
 import { useMyLeaderboard } from '@/features/leaderboard/hooks/useLeaderboard';
 import { paths } from '@/routes/paths';
 
-/** Renders nothing if the leaderboard is disabled or the student has no cohort - not an error state worth surfacing here. */
+/**
+ * Renders nothing if the leaderboard is disabled or the student has no
+ * cohort - not an error state worth surfacing here. The backend only ever
+ * returns the public top-N entries plus the caller's own entry (never the
+ * full cohort ranking — see LeaderboardServiceImpl.studentView), so
+ * `ownEntry` is used directly rather than searching a full list for "me".
+ */
 export function LeaderboardPositionCard() {
-  const userId = useAuthStore((s) => s.user?.id);
   const { data, isLoading, isError } = useMyLeaderboard();
 
   if (isLoading) return <LoadingState label="Loading leaderboard position…" />;
-  if (isError || !data || data.length === 0) return null;
-
-  const mine = data.find((e) => e.studentId === userId);
-  if (!mine) return null;
+  if (isError || !data) return null;
 
   return (
     <Card>
@@ -32,8 +33,8 @@ export function LeaderboardPositionCard() {
           <Trophy className="h-6 w-6" />
         </div>
         <div>
-          <p className="text-2xl font-bold text-slate-800">#{mine.rank}</p>
-          <p className="text-sm text-slate-500">out of {data.length} in your cohort</p>
+          <p className="text-2xl font-bold text-slate-800">#{data.ownEntry.rank}</p>
+          <p className="text-sm text-slate-500">out of {data.totalStudents} in your cohort</p>
         </div>
       </CardBody>
     </Card>

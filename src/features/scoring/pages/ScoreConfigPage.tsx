@@ -27,6 +27,7 @@ const schema = z
     leaderboardEnabled: z.boolean(),
     leaderboardSortBy: z.enum(['COMPOSITE', 'PRACTICE', 'QUIZ', 'REFLECTION', 'HOMEWORK']),
     dashboardWidgetsEnabled: z.boolean(),
+    publicTopN: z.coerce.number().int('Must be a whole number').min(1, 'Must be at least 1').max(50, 'Must be 50 or less'),
   })
   .refine(
     (d) => Math.abs(d.practiceWeight + d.reflectionWeight + d.homeworkWeight + d.quizWeight - 100) < 0.01,
@@ -59,6 +60,7 @@ export default function ScoreConfigPage() {
           leaderboardEnabled: config.leaderboardEnabled,
           leaderboardSortBy: config.leaderboardSortBy,
           dashboardWidgetsEnabled: config.dashboardWidgetsEnabled,
+          publicTopN: config.publicTopN,
         }
       : undefined,
   });
@@ -187,6 +189,14 @@ export default function ScoreConfigPage() {
                 <option value="HOMEWORK">Homework %</option>
                 <option value="QUIZ">Quiz %</option>
               </Select>
+            </FormField>
+
+            <FormField label="Public Top N" htmlFor="sc-public-top-n" error={errors.publicTopN?.message} required>
+              <Input id="sc-public-top-n" type="number" min={1} max={50} step={1} {...register('publicTopN')} />
+              <p className="mt-1 text-xs text-slate-500">
+                How many top-ranked students are shown publicly (e.g. 3, 5, 7). A student outside this range only
+                ever sees their own rank, never the full list.
+              </p>
             </FormField>
 
             <div className="flex items-center justify-between gap-4">
