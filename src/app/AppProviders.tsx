@@ -46,7 +46,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
             bottom-right theme-orb control (found blocking real clicks there — same class of
             bug as UiVariantSwitcher below, which had the same collision with a Save button). */}
         {env.isDev && <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-left" />}
-        {env.isDev && <UiVariantSwitcher />}
+        <UiVariantSwitcher />
       </QueryClientProvider>
     </ErrorBoundary>
   );
