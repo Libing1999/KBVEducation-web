@@ -32,7 +32,7 @@ export default function LoginPage() {
     <div className="space-y-6">
       <div className="space-y-1">
         <h2 className="text-xl font-semibold text-slate-800">Sign in</h2>
-        <p className="text-sm text-slate-500">Enter your credentials to access your account.</p>
+        <p className="text-sm text-slate-500">Enter your credentials to access your account!</p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>

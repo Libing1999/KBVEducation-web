@@ -12,9 +12,13 @@ export function VoiceRecorder({ onRecorded }: { onRecorded: (file: File) => void
   const recorder = useVoiceRecorder();
 
   if (!recorder.isSupported) {
-    return (
-      <p className="text-xs text-slate-400">Voice recording isn't supported in this browser — you can still upload an audio file.</p>
-    );
+    // An insecure (plain http://) origin makes every browser look unsupported,
+    // because `navigator.mediaDevices` is hidden outside secure contexts. Say
+    // which one it actually is so it isn't misreported as a browser problem.
+    const message = recorder.supportIssue === 'insecure-context'
+      ? "Voice recording needs a secure (HTTPS) connection — this page is served over plain HTTP. You can still upload an audio file."
+      : "Voice recording isn't supported in this browser — you can still upload an audio file.";
+    return <p className="text-xs text-slate-400">{message}</p>;
   }
 
   if (recorder.status === 'stopped' && recorder.audioFile && recorder.previewUrl) {
