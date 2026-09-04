@@ -45,7 +45,7 @@ export function ModernStudentShell({ active, children, themeFallback = 'dark' }:
 
   return (
     <div className="kbv-shell" data-theme={theme}>
-      <div className="field" />
+      {/* <div className="field" /> */}
       <div className="grain" />
 
       <header className="bar">
