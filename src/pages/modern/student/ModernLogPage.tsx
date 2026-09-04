@@ -9,6 +9,7 @@ import { ModernPracticeFormModal } from '@/components/modern/student/ModernPract
 import { useTodayLesson, useTakeQuiz, useSubmitQuiz } from '@/features/learn/hooks/useLearn';
 import { ModernHomeworkSubmission } from '@/components/modern/student/ModernHomeworkSubmission';
 import { Spinner } from '@/components/modern/ui/Spinner';
+import { useFileDrop } from '@/hooks/useFileDrop';
 import type { AnswerInput } from '@/features/reflections/types/reflection.types';
 import type { SubmitAnswer } from '@/features/learn/types/learn.types';
 import '@/pages/modern/student/kbvLog.css';
@@ -48,6 +49,11 @@ function ReflectCard() {
     setAudio(null);
     setRemoveAudio(false);
   }
+
+  const { isDragging, dropHandlers } = useFileDrop((file) => {
+    setAudio(file);
+    setRemoveAudio(false);
+  });
 
   if (isLoading) return <div className="flex justify-center py-6"><Spinner /></div>;
   if (isError || !today) return <p className="priv">Couldn&rsquo;t load today&rsquo;s reflection questions.</p>;
@@ -115,10 +121,23 @@ function ReflectCard() {
           </div>
         ) : (
           <div>
-            <input ref={audioRef} type="file" accept={AUDIO_ACCEPT} style={{ display: 'none' }} onChange={onPickAudio} />
-            <button type="button" className="btn ghost" onClick={() => audioRef.current?.click()}>
-              <Upload size={14} style={{ verticalAlign: -2, marginRight: 4 }} /> {hasExistingAudio ? 'Replace voice note' : 'Upload voice note'}
-            </button>
+            <div
+              {...dropHandlers}
+              style={{
+                border: `2px dashed ${isDragging ? '#DBB652' : 'rgba(238,242,249,.15)'}`,
+                borderRadius: 8,
+                padding: 12,
+                textAlign: 'center',
+                transition: 'border-color .15s',
+                background: isDragging ? 'rgba(219,182,82,.08)' : 'transparent',
+              }}
+            >
+              <input ref={audioRef} type="file" accept={AUDIO_ACCEPT} style={{ display: 'none' }} onChange={onPickAudio} />
+              <button type="button" className="btn ghost" onClick={() => audioRef.current?.click()}>
+                <Upload size={14} style={{ verticalAlign: -2, marginRight: 4 }} /> {hasExistingAudio ? 'Replace voice note' : 'Upload voice note'}
+              </button>
+              <p className="priv">{isDragging ? 'Drop to upload' : 'or drag a file here'}</p>
+            </div>
             <p className="priv">Or record directly in your browser (up to 10 minutes):</p>
             <ModernVoiceRecorder onRecorded={(file) => { setAudio(file); setRemoveAudio(false); }} />
           </div>

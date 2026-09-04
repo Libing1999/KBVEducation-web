@@ -71,7 +71,7 @@
   --action-urgent-line: rgba(166, 124, 30, .4);
 }
 .kbv-parent *, .kbv-parent *::before, .kbv-parent *::after { box-sizing: border-box; }
-.kbv-parent .field { position: fixed; inset: 0; z-index: -2; background: var(--field); }
+.kbv-parent .field { position: fixed; inset: 0; z-index: -2; background: var(--field); pointer-events: none; }
 .kbv-parent .grain {
   position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: var(--grain-op); mix-blend-mode: var(--grain-blend);
   background-size: 170px 170px;

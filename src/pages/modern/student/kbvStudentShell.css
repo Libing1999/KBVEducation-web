@@ -60,7 +60,7 @@
   --card-sh: 0 1px 2px rgba(30, 42, 72, .04), 0 12px 26px rgba(30, 42, 72, .06);
 }
 .kbv-shell *, .kbv-shell *::before, .kbv-shell *::after { box-sizing: border-box; }
-.kbv-shell .field { position: fixed; inset: 0; z-index: -2; background: var(--field); }
+.kbv-shell .field { position: fixed; inset: 0; z-index: -2; background: var(--field); pointer-events: none; }
 .kbv-shell .grain {
   position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: var(--grain-op); mix-blend-mode: var(--grain-blend);
   background-size: 170px 170px;

@@ -211,7 +211,12 @@ export default function ScoreConfigPage() {
           </CardBody>
         </Card>
 
-        <div className="flex justify-end">
+        <div className="flex flex-col items-end gap-2">
+          {!totalValid && (
+            <p className="text-sm text-red-600">
+              Can&rsquo;t save — Score Weights must total 100% (currently {total.toFixed(2)}%).
+            </p>
+          )}
           <Button type="submit" isLoading={mutation.isPending} disabled={!totalValid}>
             Save Changes
           </Button>
