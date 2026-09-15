@@ -29,6 +29,7 @@ import {
   BadgeCheck,
   Wrench,
   Mail,
+  MessageSquare,
   ListTree,
   ChevronDown,
   type LucideIcon,
@@ -108,6 +109,7 @@ const adminGroups: NavGroup[] = [
       { label: 'Tier Rules', to: paths.admin.tierRules, icon: Award },
       { label: 'Leaderboard', to: paths.admin.leaderboard, icon: Trophy },
       { label: 'Analytics', to: paths.admin.analytics, icon: BarChart3 },
+      { label: 'Messages', to: paths.admin.messages, icon: MessageSquare },
     ],
   },
   {

@@ -51,10 +51,24 @@ export default function ModernParentsPage() {
     },
     {
       key: 'student',
-      header: 'Linked student',
+      header: 'Linked students',
       render: (p) =>
-        p.student ? (
-          <span className="text-[rgba(238,242,249,.8)]">{p.student.firstName} {p.student.lastName}</span>
+        p.students.length > 0 ? (
+          <div className="flex flex-wrap gap-1.5">
+            {p.students.map((s) => (
+              <span key={s.id} className="inline-flex items-center gap-1 rounded-full bg-white/[.06] py-0.5 pl-2 pr-1 text-xs text-[rgba(238,242,249,.8)]">
+                {s.firstName} {s.lastName}
+                <button
+                  type="button"
+                  title="Unlink"
+                  className="rounded-full p-0.5 text-[rgba(238,242,249,.4)] hover:bg-white/10 hover:text-[#DBB652]"
+                  onClick={() => unlinkStudent.mutate({ id: p.id, studentId: s.id })}
+                >
+                  <Unlink className="h-3 w-3" />
+                </button>
+              </span>
+            ))}
+          </div>
         ) : (
           <span className="text-xs text-[rgba(238,242,249,.35)]">Not linked</span>
         ),
@@ -70,14 +84,9 @@ export default function ModernParentsPage() {
           <Button variant="ghost" size="sm" title="Edit" onClick={() => { setEditing(p); setFormOpen(true); }}>
             <Pencil className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" title="Link student" onClick={() => setLinkParent(p)}>
+          <Button variant="ghost" size="sm" title="Link another student" onClick={() => setLinkParent(p)}>
             <Link2 className="h-4 w-4" />
           </Button>
-          {p.student && (
-            <Button variant="ghost" size="sm" title="Unlink student" onClick={() => unlinkStudent.mutate(p.id)}>
-              <Unlink className="h-4 w-4 text-[#DBB652]" />
-            </Button>
-          )}
           <Button variant="ghost" size="sm" title="Delete" onClick={() => setDeleteParent(p)}>
             <Trash2 className="h-4 w-4 text-[#e08a8a]" />
           </Button>

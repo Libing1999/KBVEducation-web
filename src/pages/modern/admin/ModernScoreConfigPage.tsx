@@ -27,6 +27,7 @@ const schema = z
     leaderboardEnabled: z.boolean(),
     leaderboardSortBy: z.enum(['COMPOSITE', 'PRACTICE', 'QUIZ', 'REFLECTION', 'HOMEWORK']),
     dashboardWidgetsEnabled: z.boolean(),
+    publicTopN: z.coerce.number().int('Must be a whole number').min(1, 'Must be at least 1').max(50, 'Must be 50 or less'),
   })
   .refine(
     (d) => Math.abs(d.practiceWeight + d.reflectionWeight + d.homeworkWeight + d.quizWeight - 100) < 0.01,
@@ -60,6 +61,7 @@ export default function ModernScoreConfigPage() {
           leaderboardEnabled: config.leaderboardEnabled,
           leaderboardSortBy: config.leaderboardSortBy,
           dashboardWidgetsEnabled: config.dashboardWidgetsEnabled,
+          publicTopN: config.publicTopN,
         }
       : undefined,
   });
@@ -121,7 +123,7 @@ export default function ModernScoreConfigPage() {
                 {...register('reflectionWeight')}
               />
             </FormField>
-            <FormField label="Homework Weight" htmlFor="msc-homework-weight" error={errors.homeworkWeight?.message} required>
+            <FormField label="Post-Lesson Homework Weight" htmlFor="msc-homework-weight" error={errors.homeworkWeight?.message} required>
               <Input
                 id="msc-homework-weight"
                 type="number"
@@ -132,7 +134,7 @@ export default function ModernScoreConfigPage() {
                 {...register('homeworkWeight')}
               />
             </FormField>
-            <FormField label="Quiz Weight" htmlFor="msc-quiz-weight" error={errors.quizWeight?.message} required>
+            <FormField label="Post-Lesson Quiz Weight" htmlFor="msc-quiz-weight" error={errors.quizWeight?.message} required>
               <Input
                 id="msc-quiz-weight"
                 type="number"
@@ -161,7 +163,7 @@ export default function ModernScoreConfigPage() {
             <FormField label="Total Reflection Days" htmlFor="msc-total-reflection" error={errors.totalReflectionDays?.message}>
               <Input id="msc-total-reflection" type="number" min={0} {...register('totalReflectionDays')} />
             </FormField>
-            <FormField label="Total Homework Count" htmlFor="msc-total-homework" error={errors.totalHomeworkCount?.message}>
+            <FormField label="Total Post-Lesson Homework Count" htmlFor="msc-total-homework" error={errors.totalHomeworkCount?.message}>
               <Input id="msc-total-homework" type="number" min={0} {...register('totalHomeworkCount')} />
             </FormField>
           </CardBody>
@@ -185,9 +187,17 @@ export default function ModernScoreConfigPage() {
                 <option value="COMPOSITE">Composite Score</option>
                 <option value="PRACTICE">Practice %</option>
                 <option value="REFLECTION">Reflection %</option>
-                <option value="HOMEWORK">Homework %</option>
-                <option value="QUIZ">Quiz %</option>
+                <option value="HOMEWORK">Post-Lesson Homework %</option>
+                <option value="QUIZ">Post-Lesson Quiz %</option>
               </Select>
+            </FormField>
+
+            <FormField label="Public Top N" htmlFor="msc-public-top-n" error={errors.publicTopN?.message} required>
+              <Input id="msc-public-top-n" type="number" min={1} max={50} step={1} {...register('publicTopN')} />
+              <p className="mt-1 text-xs text-[rgba(238,242,249,.5)]">
+                How many top-ranked students are shown publicly (e.g. 3, 5, 7). A student outside this range only
+                ever sees their own rank, never the full list.
+              </p>
             </FormField>
 
             <div className="flex items-center justify-between gap-4">
@@ -202,7 +212,12 @@ export default function ModernScoreConfigPage() {
           </CardBody>
         </Card>
 
-        <div className="flex justify-end">
+        <div className="flex flex-col items-end gap-2">
+          {!totalValid && (
+            <p className="text-sm text-[#e08a8a]">
+              Can&rsquo;t save — Score Weights must total 100% (currently {total.toFixed(2)}%).
+            </p>
+          )}
           <Button type="submit" isLoading={mutation.isPending} disabled={!totalValid}>
             Save Changes
           </Button>

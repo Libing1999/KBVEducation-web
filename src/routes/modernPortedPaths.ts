@@ -25,6 +25,7 @@ export const MODERN_PORTED_PATHS = new Set<string>([
   paths.admin.tierRules,
   paths.admin.leaderboard,
   paths.admin.analytics,
+  paths.admin.messages,
   paths.admin.certificateTemplates,
   paths.admin.certificates,
   paths.admin.settings,

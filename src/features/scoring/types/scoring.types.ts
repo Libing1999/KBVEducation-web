@@ -14,6 +14,8 @@ export interface ScoreConfig {
   leaderboardEnabled: boolean;
   leaderboardSortBy: LeaderboardSortField;
   dashboardWidgetsEnabled: boolean;
+  /** How many top-ranked students are shown publicly on the student leaderboard (default 3). */
+  publicTopN: number;
 }
 
 export type ScoreConfigRequest = Omit<ScoreConfig, 'id'>;

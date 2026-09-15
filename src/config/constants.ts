@@ -40,4 +40,11 @@ export const QUERY_KEYS = {
   analytics: ['analytics'] as const,
   certificateTemplates: ['certificate-templates'] as const,
   certificates: ['certificates'] as const,
+  parentSummary: ['parent-summary'] as const,
+  parentMessages: ['parent-messages'] as const,
+  parentChildren: ['parent-children'] as const,
+  adminMessages: ['admin-messages'] as const,
+  myMessages: ['my-messages'] as const,
+  adminTier: ['admin-tier'] as const,
+  adminTierHistory: ['admin-tier-history'] as const,
 } as const;

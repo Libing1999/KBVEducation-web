@@ -5,6 +5,8 @@ import { RoleGuard } from '@/routes/RoleGuard';
 import { LoginRoute } from '@/routes/LoginRoute';
 import { AuthenticatedShell } from '@/routes/AuthenticatedShell';
 import { DashboardRoute } from '@/routes/DashboardRoute';
+import { LeaderboardRoute } from '@/routes/LeaderboardRoute';
+import { LogRoute } from '@/routes/LogRoute';
 import { ProfileRoute } from '@/routes/ProfileRoute';
 import { NotificationsRoute } from '@/routes/NotificationsRoute';
 import { modernAware } from '@/routes/modernAware';
@@ -40,7 +42,6 @@ import ModernTakeQuizPage from '@/pages/modern/student/ModernTakeQuizPage';
 import ModernReflectionsPage from '@/pages/modern/student/ModernReflectionsPage';
 import ModernPracticePage from '@/pages/modern/student/ModernPracticePage';
 import ModernPracticeDetailPage from '@/pages/modern/student/ModernPracticeDetailPage';
-import ModernLeaderboardPage from '@/pages/modern/student/ModernLeaderboardPage';
 import ModernTimelinePage from '@/pages/modern/student/ModernTimelinePage';
 import ModernCalendarPage from '@/pages/modern/student/ModernCalendarPage';
 import ModernMyCertificatesPage from '@/pages/modern/student/ModernMyCertificatesPage';
@@ -72,9 +73,9 @@ import NotFoundPage from '@/features/misc/pages/NotFoundPage';
 import ScoreConfigPage from '@/features/scoring/pages/ScoreConfigPage';
 import TierRulesPage from '@/features/scoring/pages/TierRulesPage';
 import AuditLogPage from '@/features/scoring/pages/AuditLogPage';
-import LeaderboardPage from '@/features/leaderboard/pages/LeaderboardPage';
 import AdminLeaderboardPage from '@/features/leaderboard/pages/AdminLeaderboardPage';
 import AdminAnalyticsPage from '@/features/analytics/pages/AdminAnalyticsPage';
+import AdminMessagesPage from '@/features/messages/pages/AdminMessagesPage';
 import CertificateTemplatesPage from '@/features/certificates/pages/CertificateTemplatesPage';
 import AdminCertificatesPage from '@/features/certificates/pages/AdminCertificatesPage';
 import MyCertificatesPage from '@/features/certificates/pages/MyCertificatesPage';
@@ -132,7 +133,8 @@ export const router = createBrowserRouter([
               { path: paths.reflections, Component: modernAware(ReflectionsPage, ModernReflectionsPage) },
               { path: paths.practice, Component: modernAware(PracticePage, ModernPracticePage) },
               { path: '/practice/:id', Component: modernAware(PracticeDetailPage, ModernPracticeDetailPage) },
-              { path: paths.leaderboard, Component: modernAware(LeaderboardPage, ModernLeaderboardPage) },
+              { path: paths.leaderboard, Component: LeaderboardRoute },
+              { path: paths.log, Component: LogRoute },
             ],
           },
           {
@@ -158,6 +160,7 @@ export const router = createBrowserRouter([
               { path: paths.admin.auditLog, Component: modernAware(AuditLogPage, ModernAuditLogPage) },
               { path: paths.admin.leaderboard, Component: modernAware(AdminLeaderboardPage, ModernAdminLeaderboardPage) },
               { path: paths.admin.analytics, Component: modernAware(AdminAnalyticsPage, ModernAdminAnalyticsPage) },
+              { path: paths.admin.messages, element: <AdminMessagesPage /> },
               { path: paths.admin.certificateTemplates, Component: modernAware(CertificateTemplatesPage, ModernCertificateTemplatesPage) },
               { path: paths.admin.certificates, Component: modernAware(AdminCertificatesPage, ModernAdminCertificatesPage) },
               { path: paths.admin.dataExport, Component: modernAware(DataExportPage, ModernDataExportPage) },

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, Pencil, Users, Archive, Search } from 'lucide-react';
+import { Plus, Pencil, Users, Archive, Search, CalendarCog } from 'lucide-react';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
@@ -11,6 +11,7 @@ import { CohortStatusBadge } from '@/components/ui/StatusBadge';
 import { ConfirmDialog } from '@/components/feedback/ConfirmDialog';
 import { CohortFormModal } from '@/features/cohorts/components/CohortFormModal';
 import { CohortStudentsModal } from '@/features/cohorts/components/CohortStudentsModal';
+import { CohortDaysModal } from '@/features/cohorts/components/CohortDaysModal';
 import { useCohorts, useCohortMutations } from '@/features/cohorts/hooks/useCohorts';
 import type { CohortResponse, CohortsQuery, CohortStatus } from '@/features/cohorts/types/cohort.types';
 import { useTableControls } from '@/hooks/useTableControls';
@@ -25,6 +26,7 @@ export default function CohortsPage() {
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<CohortResponse | null>(null);
   const [manageCohort, setManageCohort] = useState<CohortResponse | null>(null);
+  const [daysCohort, setDaysCohort] = useState<CohortResponse | null>(null);
   const [archiveCohort, setArchiveCohort] = useState<CohortResponse | null>(null);
 
   const query: CohortsQuery = {
@@ -76,6 +78,9 @@ export default function CohortsPage() {
           <Button variant="ghost" size="sm" title="Manage students" onClick={() => setManageCohort(c)}>
             <Users className="h-4 w-4" />
           </Button>
+          <Button variant="ghost" size="sm" title="Day classification" onClick={() => setDaysCohort(c)}>
+            <CalendarCog className="h-4 w-4" />
+          </Button>
           <Button variant="ghost" size="sm" title="Edit" onClick={() => { setEditing(c); setFormOpen(true); }}>
             <Pencil className="h-4 w-4" />
           </Button>
@@ -120,6 +125,7 @@ export default function CohortsPage() {
 
       <CohortFormModal open={formOpen} onClose={() => setFormOpen(false)} cohort={editing} />
       <CohortStudentsModal open={!!manageCohort} onClose={() => setManageCohort(null)} cohort={manageCohort} />
+      <CohortDaysModal open={!!daysCohort} onClose={() => setDaysCohort(null)} cohort={daysCohort} />
       <ConfirmDialog
         open={!!archiveCohort}
         title="Archive cohort"

@@ -54,7 +54,9 @@ export default function AdminReflectionsPage() {
       render: (r) => (
         <div className="flex items-center gap-2">
           {r.hasAudio && <Mic className="h-3.5 w-3.5 shrink-0 text-accent" />}
-          <span className="line-clamp-1 max-w-md text-sm text-slate-600">{r.textPreview || <span className="text-slate-400">Voice note only</span>}</span>
+          <span className="line-clamp-1 max-w-md text-sm text-slate-600">
+            {r.textPreview || <span className="text-slate-400">{r.hasAudio ? 'Voice note only' : 'No answer yet'}</span>}
+          </span>
         </div>
       ),
     },

@@ -41,9 +41,8 @@ export function LinkStudentModal({ open, onClose, parent }: Props) {
     >
       <div className="space-y-3">
         <p className="text-sm text-slate-500">
-          Link a student to{' '}
-          <span className="font-medium text-slate-700">{parent?.firstName} {parent?.lastName}</span>. This replaces
-          any current link.
+          Link an additional student to{' '}
+          <span className="font-medium text-slate-700">{parent?.firstName} {parent?.lastName}</span>.
         </p>
         <FormField label="Student" htmlFor="link-student">
           <Select id="link-student" value={studentId} onChange={(e) => setStudentId(e.target.value)}>

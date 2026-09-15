@@ -36,8 +36,8 @@ const statusColor: Record<CohortStatus, string> = {
 const SERIES = [
   { key: 'reflections', label: 'Reflections', color: '#5f9de0' },
   { key: 'practiceLogs', label: 'Practice Logs', color: '#4fbf7a' },
-  { key: 'homeworkSubmissions', label: 'Homework Submissions', color: '#e87ba4' },
-  { key: 'quizAttempts', label: 'Quiz Attempts', color: '#eda100' },
+  { key: 'homeworkSubmissions', label: 'Post-Lesson Homework Submissions', color: '#e87ba4' },
+  { key: 'quizAttempts', label: 'Post-Lesson Quiz Attempts', color: '#eda100' },
 ] as const;
 
 /** Modern-themed port of ActivityOverviewChart — same trend data, dark axis/grid chrome. */

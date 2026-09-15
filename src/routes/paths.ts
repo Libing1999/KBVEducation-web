@@ -23,6 +23,9 @@ export const paths = {
   // Phase 4 scoring
   leaderboard: '/leaderboard',
 
+  // Modern Student tab nav — "Today's Log" (combines Reflection/Practice/Quiz/Homework)
+  log: '/log',
+
   // Phase 5 certificates (shared student/parent route; content switches by role)
   certificates: '/certificates',
 
@@ -54,6 +57,7 @@ export const paths = {
     auditLog: '/admin/audit-log',
     leaderboard: '/admin/leaderboard',
     analytics: '/admin/analytics',
+    messages: '/admin/messages',
 
     // Phase 5
     certificateTemplates: '/admin/certificate-templates',

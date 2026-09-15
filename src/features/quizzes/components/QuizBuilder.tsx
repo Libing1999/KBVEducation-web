@@ -52,7 +52,7 @@ export function QuizBuilder({ lessonId }: { lessonId: string }) {
   if (isLoading) {
     return (
       <Card>
-        <CardHeader title="Quiz" />
+        <CardHeader title="Post-Lesson Quiz" />
         <CardBody className="flex justify-center py-10"><Spinner /></CardBody>
       </Card>
     );
@@ -62,14 +62,14 @@ export function QuizBuilder({ lessonId }: { lessonId: string }) {
     return (
       <>
         <Card>
-          <CardHeader title="Quiz" subtitle="No quiz configured for this lesson" />
+          <CardHeader title="Post-Lesson Quiz" subtitle="No Post-Lesson Quiz configured for this lesson" />
           <CardBody className="flex flex-col items-center gap-3 py-8 text-center">
             <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary-50 text-primary">
               <FileQuestion className="h-5 w-5" />
             </div>
-            <p className="text-sm text-slate-500">Add a quiz so students can test their understanding.</p>
+            <p className="text-sm text-slate-500">Add a Post-Lesson Quiz so students can test their understanding.</p>
             <Button size="sm" onClick={() => setSettingsOpen(true)}>
-              <Plus className="h-4 w-4" /> Create quiz
+              <Plus className="h-4 w-4" /> Create Post-Lesson Quiz
             </Button>
           </CardBody>
         </Card>
@@ -83,7 +83,7 @@ export function QuizBuilder({ lessonId }: { lessonId: string }) {
       <CardHeader
         title={
           <span className="flex items-center gap-2">
-            Quiz <Badge tone={quiz.status === 'PUBLISHED' ? 'success' : 'neutral'}>{quiz.status}</Badge>
+            Post-Lesson Quiz <Badge tone={quiz.status === 'PUBLISHED' ? 'success' : 'neutral'}>{quiz.status}</Badge>
           </span>
         }
         subtitle={quiz.title}
@@ -95,7 +95,7 @@ export function QuizBuilder({ lessonId }: { lessonId: string }) {
             <Button variant="ghost" size="sm" title="Settings" onClick={() => setSettingsOpen(true)}>
               <Settings2 className="h-4 w-4" />
             </Button>
-            <Button variant="ghost" size="sm" title="Delete quiz" onClick={() => setDeleteQuizOpen(true)}>
+            <Button variant="ghost" size="sm" title="Delete Post-Lesson Quiz" onClick={() => setDeleteQuizOpen(true)}>
               <Trash2 className="h-4 w-4 text-red-500" />
             </Button>
           </div>
@@ -165,9 +165,9 @@ export function QuizBuilder({ lessonId }: { lessonId: string }) {
 
       <ConfirmDialog
         open={deleteQuizOpen}
-        title="Delete quiz"
-        message="Delete this quiz and all of its questions? This can’t be undone."
-        confirmLabel="Delete quiz"
+        title="Delete Post-Lesson Quiz"
+        message="Delete this Post-Lesson Quiz and all of its questions? This can’t be undone."
+        confirmLabel="Delete Post-Lesson Quiz"
         danger
         isLoading={remove.isPending}
         onConfirm={() => remove.mutate(quiz.id, { onSuccess: () => setDeleteQuizOpen(false) })}

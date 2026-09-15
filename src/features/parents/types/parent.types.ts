@@ -1,5 +1,12 @@
 import type { UserStatus } from '@/features/users/types/user.types';
 
+export interface ParentStudentRef {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
 export interface ParentResponse {
   id: string;
   email: string;
@@ -7,7 +14,7 @@ export interface ParentResponse {
   lastName: string;
   phone?: string | null;
   status: UserStatus;
-  student: { id: string; firstName: string; lastName: string; email: string } | null;
+  students: ParentStudentRef[];
   lastLoginAt?: string | null;
   createdAt: string;
 }

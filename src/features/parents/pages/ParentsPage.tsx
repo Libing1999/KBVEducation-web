@@ -50,10 +50,24 @@ export default function ParentsPage() {
     },
     {
       key: 'student',
-      header: 'Linked student',
+      header: 'Linked students',
       render: (p) =>
-        p.student ? (
-          <span className="text-slate-700">{p.student.firstName} {p.student.lastName}</span>
+        p.students.length > 0 ? (
+          <div className="flex flex-wrap gap-1.5">
+            {p.students.map((s) => (
+              <span key={s.id} className="inline-flex items-center gap-1 rounded-full bg-slate-100 py-0.5 pl-2 pr-1 text-xs text-slate-700">
+                {s.firstName} {s.lastName}
+                <button
+                  type="button"
+                  title="Unlink"
+                  className="rounded-full p-0.5 text-slate-400 hover:bg-slate-200 hover:text-accent"
+                  onClick={() => unlinkStudent.mutate({ id: p.id, studentId: s.id })}
+                >
+                  <Unlink className="h-3 w-3" />
+                </button>
+              </span>
+            ))}
+          </div>
         ) : (
           <span className="text-xs text-slate-400">Not linked</span>
         ),
@@ -69,14 +83,9 @@ export default function ParentsPage() {
           <Button variant="ghost" size="sm" title="Edit" onClick={() => { setEditing(p); setFormOpen(true); }}>
             <Pencil className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="sm" title="Link student" onClick={() => setLinkParent(p)}>
+          <Button variant="ghost" size="sm" title="Link another student" onClick={() => setLinkParent(p)}>
             <Link2 className="h-4 w-4" />
           </Button>
-          {p.student && (
-            <Button variant="ghost" size="sm" title="Unlink student" onClick={() => unlinkStudent.mutate(p.id)}>
-              <Unlink className="h-4 w-4 text-accent" />
-            </Button>
-          )}
           <Button variant="ghost" size="sm" title="Delete" onClick={() => setDeleteParent(p)}>
             <Trash2 className="h-4 w-4 text-red-500" />
           </Button>

@@ -72,8 +72,8 @@ export default function ModernCalendarPage() {
               <div className="flex flex-wrap gap-2">
                 {selectedDay.hasReflection && <span className="rounded-full bg-[#8fc7e8]/15 px-3 py-1 text-sm text-[#8fc7e8]">Reflection</span>}
                 {selectedDay.hasPractice && <span className="rounded-full bg-[#DBB652]/15 px-3 py-1 text-sm text-[#DBB652]">Practice</span>}
-                {selectedDay.hasHomework && <span className="rounded-full bg-[#8fd6ae]/15 px-3 py-1 text-sm text-[#8fd6ae]">Homework</span>}
-                {selectedDay.hasQuiz && <span className="rounded-full bg-[#b9a3e8]/15 px-3 py-1 text-sm text-[#b9a3e8]">Quiz</span>}
+                {selectedDay.hasHomework && <span className="rounded-full bg-[#8fd6ae]/15 px-3 py-1 text-sm text-[#8fd6ae]">Post-Lesson Homework</span>}
+                {selectedDay.hasQuiz && <span className="rounded-full bg-[#b9a3e8]/15 px-3 py-1 text-sm text-[#b9a3e8]">Post-Lesson Quiz</span>}
               </div>
             ) : (
               <p className="text-sm text-[rgba(238,242,249,.55)]">No activity recorded on this day.</p>

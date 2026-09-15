@@ -42,7 +42,10 @@ export function AppProviders({ children }: { children: ReactNode }) {
           position="top-right"
           toastOptions={ui === 'modern' ? MODERN_TOAST_OPTIONS : DEFAULT_TOAST_OPTIONS}
         />
-        {env.isDev && <ReactQueryDevtools initialIsOpen={false} />}
+        {/* buttonPosition explicitly set: its default collides with the Modern UI's
+            bottom-right theme-orb control (found blocking real clicks there — same class of
+            bug as UiVariantSwitcher below, which had the same collision with a Save button). */}
+        {env.isProd && <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-left" />}
         <UiVariantSwitcher />
       </QueryClientProvider>
     </ErrorBoundary>

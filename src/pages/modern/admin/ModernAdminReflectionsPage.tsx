@@ -55,7 +55,9 @@ export default function ModernAdminReflectionsPage() {
       render: (r) => (
         <div className="flex items-center gap-2">
           {r.hasAudio && <Mic className="h-3.5 w-3.5 shrink-0 text-[#DBB652]" />}
-          <span className="line-clamp-1 max-w-md text-sm text-[rgba(238,242,249,.75)]">{r.textPreview || <span className="text-[rgba(238,242,249,.35)]">Voice note only</span>}</span>
+          <span className="line-clamp-1 max-w-md text-sm text-[rgba(238,242,249,.75)]">
+            {r.textPreview || <span className="text-[rgba(238,242,249,.35)]">{r.hasAudio ? 'Voice note only' : 'No answer yet'}</span>}
+          </span>
         </div>
       ),
     },

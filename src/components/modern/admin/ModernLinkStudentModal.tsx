@@ -42,9 +42,8 @@ export function ModernLinkStudentModal({ open, onClose, parent }: Props) {
     >
       <div className="space-y-3">
         <p className="text-sm text-[rgba(238,242,249,.55)]">
-          Link a student to{' '}
-          <span className="font-medium text-[#EEF2F9]">{parent?.firstName} {parent?.lastName}</span>. This replaces
-          any current link.
+          Link an additional student to{' '}
+          <span className="font-medium text-[#EEF2F9]">{parent?.firstName} {parent?.lastName}</span>.
         </p>
         <FormField label="Student" htmlFor="m-link-student">
           <Select id="m-link-student" value={studentId} onChange={(e) => setStudentId(e.target.value)}>
