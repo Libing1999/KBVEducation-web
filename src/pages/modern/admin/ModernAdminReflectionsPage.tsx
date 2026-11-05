@@ -8,6 +8,7 @@ import { Input } from '@/components/modern/ui/Input';
 import { Select } from '@/components/modern/ui/Select';
 import { Badge } from '@/components/modern/ui/Badge';
 import { DataTable, type Column } from '@/components/modern/ui/Table';
+import { AiReflectionCell } from '@/features/ai/components/AiReflectionCell';
 import { Pagination } from '@/components/modern/ui/Pagination';
 import { useAdminReflections } from '@/features/reflections/hooks/useAdminReflections';
 import { useCohorts } from '@/features/cohorts/hooks/useCohorts';
@@ -61,6 +62,7 @@ export default function ModernAdminReflectionsPage() {
         </div>
       ),
     },
+    { key: 'ai', header: 'AI', render: (r) => <AiReflectionCell reflection={r} /> },
     {
       key: 'actions',
       header: '',

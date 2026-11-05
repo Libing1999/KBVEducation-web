@@ -68,6 +68,11 @@ export const paths = {
     emailSettings: '/admin/email-settings',
     backups: '/admin/backups',
     applicationLogs: '/admin/application-logs',
+
+    // AI (admin side only)
+    aiSettings: '/admin/ai-settings',
+    referencePack: '/admin/ai-reference-pack',
+    autoApproved: '/admin/practice-auto-approved',
   },
 
   notFound: '*',

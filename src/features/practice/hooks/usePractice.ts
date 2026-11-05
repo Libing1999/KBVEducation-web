@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
+import { useSentForReview } from '@/components/feedback/sentForReviewStore';
 import { practiceApi } from '@/features/practice/api/practiceApi';
 import type { CreatePracticeInput } from '@/features/practice/types/practice.types';
 import { QUERY_KEYS } from '@/config/constants';
@@ -33,7 +34,8 @@ export function usePracticeMutations() {
   const create = useMutation({
     mutationFn: ({ input, files }: { input: CreatePracticeInput; files: File[] }) =>
       practiceApi.create(input, files),
-    onSuccess: () => { invalidate(); toast.success('Practice logged'); },
+    // The calm "Sent for review" message replaces the plain toast (memo 17.10.2026, 1.7).
+    onSuccess: () => { invalidate(); useSentForReview.getState().show(); },
     onError,
   });
 
