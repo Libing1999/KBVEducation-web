@@ -29,7 +29,7 @@ export function ModelSelect({
     if (known) setCustom(false);
   }, [known]);
 
-  const list = known || !value || custom ? options : [{ id: value, label: `${value} (current)` }, ...options];
+  const list = known || !value || custom ? options : [{ id: value, label: value, current: true }, ...options];
 
   return (
     <div className={className}>
@@ -44,9 +44,10 @@ export function ModelSelect({
           }
         }}
       >
-        {list.map((o) => (
+        {list.map((o: AiModelOption & { current?: boolean }) => (
           <option key={o.id} value={o.id}>
             {o.label === o.id ? o.id : `${o.label} (${o.id})`}
+            {o.current ? ' (current)' : ''}
           </option>
         ))}
         <option value={OTHER}>Other… (type a model name)</option>

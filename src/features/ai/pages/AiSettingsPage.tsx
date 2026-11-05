@@ -11,6 +11,7 @@ import { LoadingState } from '@/components/ui/Spinner';
 import { ErrorState } from '@/components/feedback/ErrorState';
 import { useAiModels, useAiSettings, useAiSettingsMutations, useAiStatus } from '@/features/ai/hooks/useAi';
 import { ModelSelect } from '@/features/ai/components/ModelSelect';
+import { FALLBACK_MODELS } from '@/features/ai/models';
 import { PROVIDER_LABELS, type AiSettings, type UpdateAiSettingsInput } from '@/features/ai/types/ai.types';
 import { formatDate } from '@/lib/format';
 import { paths } from '@/routes/paths';
@@ -175,7 +176,7 @@ export default function AiSettingsPage() {
           />
           <CardBody className="space-y-4">
             <Row label="Claude model">
-              <ModelSelect className="w-80" value={form.claudeModel} options={models?.claude ?? []} onChange={(v) => set('claudeModel', v)} />
+              <ModelSelect className="w-80" value={form.claudeModel} options={models?.claude ?? FALLBACK_MODELS.claude} onChange={(v) => set('claudeModel', v)} />
             </Row>
             <Row label="Claude effort" hint="How much Claude thinks before it answers.">
               <Select className="w-40" value={form.claudeEffort} onChange={(e) => set('claudeEffort', e.target.value as UpdateAiSettingsInput['claudeEffort'])}>
@@ -185,13 +186,13 @@ export default function AiSettingsPage() {
               </Select>
             </Row>
             <Row label="Gemini model">
-              <ModelSelect className="w-80" value={form.geminiModel} options={models?.gemini ?? []} onChange={(v) => set('geminiModel', v)} />
+              <ModelSelect className="w-80" value={form.geminiModel} options={models?.gemini ?? FALLBACK_MODELS.gemini} onChange={(v) => set('geminiModel', v)} />
             </Row>
             <Row label="Gemini voice-note model" hint="Always a normal call, so voice notes are ready for the same night’s run.">
               <ModelSelect
                 className="w-80"
                 value={form.geminiTranscribeModel}
-                options={models?.gemini ?? []}
+                options={models?.gemini ?? FALLBACK_MODELS.gemini}
                 onChange={(v) => set('geminiTranscribeModel', v)}
               />
             </Row>
