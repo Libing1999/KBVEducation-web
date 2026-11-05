@@ -9,7 +9,8 @@ import { Select } from '@/components/ui/Select';
 import { Switch } from '@/components/ui/Switch';
 import { LoadingState } from '@/components/ui/Spinner';
 import { ErrorState } from '@/components/feedback/ErrorState';
-import { useAiSettings, useAiSettingsMutations, useAiStatus } from '@/features/ai/hooks/useAi';
+import { useAiModels, useAiSettings, useAiSettingsMutations, useAiStatus } from '@/features/ai/hooks/useAi';
+import { ModelSelect } from '@/features/ai/components/ModelSelect';
 import { PROVIDER_LABELS, type AiSettings, type UpdateAiSettingsInput } from '@/features/ai/types/ai.types';
 import { formatDate } from '@/lib/format';
 import { paths } from '@/routes/paths';
@@ -46,6 +47,7 @@ function toInput(s: AiSettings): UpdateAiSettingsInput {
 export default function AiSettingsPage() {
   const { data: settings, isLoading, isError, refetch } = useAiSettings();
   const { data: status } = useAiStatus();
+  const { data: models } = useAiModels();
   const { update, runNow } = useAiSettingsMutations();
   const [form, setForm] = useState<UpdateAiSettingsInput | null>(null);
 
@@ -163,10 +165,17 @@ export default function AiSettingsPage() {
         </Card>
 
         <Card>
-          <CardHeader title="Models" subtitle="Change these when a provider releases a new model; no new app release needed." />
+          <CardHeader
+            title="Models"
+            subtitle={
+              models && (!models.claudeLive || !models.geminiLive)
+                ? 'Lists come from Claude and Gemini. An AI without a key shows the memo’s models; choose “Other…” to type any name.'
+                : 'Lists come straight from Claude and Gemini, so new models appear here without a new app release.'
+            }
+          />
           <CardBody className="space-y-4">
             <Row label="Claude model">
-              <Input className="w-64" value={form.claudeModel} onChange={(e) => set('claudeModel', e.target.value)} />
+              <ModelSelect className="w-80" value={form.claudeModel} options={models?.claude ?? []} onChange={(v) => set('claudeModel', v)} />
             </Row>
             <Row label="Claude effort" hint="How much Claude thinks before it answers.">
               <Select className="w-40" value={form.claudeEffort} onChange={(e) => set('claudeEffort', e.target.value as UpdateAiSettingsInput['claudeEffort'])}>
@@ -176,10 +185,15 @@ export default function AiSettingsPage() {
               </Select>
             </Row>
             <Row label="Gemini model">
-              <Input className="w-64" value={form.geminiModel} onChange={(e) => set('geminiModel', e.target.value)} />
+              <ModelSelect className="w-80" value={form.geminiModel} options={models?.gemini ?? []} onChange={(v) => set('geminiModel', v)} />
             </Row>
             <Row label="Gemini voice-note model" hint="Always a normal call, so voice notes are ready for the same night’s run.">
-              <Input className="w-64" value={form.geminiTranscribeModel} onChange={(e) => set('geminiTranscribeModel', e.target.value)} />
+              <ModelSelect
+                className="w-80"
+                value={form.geminiTranscribeModel}
+                options={models?.gemini ?? []}
+                onChange={(v) => set('geminiTranscribeModel', v)}
+              />
             </Row>
           </CardBody>
         </Card>

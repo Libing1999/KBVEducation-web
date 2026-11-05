@@ -256,3 +256,16 @@ export interface MorningDashboard {
   }[];
   needsMe: { student: MorningStudent; reasons: string[] }[];
 }
+
+export interface AiModelOption {
+  id: string;
+  label: string;
+}
+
+/** Models offered by each provider. `*Live` is false when the list is the built-in fallback. */
+export interface AiModels {
+  claude: AiModelOption[];
+  claudeLive: boolean;
+  gemini: AiModelOption[];
+  geminiLive: boolean;
+}

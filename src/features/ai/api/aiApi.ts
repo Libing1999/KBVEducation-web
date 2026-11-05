@@ -1,6 +1,7 @@
 import { apiClient } from '@/lib/apiClient';
 import type { ApiResponse } from '@/types/api';
 import type {
+  AiModels,
   AiSettings,
   AiStatus,
   MorningDashboard,
@@ -24,6 +25,13 @@ export const aiApi = {
 
   status: async (): Promise<AiStatus> => {
     const { data } = await apiClient.get<ApiResponse<AiStatus>>('/admin/ai/status');
+    return data.data;
+  },
+
+  models: async (refresh = false): Promise<AiModels> => {
+    const { data } = await apiClient.get<ApiResponse<AiModels>>('/admin/ai/models', {
+      params: refresh ? { refresh } : undefined,
+    });
     return data.data;
   },
 

@@ -20,6 +20,10 @@ export function useAiStatus() {
   });
 }
 
+export function useAiModels() {
+  return useQuery({ queryKey: [...QUERY_KEYS.ai, 'models'], queryFn: () => aiApi.models(), staleTime: 60 * 60 * 1000 });
+}
+
 export function useMorningDashboard(date?: string) {
   return useQuery({ queryKey: [...QUERY_KEYS.ai, 'morning', date], queryFn: () => aiApi.morning(date) });
 }
