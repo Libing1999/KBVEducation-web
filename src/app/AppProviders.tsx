@@ -4,6 +4,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster, type DefaultToastOptions } from 'react-hot-toast';
 import { queryClient } from '@/lib/queryClient';
 import { ErrorBoundary } from '@/components/feedback/ErrorBoundary';
+import { SentForReviewOverlay } from '@/components/feedback/SentForReview';
 import { ThemeProvider } from '@/features/settings/components/ThemeProvider';
 import { UiVariantSwitcher } from '@/components/modern/UiVariantSwitcher';
 import { useSelectedUI } from '@/theme/uiSelector';
@@ -47,6 +48,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
             bug as UiVariantSwitcher below, which had the same collision with a Save button). */}
         {env.isProd && <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-left" />}
         <UiVariantSwitcher />
+        <SentForReviewOverlay />
       </QueryClientProvider>
     </ErrorBoundary>
   );

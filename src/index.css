@@ -129,3 +129,37 @@
   --color-accent-800: 70 52 11;
   --color-accent-900: 35 26 6;
 }
+
+/* "Sent for review" message after a student submits (memo 17.10.2026, 1.7):
+   a slow, gentle rise with a soft bounce, then it settles. No motion at all
+   when the device asks for reduced motion. */
+@keyframes kbv-sent-in {
+  0% {
+    opacity: 0;
+    transform: translateY(28px) scale(0.97);
+  }
+  55% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.01);
+  }
+  75% {
+    transform: translateY(3px) scale(1);
+  }
+  90% {
+    transform: translateY(-1px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.kbv-sent-in {
+  animation: kbv-sent-in 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kbv-sent-in {
+    animation: none;
+  }
+}

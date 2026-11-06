@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Download, FileText, Clock, CalendarDays, Layers, Check, X, Pencil, MessageSquare } from 'lucide-react';
+import { ArrowLeft, Download, FileText, Clock, CalendarDays, Layers, Check, X, Pencil, MessageSquare, Undo2 } from 'lucide-react';
 import { Card, CardBody, CardHeader } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -8,6 +8,7 @@ import { LoadingState } from '@/components/ui/Spinner';
 import { ErrorState } from '@/components/feedback/ErrorState';
 import { Modal } from '@/components/ui/Modal';
 import { AdminPracticeEditModal } from '@/features/practice/components/AdminPracticeEditModal';
+import { PracticeAiCard } from '@/features/ai/components/PracticeAiCard';
 import { useAdminPracticeSession, useAdminPracticeMutations } from '@/features/practice/hooks/useAdminPractice';
 import { adminPracticeApi } from '@/features/practice/api/adminPracticeApi';
 import { practiceStatusTone, reviewStatusTone } from '@/features/practice/statusTone';
@@ -25,11 +26,12 @@ type Decision =
 export default function AdminPracticeDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { data: s, isLoading, isError, refetch } = useAdminPracticeSession(id);
-  const { approve, reject, approveRequest, rejectRequest } = useAdminPracticeMutations();
+  const { approve, reject, approveRequest, rejectRequest, undoAutoApprove } = useAdminPracticeMutations();
 
   const [editOpen, setEditOpen] = useState(false);
   const [decision, setDecision] = useState<Decision>(null);
   const [note, setNote] = useState('');
+  const [overrideReason, setOverrideReason] = useState('');
 
   if (isLoading) return <LoadingState label="Loading session…" />;
   if (isError || !s) return <ErrorState onRetry={() => refetch()} />;
@@ -37,11 +39,19 @@ export default function AdminPracticeDetailPage() {
   const doDownload = (f: PracticeFile) => downloadFile(adminPracticeApi.fileDownloadUrl(f.id), f.fileName);
   const pending = s.status === 'PENDING_REVIEW';
 
+  // The admin overrules the AI when they approve a session it did not recommend
+  // approving, or reject one it recommended approving (memo 12.10.2026, 5).
+  const aiRec = s.ai?.recommendation;
+  const overrules =
+    !!aiRec &&
+    ((decision?.kind === 'approve' && aiRec !== 'approve') || (decision?.kind === 'reject' && aiRec === 'approve'));
+
   const confirmDecision = () => {
     if (!decision) return;
-    const done = () => { setDecision(null); setNote(''); };
-    if (decision.kind === 'approve') approve.mutate({ id: s.id, comment: note }, { onSuccess: done });
-    else if (decision.kind === 'reject') reject.mutate({ id: s.id, comment: note }, { onSuccess: done });
+    const done = () => { setDecision(null); setNote(''); setOverrideReason(''); };
+    const reason = overrules ? overrideReason.trim() || undefined : undefined;
+    if (decision.kind === 'approve') approve.mutate({ id: s.id, comment: note, overrideReason: reason }, { onSuccess: done });
+    else if (decision.kind === 'reject') reject.mutate({ id: s.id, comment: note, overrideReason: reason }, { onSuccess: done });
     else if (decision.kind === 'req-approve') approveRequest.mutate({ id: decision.id, notes: note }, { onSuccess: done });
     else if (decision.kind === 'req-reject') rejectRequest.mutate({ id: decision.id, notes: note }, { onSuccess: done });
   };
@@ -77,11 +87,22 @@ export default function AdminPracticeDetailPage() {
             </div>
           )}
 
-          {s.transcript && (
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Transcript</p>
-              <p className="mt-1 whitespace-pre-line text-sm text-slate-700">{s.transcript}</p>
+          {s.ai?.autoApproved && (
+            <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-green-50 px-4 py-3 text-sm text-green-800">
+              <span>
+                Auto-approved by the AI{s.ai.autoApprovedAt ? ` on ${formatDateTime(s.ai.autoApprovedAt)}` : ''}
+                {s.ai.spotCheck && ' · picked for a spot check'}
+              </span>
+              <Button variant="outline" size="sm" onClick={() => undoAutoApprove.mutate(s.id)} isLoading={undoAutoApprove.isPending}>
+                <Undo2 className="h-4 w-4" /> Undo
+              </Button>
             </div>
+          )}
+
+          {s.ai?.overrideReason && (
+            <p className="text-sm text-slate-600">
+              <span className="font-medium">Your reason for overruling the AI:</span> {s.ai.overrideReason}
+            </p>
           )}
 
           {s.adminComment && (
@@ -106,6 +127,8 @@ export default function AdminPracticeDetailPage() {
           </div>
         </CardBody>
       </Card>
+
+      <PracticeAiCard sessionId={s.id} fallbackTranscript={s.transcript} />
 
       {s.files.length > 0 && (
         <Card>
@@ -183,6 +206,21 @@ export default function AdminPracticeDetailPage() {
             placeholder="Comment (optional)…"
             className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
           />
+          {overrules && (
+            <div className="space-y-1 pt-2">
+              <p className="text-sm text-slate-600">
+                The AI recommended <span className="font-medium">{aiRec === 'approve' ? 'approve' : aiRec === 'look' ? 'look' : 'reject'}</span>.
+                Why are you overruling it? (optional, one line, only you see this)
+              </p>
+              <input
+                value={overrideReason}
+                onChange={(e) => setOverrideReason(e.target.value)}
+                maxLength={500}
+                placeholder="e.g. Short but genuine: we covered this topic in class"
+                className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
+              />
+            </div>
+          )}
         </div>
       </Modal>
     </div>

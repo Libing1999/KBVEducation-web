@@ -47,4 +47,5 @@ export const QUERY_KEYS = {
   myMessages: ['my-messages'] as const,
   adminTier: ['admin-tier'] as const,
   adminTierHistory: ['admin-tier-history'] as const,
+  ai: ['ai'] as const,
 } as const;
