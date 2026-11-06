@@ -57,6 +57,7 @@ export const paths = {
     auditLog: '/admin/audit-log',
     leaderboard: '/admin/leaderboard',
     analytics: '/admin/analytics',
+    pillarAnalytics: '/admin/detailed-analytics',
     messages: '/admin/messages',
 
     // Phase 5
@@ -73,6 +74,7 @@ export const paths = {
     aiSettings: '/admin/ai-settings',
     referencePack: '/admin/ai-reference-pack',
     autoApproved: '/admin/practice-auto-approved',
+    aiFields: '/admin/ai-fields',
   },
 
   notFound: '*',

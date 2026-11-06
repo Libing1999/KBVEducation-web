@@ -12,7 +12,6 @@ coverage
 *.local
 
 # Editor
-.vscode/*
 !.vscode/extensions.json
 .idea
 .DS_Store
@@ -23,6 +22,5 @@ coverage
 *.sw?
 
 # Env
-.env
-.env.local
 .env.*.local
+config.bat

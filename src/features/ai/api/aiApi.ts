@@ -1,7 +1,12 @@
 import { apiClient } from '@/lib/apiClient';
 import type { ApiResponse } from '@/types/api';
 import type {
+  AiField,
+  AiFieldList,
   AiModels,
+  CreateAiFieldInput,
+  ReanalyseInput,
+  UpdateAiFieldInput,
   AiSettings,
   AiStatus,
   MorningDashboard,
@@ -114,5 +119,26 @@ export const aiApi = {
 
   reanalyseReflection: async (reflectionId: string): Promise<void> => {
     await apiClient.post(`/admin/reflections/${reflectionId}/ai/reanalyse`);
+  },
+  // --- fields the AI returns ---
+
+  fields: async (): Promise<AiFieldList> => {
+    const { data } = await apiClient.get<ApiResponse<AiFieldList>>('/admin/ai/fields');
+    return data.data;
+  },
+
+  addField: async (payload: CreateAiFieldInput): Promise<AiField> => {
+    const { data } = await apiClient.post<ApiResponse<AiField>>('/admin/ai/fields', payload);
+    return data.data;
+  },
+
+  updateField: async ({ id, ...payload }: UpdateAiFieldInput & { id: string }): Promise<AiField> => {
+    const { data } = await apiClient.put<ApiResponse<AiField>>(`/admin/ai/fields/${id}`, payload);
+    return data.data;
+  },
+
+  reanalyseRange: async (payload: ReanalyseInput): Promise<number> => {
+    const { data } = await apiClient.post<ApiResponse<number>>('/admin/ai/fields/reanalyse', payload);
+    return data.data;
   },
 };
