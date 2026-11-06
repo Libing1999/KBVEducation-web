@@ -269,3 +269,55 @@ export interface AiModels {
   gemini: AiModelOption[];
   geminiLive: boolean;
 }
+
+// --- fields the AI returns (memo 17.10.2026, 2.1) ---
+
+export type AiFieldJobType = 'PRACTICE_REVIEW' | 'REFLECTION_REVIEW';
+export type AiFieldType = 'NUMBER' | 'RATING' | 'YES_NO' | 'SHORT_TEXT' | 'LIST';
+
+export const AI_FIELD_TYPE_LABELS: Record<AiFieldType, string> = {
+  NUMBER: 'Number',
+  RATING: 'Rating 1 to 10',
+  YES_NO: 'Yes or no',
+  SHORT_TEXT: 'Short text',
+  LIST: 'List',
+};
+
+/** Number, rating and yes/no fields get a graph; text and list fields get a table. */
+export const GRAPHED_FIELD_TYPES: AiFieldType[] = ['NUMBER', 'RATING', 'YES_NO'];
+
+export interface AiField {
+  id: string | null;
+  jobType: AiFieldJobType;
+  key: string;
+  label: string;
+  description: string;
+  type: AiFieldType;
+  builtIn: boolean;
+  active: boolean;
+  createdAt: string | null;
+}
+
+export interface AiFieldList {
+  practice: AiField[];
+  reflection: AiField[];
+}
+
+export interface CreateAiFieldInput {
+  jobType: AiFieldJobType;
+  label: string;
+  description: string;
+  fieldType: AiFieldType;
+}
+
+export interface UpdateAiFieldInput {
+  label: string;
+  description: string;
+  active: boolean;
+}
+
+export interface ReanalyseInput {
+  jobType: AiFieldJobType;
+  from: string;
+  to: string;
+}

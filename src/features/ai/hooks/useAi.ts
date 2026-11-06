@@ -126,3 +126,37 @@ export function useReanalyse() {
   const reflection = useMutation({ mutationFn: aiApi.reanalyseReflection, onSuccess, onError });
   return { practice, reflection };
 }
+
+// --- fields the AI returns (memo 17.10.2026, 2.1) ---
+
+export function useAiFields() {
+  return useQuery({ queryKey: [...QUERY_KEYS.ai, 'fields'], queryFn: aiApi.fields });
+}
+
+export function useAiFieldMutations() {
+  const qc = useQueryClient();
+  const invalidate = () => qc.invalidateQueries({ queryKey: [...QUERY_KEYS.ai, 'fields'] });
+  const add = useMutation({
+    mutationFn: aiApi.addField,
+    onSuccess: () => {
+      toast.success('Field added. The AI returns it from the next run.');
+      invalidate();
+    },
+    onError,
+  });
+  const update = useMutation({
+    mutationFn: aiApi.updateField,
+    onSuccess: () => {
+      toast.success('Field saved');
+      invalidate();
+    },
+    onError,
+  });
+  const reanalyse = useMutation({
+    mutationFn: aiApi.reanalyseRange,
+    onSuccess: (count) =>
+      toast.success(count === 0 ? 'Nothing to analyse in those dates.' : `${count} item(s) are being analysed again.`),
+    onError,
+  });
+  return { add, update, reanalyse };
+}
