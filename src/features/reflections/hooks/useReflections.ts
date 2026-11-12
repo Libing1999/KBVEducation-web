@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
+import { useSentForReview } from '@/components/feedback/sentForReviewStore';
 import { reflectionsApi } from '@/features/reflections/api/reflectionsApi';
 import type { AnswerInput } from '@/features/reflections/types/reflection.types';
 import { QUERY_KEYS } from '@/config/constants';
@@ -32,7 +33,8 @@ export function useReflectionMutations() {
   const submit = useMutation({
     mutationFn: ({ answers, audio }: { answers: AnswerInput[]; audio?: File | null }) =>
       reflectionsApi.submit(answers, audio),
-    onSuccess: () => { invalidate(); toast.success('Reflection submitted'); },
+    // The calm "Sent for review" message replaces the plain toast (memo 17.10.2026, 1.7).
+    onSuccess: () => { invalidate(); useSentForReview.getState().show(); },
     onError,
   });
 

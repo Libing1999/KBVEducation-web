@@ -28,6 +28,11 @@ import {
   ClipboardList,
   BadgeCheck,
   Wrench,
+  Sparkles,
+  FileText,
+  CheckCheck,
+  ListChecks,
+  ChartLine,
   Mail,
   MessageSquare,
   ListTree,
@@ -109,6 +114,7 @@ const adminGroups: NavGroup[] = [
       { label: 'Tier Rules', to: paths.admin.tierRules, icon: Award },
       { label: 'Leaderboard', to: paths.admin.leaderboard, icon: Trophy },
       { label: 'Analytics', to: paths.admin.analytics, icon: BarChart3 },
+      { label: 'Detailed Analytics', to: paths.admin.pillarAnalytics, icon: ChartLine },
       { label: 'Messages', to: paths.admin.messages, icon: MessageSquare },
     ],
   },
@@ -119,6 +125,17 @@ const adminGroups: NavGroup[] = [
     items: [
       { label: 'Certificate Templates', to: paths.admin.certificateTemplates, icon: FileBadge },
       { label: 'Certificates', to: paths.admin.certificates, icon: ScrollText },
+    ],
+  },
+  {
+    id: 'ai',
+    label: 'AI',
+    icon: Sparkles,
+    items: [
+      { label: 'AI Settings', to: paths.admin.aiSettings, icon: Sparkles },
+      { label: 'Reference Pack', to: paths.admin.referencePack, icon: FileText },
+      { label: 'Auto-approved', to: paths.admin.autoApproved, icon: CheckCheck },
+      { label: 'AI Fields', to: paths.admin.aiFields, icon: ListChecks },
     ],
   },
   {

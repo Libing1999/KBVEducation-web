@@ -87,6 +87,11 @@ import BackupPage from '@/features/backup/pages/BackupPage';
 import ApplicationLogsPage from '@/features/applicationLogs/pages/ApplicationLogsPage';
 import SearchResultsPage from '@/features/search/pages/SearchResultsPage';
 import ModernSearchResultsPage from '@/pages/modern/admin/ModernSearchResultsPage';
+import AiSettingsPage from '@/features/ai/pages/AiSettingsPage';
+import ReferencePackPage from '@/features/ai/pages/ReferencePackPage';
+import AutoApprovedPage from '@/features/ai/pages/AutoApprovedPage';
+import AiFieldsPage from '@/features/ai/pages/AiFieldsPage';
+import PillarAnalyticsPage from '@/features/pillarAnalytics/pages/PillarAnalyticsPage';
 
 export const router = createBrowserRouter([
   {
@@ -170,6 +175,13 @@ export const router = createBrowserRouter([
               { path: paths.admin.backups, Component: modernAware(BackupPage, ModernBackupPage) },
               { path: paths.admin.applicationLogs, Component: modernAware(ApplicationLogsPage, ModernApplicationLogsPage) },
               { path: paths.search, Component: modernAware(SearchResultsPage, ModernSearchResultsPage) },
+              // AI (admin only). One page each, shown in both UI themes.
+              { path: paths.admin.aiSettings, element: <AiSettingsPage /> },
+              { path: paths.admin.referencePack, element: <ReferencePackPage /> },
+              { path: paths.admin.autoApproved, element: <AutoApprovedPage /> },
+              { path: paths.admin.aiFields, element: <AiFieldsPage /> },
+              // Detailed analytics (memo 17.10.2026, section 2): one page, shown in both UI themes.
+              { path: paths.admin.pillarAnalytics, element: <PillarAnalyticsPage /> },
             ],
           },
         ],
