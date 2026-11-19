@@ -28,7 +28,7 @@ export default function SearchResultsPage() {
 
   return (
     <div className="space-y-5">
-      <PageHeader title="Search Results" subtitle="Users, cohorts, lessons, homework, quizzes, and more." />
+      <PageHeader title="Search Results" subtitle="Users, cohorts, lessons, Post-Lesson Homework, Post-Lesson Quizzes, and more." />
 
       <Card>
         <div className="border-b border-slate-100 p-4">

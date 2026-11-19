@@ -5,6 +5,8 @@ import { RoleGuard } from '@/routes/RoleGuard';
 import { LoginRoute } from '@/routes/LoginRoute';
 import { AuthenticatedShell } from '@/routes/AuthenticatedShell';
 import { DashboardRoute } from '@/routes/DashboardRoute';
+import { LeaderboardRoute } from '@/routes/LeaderboardRoute';
+import { LogRoute } from '@/routes/LogRoute';
 import { ProfileRoute } from '@/routes/ProfileRoute';
 import { NotificationsRoute } from '@/routes/NotificationsRoute';
 import { modernAware } from '@/routes/modernAware';
@@ -40,7 +42,6 @@ import ModernTakeQuizPage from '@/pages/modern/student/ModernTakeQuizPage';
 import ModernReflectionsPage from '@/pages/modern/student/ModernReflectionsPage';
 import ModernPracticePage from '@/pages/modern/student/ModernPracticePage';
 import ModernPracticeDetailPage from '@/pages/modern/student/ModernPracticeDetailPage';
-import ModernLeaderboardPage from '@/pages/modern/student/ModernLeaderboardPage';
 import ModernTimelinePage from '@/pages/modern/student/ModernTimelinePage';
 import ModernCalendarPage from '@/pages/modern/student/ModernCalendarPage';
 import ModernMyCertificatesPage from '@/pages/modern/student/ModernMyCertificatesPage';
@@ -72,9 +73,9 @@ import NotFoundPage from '@/features/misc/pages/NotFoundPage';
 import ScoreConfigPage from '@/features/scoring/pages/ScoreConfigPage';
 import TierRulesPage from '@/features/scoring/pages/TierRulesPage';
 import AuditLogPage from '@/features/scoring/pages/AuditLogPage';
-import LeaderboardPage from '@/features/leaderboard/pages/LeaderboardPage';
 import AdminLeaderboardPage from '@/features/leaderboard/pages/AdminLeaderboardPage';
 import AdminAnalyticsPage from '@/features/analytics/pages/AdminAnalyticsPage';
+import AdminMessagesPage from '@/features/messages/pages/AdminMessagesPage';
 import CertificateTemplatesPage from '@/features/certificates/pages/CertificateTemplatesPage';
 import AdminCertificatesPage from '@/features/certificates/pages/AdminCertificatesPage';
 import MyCertificatesPage from '@/features/certificates/pages/MyCertificatesPage';
@@ -86,6 +87,11 @@ import BackupPage from '@/features/backup/pages/BackupPage';
 import ApplicationLogsPage from '@/features/applicationLogs/pages/ApplicationLogsPage';
 import SearchResultsPage from '@/features/search/pages/SearchResultsPage';
 import ModernSearchResultsPage from '@/pages/modern/admin/ModernSearchResultsPage';
+import AiSettingsPage from '@/features/ai/pages/AiSettingsPage';
+import ReferencePackPage from '@/features/ai/pages/ReferencePackPage';
+import AutoApprovedPage from '@/features/ai/pages/AutoApprovedPage';
+import AiFieldsPage from '@/features/ai/pages/AiFieldsPage';
+import PillarAnalyticsPage from '@/features/pillarAnalytics/pages/PillarAnalyticsPage';
 
 export const router = createBrowserRouter([
   {
@@ -132,7 +138,8 @@ export const router = createBrowserRouter([
               { path: paths.reflections, Component: modernAware(ReflectionsPage, ModernReflectionsPage) },
               { path: paths.practice, Component: modernAware(PracticePage, ModernPracticePage) },
               { path: '/practice/:id', Component: modernAware(PracticeDetailPage, ModernPracticeDetailPage) },
-              { path: paths.leaderboard, Component: modernAware(LeaderboardPage, ModernLeaderboardPage) },
+              { path: paths.leaderboard, Component: LeaderboardRoute },
+              { path: paths.log, Component: LogRoute },
             ],
           },
           {
@@ -158,6 +165,7 @@ export const router = createBrowserRouter([
               { path: paths.admin.auditLog, Component: modernAware(AuditLogPage, ModernAuditLogPage) },
               { path: paths.admin.leaderboard, Component: modernAware(AdminLeaderboardPage, ModernAdminLeaderboardPage) },
               { path: paths.admin.analytics, Component: modernAware(AdminAnalyticsPage, ModernAdminAnalyticsPage) },
+              { path: paths.admin.messages, element: <AdminMessagesPage /> },
               { path: paths.admin.certificateTemplates, Component: modernAware(CertificateTemplatesPage, ModernCertificateTemplatesPage) },
               { path: paths.admin.certificates, Component: modernAware(AdminCertificatesPage, ModernAdminCertificatesPage) },
               { path: paths.admin.dataExport, Component: modernAware(DataExportPage, ModernDataExportPage) },
@@ -167,6 +175,13 @@ export const router = createBrowserRouter([
               { path: paths.admin.backups, Component: modernAware(BackupPage, ModernBackupPage) },
               { path: paths.admin.applicationLogs, Component: modernAware(ApplicationLogsPage, ModernApplicationLogsPage) },
               { path: paths.search, Component: modernAware(SearchResultsPage, ModernSearchResultsPage) },
+              // AI (admin only). One page each, shown in both UI themes.
+              { path: paths.admin.aiSettings, element: <AiSettingsPage /> },
+              { path: paths.admin.referencePack, element: <ReferencePackPage /> },
+              { path: paths.admin.autoApproved, element: <AutoApprovedPage /> },
+              { path: paths.admin.aiFields, element: <AiFieldsPage /> },
+              // Detailed analytics (memo 17.10.2026, section 2): one page, shown in both UI themes.
+              { path: paths.admin.pillarAnalytics, element: <PillarAnalyticsPage /> },
             ],
           },
         ],

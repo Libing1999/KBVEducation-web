@@ -15,7 +15,6 @@ import {
   Lock,
 } from 'lucide-react';
 import { ModernCard } from '@/components/modern/ModernCard';
-import { useAuthStore } from '@/features/auth/store/authStore';
 import { useMyLeaderboard } from '@/features/leaderboard/hooks/useLeaderboard';
 import { useMyCertificates, useParentCertificates } from '@/features/certificates/hooks/useCertificates';
 import { useProgress, useActivity } from '@/features/progress/hooks/useProgress';
@@ -43,8 +42,8 @@ export function ModernScoreBreakdownCard({
   const meters = [
     { label: 'Practice', value: practicePercentage },
     { label: 'Reflection', value: reflectionPercentage },
-    { label: 'Homework', value: homeworkPercentage },
-    { label: 'Quiz', value: quizPercentage },
+    { label: 'Post-Lesson Homework', value: homeworkPercentage },
+    { label: 'Post-Lesson Quiz', value: quizPercentage },
   ];
   return (
     <ModernCard title="Score Breakdown" subtitle="Category performance" bodyClassName="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -115,14 +114,17 @@ export function ModernTierProgressCard({ tier }: { tier: TierDetail }) {
   );
 }
 
-/** Modern-themed port of LeaderboardPositionCard — same useMyLeaderboard data. Renders nothing if disabled/no cohort. */
+/**
+ * Modern-themed port of LeaderboardPositionCard — same useMyLeaderboard data.
+ * Renders nothing if disabled/no cohort. The backend only ever returns the
+ * public top-N entries plus the caller's own entry (never the full cohort
+ * ranking — see LeaderboardServiceImpl.studentView), so `ownEntry` is used
+ * directly rather than searching a full list for "me".
+ */
 export function ModernLeaderboardCard() {
-  const userId = useAuthStore((s) => s.user?.id);
   const { data, isLoading, isError } = useMyLeaderboard();
 
-  if (isLoading || isError || !data || data.length === 0) return null;
-  const mine = data.find((e) => e.studentId === userId);
-  if (!mine) return null;
+  if (isLoading || isError || !data) return null;
 
   return (
     <ModernCard
@@ -138,8 +140,8 @@ export function ModernLeaderboardCard() {
           <Trophy className="h-6 w-6" />
         </div>
         <div>
-          <p className="font-garamond text-2xl font-semibold text-[#F6F9FE]">#{mine.rank}</p>
-          <p className="text-sm text-[rgba(238,242,249,.6)]">out of {data.length} in your cohort</p>
+          <p className="font-garamond text-2xl font-semibold text-[#F6F9FE]">#{data.ownEntry.rank}</p>
+          <p className="text-sm text-[rgba(238,242,249,.6)]">out of {data.totalStudents} in your cohort</p>
         </div>
       </div>
     </ModernCard>
@@ -263,7 +265,7 @@ export function ModernParentActivitySection() {
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <ModernStat icon={Flame} label="Reflection streak" value={`${progress.reflectionStreak} ${progress.reflectionStreak === 1 ? 'day' : 'days'}`} />
         <ModernStat icon={Flame} label="Practice streak" value={`${progress.practiceStreak} ${progress.practiceStreak === 1 ? 'day' : 'days'}`} />
-        <ModernStat icon={ClipboardList} label="Homework submitted" value={progress.courseTotal.homeworkSubmitted} />
+        <ModernStat icon={ClipboardList} label="Post-Lesson Homework submitted" value={progress.courseTotal.homeworkSubmitted} />
         <ModernStat icon={FileQuestion} label="Quizzes completed" value={progress.courseTotal.quizzesCompleted} />
       </div>
 
@@ -329,8 +331,8 @@ function ModernMetricsCard({ title, metrics }: { title: string; metrics: Progres
   const items = [
     { label: 'Reflection days', value: metrics.reflectionDays },
     { label: 'Practice days', value: metrics.practiceDays },
-    { label: 'Homework', value: metrics.homeworkSubmitted },
-    { label: 'Quizzes', value: metrics.quizzesCompleted },
+    { label: 'Post-Lesson Homework', value: metrics.homeworkSubmitted },
+    { label: 'Post-Lesson Quizzes', value: metrics.quizzesCompleted },
     { label: 'Lessons', value: metrics.lessonsCompleted },
   ];
   return (
@@ -374,7 +376,7 @@ export function ModernTodayAndActivity() {
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <ModernStat icon={Flame} label="Reflection streak" value={`${progress.reflectionStreak} ${progress.reflectionStreak === 1 ? 'day' : 'days'}`} />
         <ModernStat icon={Flame} label="Practice streak" value={`${progress.practiceStreak} ${progress.practiceStreak === 1 ? 'day' : 'days'}`} />
-        <ModernStat icon={ClipboardList} label="Homework submitted" value={progress.courseTotal.homeworkSubmitted} />
+        <ModernStat icon={ClipboardList} label="Post-Lesson Homework submitted" value={progress.courseTotal.homeworkSubmitted} />
         <ModernStat icon={FileQuestion} label="Quizzes completed" value={progress.courseTotal.quizzesCompleted} />
       </div>
 

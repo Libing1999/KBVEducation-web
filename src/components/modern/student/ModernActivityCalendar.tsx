@@ -7,8 +7,8 @@ const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const DOTS: { key: keyof Pick<StudyDay, 'hasReflection' | 'hasPractice' | 'hasHomework' | 'hasQuiz'>; label: string; cls: string }[] = [
   { key: 'hasReflection', label: 'Reflection', cls: 'bg-[#8fc7e8]' },
   { key: 'hasPractice', label: 'Practice', cls: 'bg-[#DBB652]' },
-  { key: 'hasHomework', label: 'Homework', cls: 'bg-[#8fd6ae]' },
-  { key: 'hasQuiz', label: 'Quiz', cls: 'bg-[#b9a3e8]' },
+  { key: 'hasHomework', label: 'Post-Lesson Homework', cls: 'bg-[#8fd6ae]' },
+  { key: 'hasQuiz', label: 'Post-Lesson Quiz', cls: 'bg-[#b9a3e8]' },
 ];
 
 function iso(d: Date) {

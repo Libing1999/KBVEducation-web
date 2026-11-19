@@ -5,8 +5,8 @@
   "type": "module",
   "description": "KBV Education - Course Companion Platform frontend (Phase 1)",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "dev": "node init && vite",
+    "build": "node init && tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",

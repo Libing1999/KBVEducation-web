@@ -2,7 +2,11 @@ import { apiClient } from '@/lib/apiClient';
 import { buildParams } from '@/lib/utils';
 import type { ApiResponse } from '@/types/api';
 import type { PageResponse } from '@/types/pagination';
-import type { LeaderboardEntry, LeaderboardSortField } from '@/features/leaderboard/types/leaderboard.types';
+import type {
+  LeaderboardEntry,
+  LeaderboardSortField,
+  LeaderboardStanding,
+} from '@/features/leaderboard/types/leaderboard.types';
 
 export interface AdminLeaderboardQuery {
   cohortId: string;
@@ -12,8 +16,8 @@ export interface AdminLeaderboardQuery {
 }
 
 export const leaderboardApi = {
-  myLeaderboard: async (sortBy?: LeaderboardSortField): Promise<LeaderboardEntry[]> => {
-    const { data } = await apiClient.get<ApiResponse<LeaderboardEntry[]>>('/student/leaderboard', {
+  myLeaderboard: async (sortBy?: LeaderboardSortField): Promise<LeaderboardStanding> => {
+    const { data } = await apiClient.get<ApiResponse<LeaderboardStanding>>('/student/leaderboard', {
       params: buildParams({ sortBy }),
     });
     return data.data;

@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/Badge';
 import { LoadingState } from '@/components/ui/Spinner';
 import { ErrorState } from '@/components/feedback/ErrorState';
 import { AudioPlayer } from '@/components/ui/AudioPlayer';
+import { ReflectionAiCard } from '@/features/ai/components/ReflectionAiCard';
 import { ConfirmDialog } from '@/components/feedback/ConfirmDialog';
 import { useAdminReflection, useAdminReflectionMutations } from '@/features/reflections/hooks/useAdminReflections';
 import { adminReflectionsApi } from '@/features/reflections/api/adminReflectionsApi';
@@ -74,6 +75,8 @@ export default function AdminReflectionDetailPage() {
           <CardBody><AudioPlayer url={adminReflectionsApi.audioUrl(r.id)} /></CardBody>
         </Card>
       )}
+
+      <ReflectionAiCard reflectionId={r.id} hasAudio={r.hasAudio} />
 
       <Card>
         <CardHeader

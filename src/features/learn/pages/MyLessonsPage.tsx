@@ -64,13 +64,13 @@ function LessonCard({ lesson }: { lesson: StudentLessonResponse }) {
             {lesson.hasQuiz && (
               <Badge tone={lesson.quizCompleted ? 'success' : 'info'}>
                 {lesson.quizCompleted ? <CheckCircle2 className="mr-1 h-3 w-3" /> : <FileQuestion className="mr-1 h-3 w-3" />}
-                {lesson.quizCompleted ? 'Quiz done' : 'Quiz'}
+                {lesson.quizCompleted ? 'Post-Lesson Quiz done' : 'Post-Lesson Quiz'}
               </Badge>
             )}
             {lesson.hasHomework && (
               <Badge tone={lesson.homeworkSubmitted ? 'success' : 'accent'}>
                 {lesson.homeworkSubmitted ? <CheckCircle2 className="mr-1 h-3 w-3" /> : <ClipboardList className="mr-1 h-3 w-3" />}
-                {lesson.homeworkSubmitted ? 'Homework done' : 'Homework'}
+                {lesson.homeworkSubmitted ? 'Post-Lesson Homework done' : 'Post-Lesson Homework'}
               </Badge>
             )}
           </div>

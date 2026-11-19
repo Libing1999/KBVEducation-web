@@ -40,14 +40,28 @@ export function useAdminPracticeMutations() {
   const onError = (e: unknown) => toast.error(getErrorMessage(e));
 
   const approve = useMutation({
-    mutationFn: ({ id, comment }: { id: string; comment?: string }) => adminPracticeApi.approve(id, comment),
+    mutationFn: ({ id, comment, overrideReason }: { id: string; comment?: string; overrideReason?: string }) =>
+      adminPracticeApi.approve(id, comment, overrideReason),
     onSuccess: () => { invalidate(); toast.success('Practice approved'); },
     onError,
   });
 
   const reject = useMutation({
-    mutationFn: ({ id, comment }: { id: string; comment?: string }) => adminPracticeApi.reject(id, comment),
+    mutationFn: ({ id, comment, overrideReason }: { id: string; comment?: string; overrideReason?: string }) =>
+      adminPracticeApi.reject(id, comment, overrideReason),
     onSuccess: () => { invalidate(); toast.success('Practice rejected'); },
+    onError,
+  });
+
+  const bulkApprove = useMutation({
+    mutationFn: (ids: string[]) => adminPracticeApi.bulkApprove(ids),
+    onSuccess: (count) => { invalidate(); toast.success(`${count} session(s) approved`); },
+    onError,
+  });
+
+  const undoAutoApprove = useMutation({
+    mutationFn: (id: string) => adminPracticeApi.undoAutoApprove(id),
+    onSuccess: () => { invalidate(); toast.success('Auto-approval undone. The session is waiting again.'); },
     onError,
   });
 
@@ -70,5 +84,12 @@ export function useAdminPracticeMutations() {
     onError,
   });
 
-  return { approve, reject, update, approveRequest, rejectRequest };
+  return { approve, reject, update, approveRequest, rejectRequest, bulkApprove, undoAutoApprove };
+}
+
+export function useAutoApprovedPractice() {
+  return useQuery({
+    queryKey: [...QUERY_KEYS.practice, 'auto-approved'],
+    queryFn: () => adminPracticeApi.autoApproved(),
+  });
 }

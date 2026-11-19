@@ -3,6 +3,8 @@ import { buildParams } from '@/lib/utils';
 import type { ApiResponse } from '@/types/api';
 import type { PageResponse } from '@/types/pagination';
 import type {
+  CohortDay,
+  CohortDayType,
   CohortRequest,
   CohortResponse,
   CohortsQuery,
@@ -42,5 +44,21 @@ export const cohortsApi = {
 
   removeStudent: async (id: string, studentId: string): Promise<void> => {
     await apiClient.delete<ApiResponse<void>>(`/admin/cohorts/${id}/students/${studentId}`);
+  },
+
+  listDays: async (id: string, from: string, to: string): Promise<CohortDay[]> => {
+    const { data } = await apiClient.get<ApiResponse<CohortDay[]>>(`/admin/cohorts/${id}/days`, {
+      params: { from, to },
+    });
+    return data.data;
+  },
+
+  setDay: async (id: string, date: string, dayType: CohortDayType): Promise<CohortDay> => {
+    const { data } = await apiClient.put<ApiResponse<CohortDay>>(`/admin/cohorts/${id}/days`, { date, dayType });
+    return data.data;
+  },
+
+  resetDay: async (id: string, date: string): Promise<void> => {
+    await apiClient.delete<ApiResponse<void>>(`/admin/cohorts/${id}/days/${date}`);
   },
 };

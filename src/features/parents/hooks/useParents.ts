@@ -42,7 +42,8 @@ export function useParentMutations() {
   });
 
   const unlinkStudent = useMutation({
-    mutationFn: (id: string) => parentsApi.unlinkStudent(id),
+    mutationFn: ({ id, studentId }: { id: string; studentId: string }) =>
+      parentsApi.unlinkStudent(id, studentId),
     onSuccess: () => { invalidate(); toast.success('Student unlinked'); },
     onError,
   });

@@ -24,13 +24,34 @@ export const adminPracticeApi = {
     return data.data;
   },
 
-  approve: async (id: string, comment?: string): Promise<PracticeSession> => {
-    const { data } = await apiClient.put<ApiResponse<PracticeSession>>(`/admin/practice/${id}/approve`, { comment });
+  approve: async (id: string, comment?: string, overrideReason?: string): Promise<PracticeSession> => {
+    const { data } = await apiClient.put<ApiResponse<PracticeSession>>(`/admin/practice/${id}/approve`, {
+      comment,
+      overrideReason,
+    });
     return data.data;
   },
 
-  reject: async (id: string, comment?: string): Promise<PracticeSession> => {
-    const { data } = await apiClient.put<ApiResponse<PracticeSession>>(`/admin/practice/${id}/reject`, { comment });
+  reject: async (id: string, comment?: string, overrideReason?: string): Promise<PracticeSession> => {
+    const { data } = await apiClient.put<ApiResponse<PracticeSession>>(`/admin/practice/${id}/reject`, {
+      comment,
+      overrideReason,
+    });
+    return data.data;
+  },
+
+  bulkApprove: async (ids: string[]): Promise<number> => {
+    const { data } = await apiClient.post<ApiResponse<number>>('/admin/practice/bulk-approve', { ids });
+    return data.data;
+  },
+
+  autoApproved: async (): Promise<PracticeSession[]> => {
+    const { data } = await apiClient.get<ApiResponse<PracticeSession[]>>('/admin/practice/auto-approved');
+    return data.data;
+  },
+
+  undoAutoApprove: async (id: string): Promise<PracticeSession> => {
+    const { data } = await apiClient.put<ApiResponse<PracticeSession>>(`/admin/practice/${id}/undo-auto-approve`);
     return data.data;
   },
 

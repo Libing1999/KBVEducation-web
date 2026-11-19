@@ -82,7 +82,7 @@ export function useMyCertificates(enabled = true) {
 export function useParentCertificates(enabled = true) {
   return useQuery({
     queryKey: [...QUERY_KEYS.certificates, 'parent'],
-    queryFn: certificatesApi.listForParent,
+    queryFn: () => certificatesApi.listForParent(),
     enabled,
   });
 }

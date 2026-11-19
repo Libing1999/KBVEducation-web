@@ -1,3 +1,5 @@
+import type { AiJobStatus, TranscriptStatus } from '@/features/ai/types/ai.types';
+
 export type ReflectionType = 'TYPED' | 'VOICE' | 'BOTH';
 
 export interface ReflectionQuestion {
@@ -48,6 +50,11 @@ export interface AdminReflectionSummary {
   reflectionType: ReflectionType;
   textPreview?: string | null;
   hasAudio: boolean;
+  // Admin only (AI)
+  aiStatus?: AiJobStatus | null;
+  aiFlagCount?: number | null;
+  aiNeedsAttention?: boolean;
+  transcriptStatus?: TranscriptStatus;
 }
 
 export interface AdminReflectionQuery {

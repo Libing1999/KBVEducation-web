@@ -5,6 +5,7 @@ import { useAdminDashboard, useAdminDashboardTrends } from '@/features/dashboard
 import { ModernDashboardBar } from '@/components/modern/ModernDashboardBar';
 import { useCountUp } from '@/components/modern/useCountUp';
 import { GRAIN_TEXTURE_URI } from '@/theme/grainTexture';
+import { MorningSection } from '@/features/ai/components/MorningSection';
 import {
   ModernActivityChart,
   ModernCohortChart,
@@ -71,6 +72,10 @@ export function ModernAdminDashboard() {
           Platform overview
         </p>
         <h1 className="mb-10 text-center font-garamond text-3xl font-medium">Admin standing</h1>
+
+        <div className="mx-auto mb-10 max-w-6xl">
+          <MorningSection variant="dark" />
+        </div>
 
         {isLoading ? (
           <p className="text-center text-[rgba(238,242,249,.6)]">Loading…</p>

@@ -37,8 +37,8 @@ export function ParentDashboard() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <StatCard label="Reflection streak" value={`${progress.reflectionStreak} ${progress.reflectionStreak === 1 ? 'day' : 'days'}`} icon={Flame} tone="accent" />
             <StatCard label="Practice streak" value={`${progress.practiceStreak} ${progress.practiceStreak === 1 ? 'day' : 'days'}`} icon={Flame} tone="accent" />
-            <StatCard label="Homework submitted" value={progress.courseTotal.homeworkSubmitted} icon={ClipboardList} />
-            <StatCard label="Quizzes completed" value={progress.courseTotal.quizzesCompleted} icon={FileQuestion} />
+            <StatCard label="Post-Lesson Homework submitted" value={progress.courseTotal.homeworkSubmitted} icon={ClipboardList} />
+            <StatCard label="Post-Lesson Quizzes completed" value={progress.courseTotal.quizzesCompleted} icon={FileQuestion} />
           </div>
 
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -71,8 +71,8 @@ function MetricsCard({ title, metrics }: { title: string; metrics: ProgressMetri
   const items = [
     { icon: PenLine, label: 'Reflection days', value: metrics.reflectionDays },
     { icon: BookOpenCheck, label: 'Practice days', value: metrics.practiceDays },
-    { icon: ClipboardList, label: 'Homework', value: metrics.homeworkSubmitted },
-    { icon: FileQuestion, label: 'Quizzes', value: metrics.quizzesCompleted },
+    { icon: ClipboardList, label: 'Post-Lesson Homework', value: metrics.homeworkSubmitted },
+    { icon: FileQuestion, label: 'Post-Lesson Quizzes', value: metrics.quizzesCompleted },
     { icon: GraduationCap, label: 'Lessons', value: metrics.lessonsCompleted },
   ];
   return (

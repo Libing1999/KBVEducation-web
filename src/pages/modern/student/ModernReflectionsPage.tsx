@@ -10,6 +10,7 @@ import { useTodayReflection, useReflectionHistory, useReflectionMutations } from
 import { reflectionsApi } from '@/features/reflections/api/reflectionsApi';
 import { ModernVoiceRecorder } from '@/components/modern/student/ModernVoiceRecorder';
 import { formatDate } from '@/lib/format';
+import { useFileDrop } from '@/hooks/useFileDrop';
 import type { AnswerInput } from '@/features/reflections/types/reflection.types';
 
 const AUDIO_ACCEPT = '.mp3,.wav,.m4a,.aac';
@@ -42,6 +43,11 @@ export default function ModernReflectionsPage() {
     setAudio(null);
     setRemoveAudio(false);
   }
+
+  const { isDragging, dropHandlers } = useFileDrop((file) => {
+    setAudio(file);
+    setRemoveAudio(false);
+  });
 
   if (isLoading) return <LoadingState label="Loading today's reflection…" />;
   if (isError || !today) return <ErrorState onRetry={() => refetch()} />;
@@ -137,12 +143,20 @@ export default function ModernReflectionsPage() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="space-y-2">
+                  <div
+                    {...dropHandlers}
+                    className={`space-y-2 rounded-lg border-2 border-dashed p-3 text-center transition-colors ${
+                      isDragging ? 'border-[#B0821C] bg-[#B0821C]/[.08]' : 'border-[rgba(238,242,249,.15)]'
+                    }`}
+                  >
                     <input ref={audioRef} type="file" accept={AUDIO_ACCEPT} className="hidden" onChange={onPickAudio} />
                     <Button variant="secondary" size="sm" onClick={() => audioRef.current?.click()}>
                       <Upload className="h-4 w-4" /> {hasExistingAudio ? 'Replace voice note' : 'Upload voice note'}
                     </Button>
-                    <p className="text-xs text-[rgba(238,242,249,.4)]">MP3, WAV, M4A or AAC · up to 25 MB. No transcription is done — your file is stored as-is.</p>
+                    <p className="text-xs text-[rgba(238,242,249,.4)]">
+                      {isDragging ? 'Drop to upload' : 'or drag a file here'} · MP3, WAV, M4A or AAC · up to 25 MB. No
+                      transcription is done — your file is stored as-is.
+                    </p>
                   </div>
                   <div className="border-t border-[rgba(238,242,249,.1)] pt-3">
                     <p className="mb-2 text-xs font-medium text-[rgba(238,242,249,.5)]">Or record directly in your browser (up to 10 minutes)</p>
@@ -175,7 +189,8 @@ export default function ModernReflectionsPage() {
                   <div className="min-w-0 flex-1">
                     <p className="text-sm font-medium text-[#EEF2F9]">{formatDate(r.reflectionDate)}</p>
                     <p className="truncate text-xs text-[rgba(238,242,249,.5)]">
-                      {r.answers.map((a) => a.answerText).filter(Boolean).join(' · ') || 'Voice note only'}
+                      {r.answers.map((a) => a.answerText).filter(Boolean).join(' · ') ||
+                        (r.hasAudio ? 'Voice note only' : 'No answer yet')}
                     </p>
                   </div>
                   <Badge tone={r.reflectionType === 'TYPED' ? 'info' : 'accent'}>{r.reflectionType}</Badge>

@@ -68,10 +68,25 @@ export interface NotificationPlaceholder {
   createdAt: string;
 }
 
+export interface PaceProjection {
+  now: number;
+  atRecentPace: number;
+  last3Days: number;
+  nextTierThreshold: number | null;
+  nextTierName: string | null;
+}
+
+export interface AttendanceDay {
+  date: string;
+  active: boolean;
+  voided: boolean;
+  restOrSkip: boolean;
+}
+
 export interface ScoreDashboard {
   name: string;
   role: Role;
-  cohort: { name: string; status: string } | null;
+  cohort: { name: string; status: string; examDate: string | null } | null;
   compositeScore: number;
   practicePercentage: number;
   reflectionPercentage: number;
@@ -80,6 +95,9 @@ export interface ScoreDashboard {
   currentTier: string;
   upcomingLessons: LessonPlaceholder[];
   recentNotifications: NotificationPlaceholder[];
+  pace: PaceProjection;
+  attendance: AttendanceDay[];
+  weights: { practice: number; reflection: number; homework: number; quiz: number };
 }
 
 export interface RemainingRequirement {

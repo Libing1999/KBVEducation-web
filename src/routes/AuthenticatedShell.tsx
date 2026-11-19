@@ -16,8 +16,12 @@ const SHARED_MODERN_PATHS: string[] = [paths.profile, paths.notifications];
 const STUDENT_PARENT_PATHS: string[] = [paths.myLessons, paths.activity, paths.calendar, paths.certificates];
 const STUDENT_PARENT_DYNAMIC_PREFIXES: string[] = ['/lessons/'];
 
-/** STUDENT-only: quiz taking + logging reflections/practice. */
-const STUDENT_ONLY_PATHS: string[] = [paths.reflections, paths.practice, paths.leaderboard];
+/** STUDENT-only: quiz taking + logging reflections/practice. Note: paths.leaderboard and
+ * paths.log are deliberately NOT here — those two (plus paths.dashboard) escape this shell
+ * entirely for STUDENT+modern via their own portal-based routes (DashboardRoute/
+ * LeaderboardRoute/LogRoute) into the shared 3-tab ModernStudentShell, replacing the
+ * hamburger-drawer nav this shell renders for every other Modern route. */
+const STUDENT_ONLY_PATHS: string[] = [paths.reflections, paths.practice];
 const STUDENT_ONLY_DYNAMIC_PREFIXES: string[] = ['/quizzes/', '/practice/'];
 
 /**

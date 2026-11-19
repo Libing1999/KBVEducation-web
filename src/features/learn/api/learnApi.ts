@@ -30,6 +30,14 @@ export const learnApi = {
   lessonFileDownloadUrl: (lessonId: string, fileId: string): string =>
     `/student/lessons/${lessonId}/files/${fileId}/download`,
 
+  /** Today's published lesson in my cohort, or null when none is scheduled today. */
+  todayLesson: async (): Promise<StudentLessonDetailResponse | null> => {
+    const { data } = await apiClient.get<ApiResponse<StudentLessonDetailResponse | null>>(
+      '/student/lessons/today',
+    );
+    return data.data;
+  },
+
   takeQuiz: async (quizId: string): Promise<StudentQuizResponse> => {
     const { data } = await apiClient.get<ApiResponse<StudentQuizResponse>>(
       `/student/quizzes/${quizId}`,

@@ -62,11 +62,11 @@ export function QuizSettingsModal({ open, onClose, lessonId, quiz }: Props) {
     <Modal
       open={open}
       onClose={onClose}
-      title={isEdit ? 'Quiz settings' : 'Create quiz'}
+      title={isEdit ? 'Post-Lesson Quiz settings' : 'Create Post-Lesson Quiz'}
       footer={
         <>
           <Button variant="outline" onClick={onClose} disabled={upsert.isPending}>Cancel</Button>
-          <Button onClick={submit} isLoading={upsert.isPending}>{isEdit ? 'Save changes' : 'Create quiz'}</Button>
+          <Button onClick={submit} isLoading={upsert.isPending}>{isEdit ? 'Save changes' : 'Create Post-Lesson Quiz'}</Button>
         </>
       }
     >
