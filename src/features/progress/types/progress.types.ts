@@ -40,4 +40,6 @@ export interface StudyDay {
   hasPractice: boolean;
   hasHomework: boolean;
   hasQuiz: boolean;
+  voided: boolean;
+  voidedReason?: string | null;
 }

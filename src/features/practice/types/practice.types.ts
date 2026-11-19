@@ -1,3 +1,5 @@
+import type { AiJobStatus, PracticeAiHeadline, Recommendation } from '@/features/ai/types/ai.types';
+
 // Legacy values (PAST_PAPER / WEAKNESS_PRACTICE / GENERAL_PRACTICE) are kept only so
 // historical sessions still type-check and display correctly; the create form no longer
 // offers them — see CURRENT_STUDY_TYPES below.
@@ -62,6 +64,8 @@ export interface PracticeSession {
   createdAt: string;
   files: PracticeFile[];
   reviewRequests: ReviewRequest[];
+  /** Admin only: the AI headline. Never present for students. */
+  ai?: PracticeAiHeadline | null;
 }
 
 export interface CreatePracticeInput {
@@ -99,6 +103,16 @@ export interface AdminPracticeQuery {
   status?: PracticeStatus;
   studyType?: StudyType;
   search?: string;
+  // AI filters (admin review list)
+  recommendation?: Recommendation;
+  minRating?: number;
+  maxRating?: number;
+  flagged?: boolean;
+  aiStatus?: AiJobStatus;
+  autoApproved?: boolean;
+  spotCheck?: boolean;
+  sort?: string;
+  direction?: 'asc' | 'desc';
   page?: number;
   size?: number;
 }

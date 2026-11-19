@@ -81,7 +81,7 @@ export default function NotificationsPage() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold text-slate-800">Notifications</h1>
-          <p className="text-sm text-slate-500">Updates about your lessons, quizzes and homework.</p>
+          <p className="text-sm text-slate-500">Updates about your lessons, Post-Lesson Quizzes and Post-Lesson Homework.</p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant={grouped ? 'secondary' : 'outline'} size="sm" onClick={() => setGrouped((g) => !g)}>

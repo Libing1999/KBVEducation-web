@@ -37,7 +37,8 @@ const schema = z
     studyType: z.enum(CURRENT_STUDY_TYPES as [StudyType, ...StudyType[]]),
     year: z.string().optional(),
     notes: z.string().max(2000, 'Notes must be 2000 characters or fewer').optional().or(z.literal('')),
-    transcript: z.string().max(5000, 'Transcript must be 5000 characters or fewer').optional().or(z.literal('')),
+    // No length limit: students paste sessions of any length (memo 12.10.2026, 4.1).
+    transcript: z.string().optional().or(z.literal('')),
   })
   .superRefine((v, ctx) => {
     if (isPastPaperType(v.studyType) && (v.year === '' || v.year === undefined)) {
@@ -180,8 +181,7 @@ export function PracticeFormModal({ open, onClose }: { open: boolean; onClose: (
         <FormField label="Transcript" htmlFor="p-transcript" error={errors.transcript?.message}>
           <textarea
             id="p-transcript"
-            rows={3}
-            maxLength={5000}
+            rows={6}
             placeholder="Enter transcript..."
             className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-800 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
             {...register('transcript')}

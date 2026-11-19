@@ -12,6 +12,16 @@ export function useMyLessons() {
   });
 }
 
+/** Today's published lesson in the student's cohort, or null on a non-lesson day. Drives the
+ * Log screen's lesson-day vs non-lesson-day split (Recall/Post-Lesson Homework only appear on
+ * a lesson day) using real lesson data — never a hardcoded flag. */
+export function useTodayLesson() {
+  return useQuery({
+    queryKey: [...QUERY_KEYS.myLessons, 'today'],
+    queryFn: () => learnApi.todayLesson(),
+  });
+}
+
 export function useMyLessonDetail(id: string | undefined) {
   return useQuery({
     queryKey: [...QUERY_KEYS.myLessons, 'detail', id],

@@ -139,7 +139,7 @@ export function HomeworkSubmission({ lesson, isStudent }: Props) {
           isLoading={submit.isPending}
           onClick={() => submit.mutate({ files, note })}
         >
-          {!submit.isPending && <Send className="h-4 w-4" />} Submit homework
+          {!submit.isPending && <Send className="h-4 w-4" />} Submit Post-Lesson Homework
         </Button>
       </div>
     </div>

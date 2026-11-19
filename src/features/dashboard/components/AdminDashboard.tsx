@@ -36,6 +36,7 @@ import { CohortStatusChart } from '@/features/dashboard/components/CohortStatusC
 import { formatDate, formatFileSize, initials, roleLabel } from '@/lib/format';
 import { paths } from '@/routes/paths';
 import { cn } from '@/lib/utils';
+import { MorningSection } from '@/features/ai/components/MorningSection';
 import type { ActivityDay } from '@/features/dashboard/types/dashboard.types';
 import type { CohortStatus } from '@/features/cohorts/types/cohort.types';
 
@@ -108,6 +109,8 @@ export function AdminDashboard() {
           </Select>
         </label>
       </div>
+
+      <MorningSection />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <KpiCard

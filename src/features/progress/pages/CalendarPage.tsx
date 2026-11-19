@@ -71,8 +71,8 @@ export default function CalendarPage() {
               <div className="flex flex-wrap gap-2">
                 {selectedDay.hasReflection && <span className="rounded-full bg-primary-50 px-3 py-1 text-sm text-primary">Reflection</span>}
                 {selectedDay.hasPractice && <span className="rounded-full bg-accent-50 px-3 py-1 text-sm text-accent-600">Practice</span>}
-                {selectedDay.hasHomework && <span className="rounded-full bg-green-100 px-3 py-1 text-sm text-green-700">Homework</span>}
-                {selectedDay.hasQuiz && <span className="rounded-full bg-sky-100 px-3 py-1 text-sm text-sky-700">Quiz</span>}
+                {selectedDay.hasHomework && <span className="rounded-full bg-green-100 px-3 py-1 text-sm text-green-700">Post-Lesson Homework</span>}
+                {selectedDay.hasQuiz && <span className="rounded-full bg-sky-100 px-3 py-1 text-sm text-sky-700">Post-Lesson Quiz</span>}
               </div>
             ) : (
               <p className="text-sm text-slate-500">No activity recorded on this day.</p>

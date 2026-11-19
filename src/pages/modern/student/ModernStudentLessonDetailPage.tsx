@@ -95,10 +95,10 @@ export default function ModernStudentLessonDetailPage() {
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         {/* Quiz */}
         <Card>
-          <CardHeader title="Quiz" />
+          <CardHeader title="Post-Lesson Quiz" />
           <CardBody className="space-y-3">
             {!lesson.hasQuiz ? (
-              <p className="py-4 text-center text-sm text-[rgba(238,242,249,.55)]">No quiz for this lesson.</p>
+              <p className="py-4 text-center text-sm text-[rgba(238,242,249,.55)]">No Post-Lesson Quiz for this lesson.</p>
             ) : (
               <>
                 <div className="flex items-start gap-3">
@@ -108,7 +108,7 @@ export default function ModernStudentLessonDetailPage() {
                   <div className="min-w-0">
                     <p className="text-sm font-medium text-[#EEF2F9]">{lesson.quizTitle}</p>
                     <p className="text-xs text-[rgba(238,242,249,.5)]">
-                      {lesson.quizCompleted ? 'You have completed this quiz.' : 'Not attempted yet.'}
+                      {lesson.quizCompleted ? 'You have completed this Post-Lesson Quiz.' : 'Not attempted yet.'}
                     </p>
                   </div>
                 </div>
@@ -116,7 +116,7 @@ export default function ModernStudentLessonDetailPage() {
                   <Badge tone="success"><CheckCircle2 className="mr-1 h-3 w-3" /> Completed</Badge>
                 ) : isStudent && lesson.quizId ? (
                   <Button size="sm" onClick={() => navigate(paths.takeQuiz(lesson.quizId as string))}>
-                    Take quiz <ArrowRight className="h-4 w-4" />
+                    Take Post-Lesson Quiz <ArrowRight className="h-4 w-4" />
                   </Button>
                 ) : (
                   <Badge tone="info">Not attempted</Badge>
@@ -128,10 +128,10 @@ export default function ModernStudentLessonDetailPage() {
 
         {/* Homework */}
         <Card>
-          <CardHeader title="Homework" />
+          <CardHeader title="Post-Lesson Homework" />
           <CardBody className="space-y-3">
             {!lesson.hasHomework ? (
-              <p className="py-4 text-center text-sm text-[rgba(238,242,249,.55)]">No homework for this lesson.</p>
+              <p className="py-4 text-center text-sm text-[rgba(238,242,249,.55)]">No Post-Lesson Homework for this lesson.</p>
             ) : (
               <>
                 <div className="flex items-start gap-3">

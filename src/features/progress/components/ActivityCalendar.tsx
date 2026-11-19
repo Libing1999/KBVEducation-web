@@ -7,8 +7,8 @@ const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const DOTS: { key: keyof Pick<StudyDay, 'hasReflection' | 'hasPractice' | 'hasHomework' | 'hasQuiz'>; label: string; cls: string }[] = [
   { key: 'hasReflection', label: 'Reflection', cls: 'bg-primary' },
   { key: 'hasPractice', label: 'Practice', cls: 'bg-accent' },
-  { key: 'hasHomework', label: 'Homework', cls: 'bg-green-500' },
-  { key: 'hasQuiz', label: 'Quiz', cls: 'bg-sky-500' },
+  { key: 'hasHomework', label: 'Post-Lesson Homework', cls: 'bg-green-500' },
+  { key: 'hasQuiz', label: 'Post-Lesson Quiz', cls: 'bg-sky-500' },
 ];
 
 function iso(d: Date) {
@@ -62,9 +62,13 @@ export function ActivityCalendar({ month, days, selected, onSelect }: Props) {
                 'flex min-h-14 flex-col items-center gap-1 rounded-lg border p-1.5 text-sm transition-colors',
                 isSelected ? 'border-primary bg-primary-50' : 'border-slate-100 hover:bg-slate-50',
                 isToday && !isSelected && 'border-accent',
+                sd?.voided && 'border-red-200 bg-red-50',
               )}
+              title={sd?.voided ? `Voided${sd.voidedReason ? `: ${sd.voidedReason}` : ''}` : undefined}
             >
-              <span className={cn('text-xs font-medium', isToday ? 'text-accent-600' : 'text-slate-600')}>{date.getDate()}</span>
+              <span className={cn('text-xs font-medium', sd?.voided ? 'text-red-400 line-through' : isToday ? 'text-accent-600' : 'text-slate-600')}>
+                {date.getDate()}
+              </span>
               {sd && (
                 <span className="flex flex-wrap items-center justify-center gap-0.5">
                   {DOTS.filter((dot) => sd[dot.key]).map((dot) => (

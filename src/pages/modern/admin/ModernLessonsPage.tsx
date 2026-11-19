@@ -78,10 +78,10 @@ export default function ModernLessonsPage() {
       render: (l) => (
         <div className="flex items-center gap-3 text-xs text-[rgba(238,242,249,.5)]">
           <span className="inline-flex items-center gap-1" title="Files"><FileText className="h-3.5 w-3.5" />{l.fileCount}</span>
-          <span className={l.hasQuiz ? 'inline-flex items-center gap-1 text-[#DBB652]' : 'inline-flex items-center gap-1'} title="Quiz">
+          <span className={l.hasQuiz ? 'inline-flex items-center gap-1 text-[#DBB652]' : 'inline-flex items-center gap-1'} title="Post-Lesson Quiz">
             <HelpCircle className="h-3.5 w-3.5" />{l.hasQuiz ? 'Yes' : '—'}
           </span>
-          <span className={l.hasHomework ? 'inline-flex items-center gap-1 text-[#DBB652]' : 'inline-flex items-center gap-1'} title="Homework">
+          <span className={l.hasHomework ? 'inline-flex items-center gap-1 text-[#DBB652]' : 'inline-flex items-center gap-1'} title="Post-Lesson Homework">
             <ClipboardList className="h-3.5 w-3.5" />{l.hasHomework ? 'Yes' : '—'}
           </span>
         </div>

@@ -91,8 +91,8 @@ export function ScoreDashboard({ isParentView = false }: { isParentView?: boolea
         <CardBody className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <ScoreMeter label="Practice" value={data.practicePercentage} />
           <ScoreMeter label="Reflection" value={data.reflectionPercentage} />
-          <ScoreMeter label="Homework" value={data.homeworkPercentage} />
-          <ScoreMeter label="Quiz" value={data.quizPercentage} />
+          <ScoreMeter label="Post-Lesson Homework" value={data.homeworkPercentage} />
+          <ScoreMeter label="Post-Lesson Quiz" value={data.quizPercentage} />
         </CardBody>
       </Card>
 
